@@ -38,7 +38,7 @@ leagues.push(PremierLeague);
       }, timeUntilUpdate);
     };
 
-    updateDailyAt4(updateAllData, 4);
+    updateDailyAt(updateAllData, 4);
   } catch (err) {
     console.log(err);
   }
