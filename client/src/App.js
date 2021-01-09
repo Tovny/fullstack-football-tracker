@@ -99,7 +99,7 @@ function App() {
             })}
           </table>
         ) : (
-          <p>some table shit</p>
+          <p>some table shit, just quick change</p>
         )}
         <button onClick={() => setMulti(multi - 1)}>Previous Day</button>
         <button onClick={() => setMulti(multi + 1)}>Next Day</button>
