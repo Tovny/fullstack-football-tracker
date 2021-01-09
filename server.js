@@ -17,6 +17,7 @@ const { mongoURI } = require("./config/default");
     await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
+      useCreateIndex: true,
     });
     console.log("Database connected");
 
