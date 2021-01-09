@@ -32,6 +32,8 @@ leagues.push(PremierLeague);
 
       const timeUntilUpdate = today.getTime() + dayMiliseconds - Date.now();
 
+      setTimeout(callback, timeUntilUpdate - dayMiliseconds);
+
       setTimeout(() => {
         callback();
         setInterval(callback, dayMiliseconds);
