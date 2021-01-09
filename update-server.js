@@ -24,11 +24,11 @@ leagues.push(PremierLeague);
       }
     };
 
-    const updateDailyAt = (callback, hour) => {
+    const updateDaily = (callback, hour = 0, minute = 0) => {
       const dayMiliseconds = 1000 * 60 * 60 * 24;
 
       const today = new Date();
-      today.setHours(hour, 0, 0, 0);
+      today.setHours(hour, minute, 0, 0);
 
       const timeUntilUpdate = today.getTime() + dayMiliseconds - Date.now();
 
@@ -38,7 +38,7 @@ leagues.push(PremierLeague);
       }, timeUntilUpdate);
     };
 
-    updateDailyAt(updateAllData, 4);
+    updateDaily(updateAllData, 4);
   } catch (err) {
     console.log(err);
   }
