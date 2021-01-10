@@ -5,7 +5,7 @@ const scrollToBottom = require("../puppeteer-utilities/scroll-to-bottom");
 
 const scrapeEPLFixtures = async (url) => {
   try {
-    const browser = await puppeteer.launch({ headless: false });
+    const browser = await puppeteer.launch({ headless: true });
 
     const urls = [
       "https://www.premierleague.com/results",
