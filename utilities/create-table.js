@@ -299,6 +299,12 @@ const createTable = async (model, sort, penalty = []) => {
       });
     }
 
+    [total, home, away].forEach((table) => {
+      table.forEach((row, i) => {
+        row["#"] = i + 1;
+      });
+    });
+
     return tables;
   } catch (err) {}
 };
