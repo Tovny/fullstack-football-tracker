@@ -5,7 +5,7 @@ const scrapeSerieANews = async () => {
   let news = new Array();
 
   try {
-    for (let i = 1; i <= 10; i++) {
+    for (let i = 1; i <= 20; i++) {
       const res = await fetch(
         `http://www.legaseriea.it/en/press/news?page=${i}`
       );
