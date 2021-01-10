@@ -12,7 +12,7 @@ const scrapeEPLFixtures = async (url) => {
       "https://www.premierleague.com/fixtures",
     ];
 
-    let fixtures = [];
+    const fixtures = [];
 
     for (url of urls) {
       const page = await browser.newPage();
