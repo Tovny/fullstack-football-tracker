@@ -5,7 +5,7 @@ const scrollToBottom = require("../puppeteer-utilities/scroll-to-bottom");
 
 const scrapeEPLFixtures = async (url) => {
   try {
-    const browser = await puppeteer.launch({ headless: true });
+    const browser = await puppeteer.launch({ headless: false });
 
     const urls = [
       "https://www.premierleague.com/results",
@@ -27,9 +27,6 @@ const scrapeEPLFixtures = async (url) => {
 
       if (data) {
         const $ = cheerio.load(data);
-
-        if (url == "https://www.premierleague.com/fixtures")
-          await browser.close();
 
         $("div[data-ui-tab='First Team']")
           .find(
@@ -91,6 +88,7 @@ const scrapeEPLFixtures = async (url) => {
       }
     }
 
+    await browser.close();
     return fixtures;
   } catch (err) {
     console.log(err);
