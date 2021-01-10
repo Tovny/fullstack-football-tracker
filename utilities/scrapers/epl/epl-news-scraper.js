@@ -3,6 +3,7 @@ const cheerio = require("cheerio");
 
 const delay = require("../puppeteer-utilities/async-delay");
 const scrollToBottom = require("../puppeteer-utilities/scroll-to-bottom");
+const Article = require("../../../models/Article");
 
 const getArticles = async () => {
   try {
@@ -10,7 +11,6 @@ const getArticles = async () => {
     const page = await browser.newPage();
     await page.goto("https://www.premierleague.com/news");
 
-    await delay(3000);
     await scrollToBottom(page);
 
     const data = await page.content();
@@ -50,7 +50,17 @@ const getArticles = async () => {
 
 const scrapeEPLNews = async () => {
   try {
-    const articles = await getArticles();
+    const scrapedArticles = await getArticles();
+
+    const dbArticles = await Article.find();
+    const articleLinks = dbArticles.map((article) => article.url);
+    const doneLinks = articleLinks.filter((url) =>
+      url.includes("premierleague.com")
+    );
+
+    const articles = scrapedArticles.filter(
+      (article) => !doneLinks.includes(article.url)
+    );
 
     let currentDate;
     let substractTime = 0;
