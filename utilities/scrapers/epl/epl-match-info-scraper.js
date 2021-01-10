@@ -22,7 +22,6 @@ const scrapeEPLMatchInfo = async (url) => {
 
     if (data) {
       const $ = cheerio.load(data);
-      await browser.close();
 
       let fixture = createFixtureObject();
 
@@ -207,6 +206,7 @@ const scrapeEPLMatchInfo = async (url) => {
 
       return fixture;
     }
+    await browser.close();
   } catch (err) {
     console.log(err);
   }
