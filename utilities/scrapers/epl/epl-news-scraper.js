@@ -2,16 +2,15 @@ const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
 
 const delay = require("../puppeteer-utilities/async-delay");
-const scrollToBottom = require("../puppeteer-utilities/scroll-to-bottom");
-const Article = require("../../../models/Article");
+const scrollDownFor = require("../puppeteer-utilities/scroll-down-for");
 
-const getArticles = async () => {
+const scrapeEPLNews = async () => {
   try {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto("https://www.premierleague.com/news");
 
-    await scrollToBottom(page);
+    await scrollDownFor(page, 10);
 
     const data = await page.content();
 
@@ -48,35 +47,24 @@ const getArticles = async () => {
   }
 };
 
-const scrapeEPLNews = async () => {
+const scrapeEPLArticleDates = async (articles) => {
   try {
-    const scrapedArticles = await getArticles();
-
-    const dbArticles = await Article.find();
-    const articleLinks = dbArticles.map((article) => article.url);
-    const doneLinks = articleLinks.filter((url) =>
-      url.includes("premierleague.com")
-    );
-
-    const articles = scrapedArticles.filter(
-      (article) => !doneLinks.includes(article.url)
-    );
+    const completeArticles = new Array();
 
     let currentDate;
     let substractTime = 0;
 
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
+
     for (let article of articles) {
       const link = article.url;
 
-      const browser = await puppeteer.launch({ headless: true });
-      const page = await browser.newPage();
       await page.goto(link);
 
       await delay(2000);
 
       const data = await page.content();
-
-      await browser.close();
 
       if (data) {
         const $ = cheerio.load(data);
@@ -86,9 +74,9 @@ const scrapeEPLNews = async () => {
 
         const dateString = $(".articleHeader h5").text();
 
-        if (dateString) {
-          const articleDate = new Date(dateString.trim() + " 15:00");
+        const articleDate = new Date(dateString.trim() + " 15:00");
 
+        if (articleDate.toString() != "Invalid Date") {
           const date = articleDate.toISOString().split("T")[0];
           if (currentDate != date) {
             currentDate = date;
@@ -102,14 +90,17 @@ const scrapeEPLNews = async () => {
 
           article.date = date;
           article.time = time;
+
+          completeArticles.push(article);
         }
       }
     }
+    await browser.close();
 
-    return articles;
+    return completeArticles;
   } catch (err) {
     console.log(err);
   }
 };
 
-module.exports = scrapeEPLNews;
+module.exports = { scrapeEPLNews, scrapeEPLArticleDates };
