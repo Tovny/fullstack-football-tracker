@@ -88,21 +88,27 @@ const PremierLeague = {
       const deductions = league[0].deductions;
       const tables = await createTable(EPLMatch, "gd", deductions);
 
-      const tableObj = {
-        country: league[0].country,
-        league: league[0].league,
-        logo: league[0].logo,
-        tables: tables,
-      };
+      if (
+        tables.hasOwnProperty("total") &&
+        tables.hasOwnProperty("home") &&
+        tables.hasOwnProperty("away")
+      ) {
+        const tableObj = {
+          country: league[0].country,
+          league: league[0].league,
+          logo: league[0].logo,
+          tables: tables,
+        };
 
-      if (dbTable.length < 1) {
-        const newTable = new Table(tableObj);
-        await newTable.save();
-      } else {
-        await Table.updateOne(
-          { country: "England", league: "Premier League" },
-          tableObj
-        );
+        if (dbTable.length < 1) {
+          const newTable = new Table(tableObj);
+          await newTable.save();
+        } else {
+          await Table.updateOne(
+            { country: "England", league: "Premier League" },
+            tableObj
+          );
+        }
       }
     } catch (err) {}
   },
