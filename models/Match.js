@@ -83,8 +83,6 @@ const matchSchema = Schema({
   timeline: { type: Object, required: true },
 });
 
-matchSchema.index({ "$**": "text" });
-
 const EPLMatch = model("epl_matches", matchSchema);
 const SerieAMatch = model("serie_a_matches", matchSchema);
 

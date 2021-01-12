@@ -11,16 +11,44 @@ router.get("/", auth, async (req, res) => {
     const leagues = await League.find();
     const fixtures = new Array();
 
-    let multi = parseInt(req.headers.day);
-    if (!multi) multi = 0;
-    const day = 1000 * 60 * 60 * 24 * multi;
+    let { date, team, hometeam, awayteam, league } = req.query;
 
-    let date = new Date(Date.now() + day).toISOString().split("T")[0];
+    if (!date) {
+      date = new Date().toISOString();
+      date = date.split("T")[0];
+    }
+
+    const searchObj = new Object();
+
+    if (date != "all") searchObj["info.date"] = date;
+    if (team) team = new RegExp(team.replace("-", " "), "i");
+    if (hometeam)
+      searchObj["teams.home.name"] = new RegExp(
+        hometeam.replace("-", " "),
+        "i"
+      );
+    if (awayteam)
+      searchObj["teams.away.name"] = new RegExp(
+        awayteam.replace("-", " "),
+        "i"
+      );
+    if (league)
+      searchObj["league.name"] = new RegExp(league.replace("-", " "), "i");
 
     for (league of leagues) {
-      const leagueFixtures = await models[league.model]
-        .find({ "info.date": date })
-        .sort({ "info.date": 1, "info.kickOff": 1 });
+      let leagueFixtures;
+
+      if (team) {
+        leagueFixtures = await models[league.model]
+          .find({
+            $or: [{ "teams.home.name": team }, { "teams.away.name": team }],
+          })
+          .sort({ "info.date": 1, "info.kickOff": 1 });
+      } else {
+        leagueFixtures = await models[league.model]
+          .find(searchObj)
+          .sort({ "info.date": 1, "info.kickOff": 1 });
+      }
 
       if (leagueFixtures.length > 0) {
         const leagueObj = {
