@@ -91,6 +91,7 @@ const createTable = async (model, sort, penalty = []) => {
 
       [totalRow, homeRow, awayRow].forEach((table) => {
         table.team = team.name;
+        if (team.shortName) table.shortName = team.shortName;
         table.crest = team.crest;
         table.played = 0;
         table.won = 0;

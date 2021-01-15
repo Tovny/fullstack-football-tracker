@@ -54,7 +54,7 @@ router.get("/", auth, async (req, res) => {
         const leagueObj = {
           country: league["_doc"].country,
           league: league["_doc"].league,
-          leagueLogo: league["_doc"].leagueLogo,
+          logo: league["_doc"].logo,
           fixtures: leagueFixtures,
         };
 
