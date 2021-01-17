@@ -33,8 +33,8 @@ const scrapeEPLNews = async () => {
 
         if (href.includes("premierleague.com/")) href = href.split(".com/")[1];
 
-        const link = "https://www.premierleague.com/" + href;
-        link.replace(".com//", ".com/");
+        let link = "https://www.premierleague.com/" + href;
+        link = link.replace(".com//", ".com/");
         article.url = link;
 
         if (!link.includes("/match/")) articles.push(article);
