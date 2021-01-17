@@ -4,6 +4,9 @@ const fetch = require("node-fetch");
 const scrapeSerieANews = async () => {
   let news = new Array();
 
+  let currentDate;
+  let substractTime = 0;
+
   try {
     for (let i = 1; i <= 20; i++) {
       const res = await fetch(
@@ -14,9 +17,6 @@ const scrapeSerieANews = async () => {
       if (res.status == 200 && html) {
         const $ = cheerio.load(html);
         let articles = $("article");
-
-        let currentDate;
-        let substractTime = 0;
 
         articles.each((i, article) => {
           const newsArticle = new Object();
