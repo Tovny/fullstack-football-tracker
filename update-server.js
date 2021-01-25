@@ -17,11 +17,13 @@ leagues.push(PremierLeague);
     });
 
     const updateAllData = async () => {
+      console.log("Starting update");
       for (let league of leagues) {
         await league.updateAllFixtureChanges();
         await league.updateArticles();
         await league.updateTables();
       }
+      console.log("Update successful");
     };
 
     const updateDaily = (callback, hour = 0, minute = 0) => {

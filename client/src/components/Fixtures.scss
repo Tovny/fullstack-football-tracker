@@ -1,0 +1,157 @@
+.fixturesContainer {
+  overflow: hidden;
+  display: flex;
+  flex-flow: column;
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  .fixtures {
+    .leagueFixtures {
+      border-radius: 0.7rem;
+      margin-top: 1.5rem;
+      overflow: hidden;
+      position: relative;
+      transition: all 250ms ease-in;
+
+      .fixturesHeading {
+        display: flex;
+        align-items: center;
+        background: rgb(240, 239, 239);
+        position: relative;
+        z-index: 10;
+
+        #leagueLogo {
+          height: 3rem;
+          margin-left: 1.5rem;
+          margin-right: 1rem;
+          margin-top: 0.2rem;
+          margin-bottom: 0.2rem;
+        }
+
+        h3 {
+          letter-spacing: 0.1rem;
+        }
+      }
+
+      .fixtureBodies {
+        .fixtureBody {
+          background: rgb(247, 247, 247);
+          display: grid;
+          grid-template-columns: 5fr 1fr 5fr;
+          align-items: center;
+          font-weight: 630;
+          font-size: 1rem;
+          letter-spacing: 0.03rem;
+          border-top: 1px solid rgb(240, 239, 239);
+
+          #home,
+          #away {
+            display: flex;
+            flex-direction: row;
+            align-items: center;
+            text-transform: capitalize;
+          }
+
+          #home {
+            justify-content: flex-end;
+          }
+
+          #away {
+            justify-content: flex-start;
+          }
+
+          #crest {
+            height: 1.5rem;
+            width: 1.5rem;
+            margin: 0.5rem;
+          }
+
+          #scoreContainer {
+            display: flex;
+            flex-flow: row;
+
+            #score {
+              background: rgb(207, 72, 72);
+              color: white;
+              margin: 0.05rem;
+              font-weight: bold;
+              font-size: 1.2rem;
+              padding: 0.1rem;
+              padding-left: 0.5rem;
+              padding-right: 0.5rem;
+            }
+          }
+
+          #kickOff {
+            text-align: center;
+            margin: 0.05rem;
+            font-weight: 650;
+            letter-spacing: 0.07rem;
+          }
+        }
+
+        .fixtureBody:last-child {
+          border-radius: 0 0 0.7rem 0.7rem;
+        }
+
+        .fixtureBody:hover {
+          background: linear-gradient(270deg, #cc8bf1, #dabaff 45%);
+          cursor: pointer;
+        }
+      }
+
+      .innerFixturesTransition-enter {
+        transform: translateY(-100%);
+        position: relative;
+        z-index: 1;
+      }
+      .innerFixturesTransition-enter-active {
+        transform: translateY(0);
+        transition: transform 250ms ease-in;
+        position: relative;
+        z-index: 1;
+      }
+      .innerFixturesTransition-exit {
+        transform: translateY(0);
+        position: relative;
+        z-index: 1;
+      }
+      .innerFixturesTransition-exit-active {
+        transform: translateY(-100%);
+        transition: transform 250ms ease-in;
+        position: relative;
+        z-index: 1;
+      }
+    }
+  }
+
+  .fixturesTransitionRight-enter {
+    transform: translate(110%);
+  }
+  .fixturesTransitionRight-enter-active {
+    transform: translate(0);
+    transition: transform 200ms ease-in;
+  }
+  .fixturesTransitionRight-exit {
+    transform: translate(0);
+  }
+  .fixturesTransitionRight-exit-active {
+    transform: translate(-110%);
+    transition: transform 200ms ease-in;
+  }
+
+  .fixturesTransitionLeft-enter {
+    transform: translate(-110%);
+  }
+  .fixturesTransitionLeft-enter-active {
+    transform: translate(0);
+    transition: transform 200ms ease-in;
+  }
+  .fixturesTransitionLeft-exit {
+    transform: translate(0);
+  }
+  .fixturesTransitionLeft-exit-active {
+    transform: translate(110%);
+    transition: transform 200ms ease-in;
+  }
+}

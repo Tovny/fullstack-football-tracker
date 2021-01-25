@@ -1,0 +1,17 @@
+.fixturesLayout {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+
+  .linksAndFiltersContainer {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
+    margin: 1rem;
+  }
+
+  .tableAndNewsContainer {
+    display: flex;
+    flex-flow: column;
+    margin: 1rem;
+  }
+}

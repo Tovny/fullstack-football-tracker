@@ -5,6 +5,7 @@ const cors = require("cors");
 const articleRoutes = require("./routes/articles");
 const matchRoutes = require("./routes/matches");
 const tableRoutes = require("./routes/tables");
+const leagueRoutes = require("./routes/leagues");
 
 const { mongoURI } = require("./config/default");
 
@@ -24,6 +25,7 @@ const { mongoURI } = require("./config/default");
     app.use("/articles", articleRoutes);
     app.use("/matches", matchRoutes);
     app.use("/tables", tableRoutes);
+    app.use("/leagues", leagueRoutes);
 
     app.listen(5000, () => console.log("App live on port 5000"));
   } catch (err) {}

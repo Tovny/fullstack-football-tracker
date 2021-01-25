@@ -1,0 +1,22 @@
+.dateCarousel {
+  display: flex;
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+
+  div {
+    width: 5rem;
+    padding: 0.3rem;
+    padding-bottom: 0.2rem;
+    font-size: 0.8rem;
+    font-weight: bold;
+    text-align: center;
+    transition: all 0.1s;
+    cursor: pointer;
+  }
+
+  svg {
+    margin: 0.5rem;
+    cursor: pointer;
+  }
+}

@@ -55,10 +55,9 @@ const scrapeEPLArticleDates = async (articles) => {
     let currentDate;
     let substractTime = 0;
 
-    const browser = await puppeteer.launch({ headless: true });
-    const page = await browser.newPage();
-
     for (let article of articles) {
+      const browser = await puppeteer.launch({ headless: true });
+      const page = await browser.newPage();
       const link = article.url;
 
       await page.goto(link);
@@ -95,8 +94,8 @@ const scrapeEPLArticleDates = async (articles) => {
           completeArticles.push(article);
         }
       }
+      await browser.close();
     }
-    await browser.close();
 
     return completeArticles;
   } catch (err) {
