@@ -6,6 +6,18 @@ import { CSSTransition, SwitchTransition } from "react-transition-group";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { useSelector, useDispatch } from "react-redux";
 import setFixtures from "../redux/actions/fixture-actions";
+import moment from "moment";
+
+moment.updateLocale("en", {
+  calendar: {
+    lastDay: "ddd, MMM Do, YYYY",
+    sameDay: "ddd, MMM Do, YYYY",
+    nextDay: "ddd, MMM Do, YYYY",
+    lastWeek: "ddd, MMM Do, YYYY",
+    nextWeek: "ddd, MMM Do, YYYY",
+    sameElse: "ddd, MMM Do, YYYY",
+  },
+});
 
 const Fixtures = () => {
   const dispatch = useDispatch();
@@ -29,6 +41,13 @@ const Fixtures = () => {
         : (dateString = date.toISOString().split("T")[0]);
 
       let filterString = "?";
+
+      if (dateString === "all") {
+        await new Promise((resolve) => {
+          setDirection("fixturesTransitionOpacity");
+          resolve();
+        });
+      }
 
       if (dateString) filterString = filterString + `&date=${dateString}`;
       if (league) filterString = filterString + `&league=${league}`;
@@ -55,15 +74,23 @@ const Fixtures = () => {
       {fixtures ? (
         <SwitchTransition>
           <CSSTransition
-            key={date}
+            key={[date, league, team, hometeam, awayteam, matchday, status]}
             addEndListener={(node, done) =>
               node.addEventListener("transitionend", done, false)
             }
             classNames={direction}
+            mountOnEnter
+            unmountOnExit
           >
             <div className="fixtures">
               {fixtures.map((league) => {
-                return <LeagueFixtures league={league} />;
+                return (
+                  <LeagueFixtures
+                    league={league}
+                    date={date}
+                    key={league.league}
+                  />
+                );
               })}
             </div>
           </CSSTransition>
@@ -85,9 +112,11 @@ const LeagueFixtures = (props) => {
       await new Promise((resolve) => {
         setTimeout(resolve, 250);
       });
-      setHeight(heightRef.current.getBoundingClientRect().height);
+      const currentElt = heightRef.current;
+      if (props.date !== "all" && currentElt)
+        setHeight(currentElt.getBoundingClientRect().height);
     })();
-  }, [props.league.fixtures]);
+  }, [props.league.fixtures, props.date]);
 
   const addHeight = (elt) => {
     setHeight(height + elt.getBoundingClientRect().height);
@@ -108,40 +137,44 @@ const LeagueFixtures = (props) => {
         <h3>
           {props.league.country} - {props.league.league}
         </h3>
-        <ArrowDropDownIcon
-          onClick={() => setOpen(!open)}
-          style={
-            open
-              ? {
-                  position: "absolute",
-                  right: "1rem",
-                  transform: "rotateX(180deg)",
-                  transition: "transform 250ms ease-in",
-                  cursor: "pointer",
-                }
-              : {
-                  position: "absolute",
-                  right: "1rem",
-                  transition: "transform 250ms ease-in",
-                  cursor: "pointer",
-                }
-          }
-        />
+        {props.date !== "all" ? (
+          <ArrowDropDownIcon
+            onClick={() => setOpen(!open)}
+            style={
+              open
+                ? {
+                    position: "absolute",
+                    right: "1rem",
+                    transform: "rotateX(180deg)",
+                    transition: "transform 250ms ease-in",
+                    cursor: "pointer",
+                  }
+                : {
+                    position: "absolute",
+                    right: "1rem",
+                    transition: "transform 250ms ease-in",
+                    cursor: "pointer",
+                  }
+            }
+          />
+        ) : null}
       </div>
       <CSSTransition
         in={open}
         timeout={250}
         classNames="innerFixturesTransition"
-        unmountOnExit={true}
-        mountOnEnter={true}
+        unmountOnExit
+        mountOnEnter
         onExit={detractHeight}
         onEnter={addHeight}
       >
         <div className="fixtureBodies">
           {props.league.fixtures.map((match, i) => {
             const date = new Date(`${match.info.date}T${match.info.kickOff}Z`);
+
             return (
               <div
+                key={i}
                 className="fixtureBody"
                 onClick={
                   match.info.status !== "Scheduled"
@@ -189,6 +222,13 @@ const LeagueFixtures = (props) => {
                     ? match.teams.away.shortName
                     : match.teams.away.name}
                 </div>
+                {props.date === "all" ? (
+                  <div id="date">
+                    {date.toDateString() !== "Invalid Date"
+                      ? moment(date).calendar()
+                      : "Date To Be Confirmed"}
+                  </div>
+                ) : null}
               </div>
             );
           })}

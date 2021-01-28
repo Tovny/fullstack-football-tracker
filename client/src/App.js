@@ -1,10 +1,10 @@
 import "./App.css";
-import FixturesLayout from "./layouts/FixturesLayout";
+import SiteLayout from "./layouts/SiteLayout";
 
 function App() {
   return (
     <div className="App">
-      <FixturesLayout />
+      <SiteLayout />
     </div>
   );
 }

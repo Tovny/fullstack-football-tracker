@@ -88,6 +88,14 @@
             font-weight: 650;
             letter-spacing: 0.07rem;
           }
+
+          #date {
+            grid-column: span 3;
+            text-align: center;
+            font-size: 0.8rem;
+            margin-top: -0.3rem;
+            margin-bottom: 0.3rem;
+          }
         }
 
         .fixtureBody:last-child {
@@ -153,5 +161,20 @@
   .fixturesTransitionLeft-exit-active {
     transform: translate(110%);
     transition: transform 200ms ease-in;
+  }
+
+  .fixturesTransitionOpacity-enter {
+    opacity: 0;
+  }
+  .fixturesTransitionOpacity-enter-active {
+    opacity: 1;
+    transition: opacity 200ms ease-in;
+  }
+  .fixturesTransitionOpacity-exit {
+    opacity: 1;
+  }
+  .fixturesTransitionOpacity-exit-active {
+    opacity: 0;
+    transition: opacity 200ms ease-in;
   }
 }

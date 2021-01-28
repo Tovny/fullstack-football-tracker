@@ -1,22 +1,62 @@
-.dateCarousel {
+.datePickerContainer {
   display: flex;
+  flex-flow: row;
   position: relative;
-  width: 100%;
-  overflow: hidden;
 
-  div {
-    width: 5rem;
-    padding: 0.3rem;
-    padding-bottom: 0.2rem;
-    font-size: 0.8rem;
-    font-weight: bold;
-    text-align: center;
-    transition: all 0.1s;
+  .calendarContainer {
+    margin: 0.5rem;
+    margin-left: 1rem;
     cursor: pointer;
+
+    .calendar {
+      z-index: 15;
+      position: absolute;
+      background: white;
+      border: 1px solid black;
+      left: 0;
+      top: 3rem;
+      transform: translateX(50%);
+    }
   }
 
-  svg {
-    margin: 0.5rem;
-    cursor: pointer;
+  .dateCarousel {
+    display: flex;
+    width: 100%;
+    overflow-x: scroll;
+    width: 99%;
+    align-self: center;
+    white-space: pre;
+
+    ul {
+      list-style: none;
+      display: flex;
+
+      li {
+        border-bottom: 0.15rem solid silver;
+        padding: 0 0.8rem 0.3rem 0.8rem;
+        font-size: 0.8rem;
+        font-weight: bold;
+        text-align: center;
+        transition: all 0.1s;
+        cursor: pointer;
+      }
+
+      li:hover {
+        filter: brightness(30%);
+      }
+
+      #selectedDate {
+        border-bottom: 0.15rem solid rgb(207, 72, 72);
+      }
+    }
+  }
+
+  .dateCarousel::-webkit-scrollbar {
+    display: none;
+  }
+
+  .dateCarousel {
+    -ms-overflow-style: none;
+    scrollbar-width: none;
   }
 }

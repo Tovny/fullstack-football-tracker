@@ -24,11 +24,17 @@ const SideTable = () => {
       const data = await res.json();
 
       dispatch(getTables(data));
-      setTableWidth({
-        width: containerRef.current.children[0].offsetWidth,
-      });
     })();
   }, [dispatch]);
+
+  useEffect(() => {
+    const child = containerRef.current.children[0];
+
+    if (child)
+      setTableWidth({
+        width: child.getBoundingClientRect().width,
+      });
+  }, [selectedTable]);
 
   const changeTable = (num) => {
     if (selectedTable + num >= 0 && selectedTable + num < tables.length) {

@@ -3,7 +3,6 @@ import { useState, useEffect, useRef } from "react";
 import x_auth from "../config/default";
 import { useSelector, useDispatch } from "react-redux";
 import getLeagues from "../redux/actions/league-actions";
-import setFixtures from "../redux/actions/fixture-actions";
 import { setFilters } from "../redux/actions/filter-actions";
 import ClearIcon from "@material-ui/icons/Clear";
 
@@ -14,7 +13,6 @@ const Filters = () => {
   const [selectedLeague, setSelectedLeague] = useState(0);
   const selectedRef = useRef(null);
   const fulltimeRef = useRef(null);
-
   const [selectedFilters, setSelectedFilters] = useState({
     innerLeagueValue: "|||0",
     league: "",
@@ -65,19 +63,44 @@ const Filters = () => {
   const handleSubmit = (event) => {
     event.preventDefault();
     delete selectedFilters.innerLeagueValue;
-    if (selectedFilters.hometeam && selectedFilters.awayteam) {
-      delete selectedFilters.matchday;
-      delete selectedFilters.status;
-    }
+
     dispatch(setFilters(selectedFilters));
-    dispatch(setFixtures([])); //FIXES THE ALL MATCHES PROBLEM, BUT SHOULD LOOK FOR A BETTER SOLUTION
   };
 
-  const handleChange = (event, key) => {
-    setSelectedFilters({
-      ...selectedFilters,
-      [key]: event.target.value,
-    });
+  const handleChange = (
+    event,
+    key,
+    resetKey1 = null,
+    resetKey2 = null,
+    resetKey3 = null
+  ) => {
+    if (!resetKey1) {
+      setSelectedFilters({
+        ...selectedFilters,
+        [key]: event.target.value,
+      });
+    } else if (!resetKey2) {
+      setSelectedFilters({
+        ...selectedFilters,
+        [key]: event.target.value,
+        [resetKey1]: "",
+      });
+    } else if (!resetKey3) {
+      setSelectedFilters({
+        ...selectedFilters,
+        [key]: event.target.value,
+        [resetKey1]: "",
+        [resetKey2]: "",
+      });
+    } else {
+      setSelectedFilters({
+        ...selectedFilters,
+        [key]: event.target.value,
+        [resetKey1]: "",
+        [resetKey2]: "",
+        [resetKey3]: "",
+      });
+    }
   };
 
   const handleClick = (key) => {
@@ -89,7 +112,7 @@ const Filters = () => {
 
   return leagues ? (
     <div className="filtersContainer">
-      <form onSubmit={(event) => handleSubmit(event)}>
+      <form onSubmit={handleSubmit}>
         <h4>Filter by League</h4>
         <div className="selectContainer">
           <select
@@ -113,10 +136,13 @@ const Filters = () => {
             </option>
             {leagues.map((league, i) => {
               return (
-                <option value={`${league.league}|||${i}`}>
+                <option
+                  value={`${league.league}|||${i}`}
+                  key={`${league.league}${i}`}
+                >
                   {league.league}
                 </option>
-              ); // RETARDED SOLUTION, NEED TO FIX LATER
+              );
             })}
           </select>
           {selectedFilters.league ? (
@@ -152,8 +178,12 @@ const Filters = () => {
             <option value="" hidden>
               Select Team
             </option>
-            {leagues[selectedLeague].teams.map((team) => {
-              return <option value={team}>{team}</option>;
+            {leagues[selectedLeague].teams.map((team, i) => {
+              return (
+                <option value={team} key={`${team}${i}`}>
+                  {team}
+                </option>
+              );
             })}
           </select>
           {selectedFilters.team ? (
@@ -166,15 +196,23 @@ const Filters = () => {
         <h4>Filter by Home Team</h4>
         <div className="selectContainer">
           <select
-            disabled={!selectedFilters.league || selectedFilters.matchday}
-            onChange={(event) => handleChange(event, "hometeam")}
+            disabled={!selectedFilters.league}
+            onChange={(event) =>
+              !selectedFilters.awayteam
+                ? handleChange(event, "hometeam", "team", "matchday")
+                : handleChange(event, "hometeam", "team", "status", "matchday")
+            }
             value={selectedFilters.hometeam}
           >
             <option value="" hidden>
               Select Home Team
             </option>
-            {leagues[selectedLeague].teams.map((team) => {
-              return <option value={team}>{team}</option>;
+            {leagues[selectedLeague].teams.map((team, i) => {
+              return (
+                <option value={team} key={`${team}${i}`}>
+                  {team}
+                </option>
+              );
             })}
           </select>
           {selectedFilters.hometeam ? (
@@ -187,15 +225,23 @@ const Filters = () => {
         <h4>Filter by Away Team</h4>
         <div className="selectContainer">
           <select
-            disabled={!selectedFilters.league || selectedFilters.matchday}
-            onChange={(event) => handleChange(event, "awayteam")}
+            disabled={!selectedFilters.league}
+            onChange={(event) =>
+              !selectedFilters.hometeam
+                ? handleChange(event, "awayteam", "team", "matchday")
+                : handleChange(event, "awayteam", "team", "status", "matchday")
+            }
             value={selectedFilters.awayteam}
           >
             <option value="" hidden>
               Select Away Team
             </option>
-            {leagues[selectedLeague].teams.map((team) => {
-              return <option value={team}>{team}</option>;
+            {leagues[selectedLeague].teams.map((team, i) => {
+              return (
+                <option value={team} key={`${team}${i}`}>
+                  {team}
+                </option>
+              );
             })}
           </select>
           {selectedFilters.awayteam ? (
@@ -208,20 +254,21 @@ const Filters = () => {
         <h4>Filter by Matchday</h4>
         <div className="sliderContainer">
           <input
-            class="slider"
+            className="slider"
             disabled={
               !selectedFilters.league ||
               selectedFilters.hometeam ||
-              selectedFilters.awayteam ||
-              selectedFilters.status
+              selectedFilters.awayteam
             }
             type="range"
             min="1"
             max="38"
             value={selectedFilters.matchday}
-            onInput={(event) => handleChange(event, "matchday")}
+            onInput={(event) => handleChange(event, "matchday", "status")}
           ></input>
-          {selectedFilters.matchday ? selectedFilters.matchday : null}
+          {selectedFilters.matchday ? (
+            <span id="sliderValue">{selectedFilters.matchday}</span>
+          ) : null}
           {selectedFilters.matchday ? (
             <ClearIcon
               id="clearFilterBtn"
@@ -244,7 +291,7 @@ const Filters = () => {
             value="scheduled"
             onChange={(event) => handleChange(event, "status")}
           ></input>
-          <label for="scheduled">Scheduled</label>
+          <label htmlFor="scheduled">Scheduled</label>
           <input
             ref={fulltimeRef}
             disabled={
@@ -258,7 +305,7 @@ const Filters = () => {
             value="full-time"
             onClick={(event) => handleChange(event, "status")}
           ></input>
-          <label for="full-time">Full Time</label>
+          <label htmlFor="full-time">Full Time</label>
           {selectedFilters.status ? (
             <ClearIcon
               id="clearFilterBtn"
