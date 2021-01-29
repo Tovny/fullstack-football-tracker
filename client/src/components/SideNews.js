@@ -4,7 +4,7 @@ import x_auth from "../config/default";
 import { useSelector, useDispatch } from "react-redux";
 import getNews from "../redux/actions/news-actions";
 
-const SideNews = () => {
+const SideNews = ({ containerWidth }) => {
   const dispatch = useDispatch();
   const news = useSelector((state) => state.news);
 
@@ -19,7 +19,7 @@ const SideNews = () => {
     })();
   }, [dispatch]);
 
-  return news ? (
+  return news && containerWidth.width ? (
     <div className="sideNewsContainer">
       <h4>Latest Football News</h4>
       <NewsArticle article={news[0]} />

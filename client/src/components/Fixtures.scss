@@ -1,3 +1,5 @@
+@use "../assets/variables";
+
 .fixturesContainer {
   overflow: hidden;
   display: flex;
@@ -16,16 +18,19 @@
       .fixturesHeading {
         display: flex;
         align-items: center;
-        background: rgb(240, 239, 239);
+        background: variables.$heading-bg-colour;
+        color: variables.$heading-text-colour;
         position: relative;
         z-index: 10;
 
-        #leagueLogo {
-          height: 3rem;
-          margin-left: 1.5rem;
-          margin-right: 1rem;
-          margin-top: 0.2rem;
-          margin-bottom: 0.2rem;
+        .leagueLogoContainer {
+          width: 4.5rem;
+          display: flex;
+
+          #leagueLogo {
+            height: 3rem;
+            margin: auto;
+          }
         }
 
         h3 {
@@ -35,14 +40,14 @@
 
       .fixtureBodies {
         .fixtureBody {
-          background: rgb(247, 247, 247);
+          background: variables.$body-bg-colour;
           display: grid;
           grid-template-columns: 5fr 1fr 5fr;
           align-items: center;
           font-weight: 630;
           font-size: 1rem;
           letter-spacing: 0.03rem;
-          border-top: 1px solid rgb(240, 239, 239);
+          border-top: 1px solid variables.$accent-colour;
 
           #home,
           #away {
@@ -71,7 +76,7 @@
             flex-flow: row;
 
             #score {
-              background: rgb(207, 72, 72);
+              background: variables.$accent-important-colour;
               color: white;
               margin: 0.05rem;
               font-weight: bold;

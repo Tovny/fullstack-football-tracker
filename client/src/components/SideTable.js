@@ -7,13 +7,12 @@ import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
 import getTables from "../redux/actions/table-actions";
 
-const SideTable = () => {
+const SideTable = ({ setWidth }) => {
   const dispatch = useDispatch();
   const tables = useSelector((state) => state.tables);
   const [selectedTable, setSelectedTable] = useState(0);
-  const [tableWidth, setTableWidth] = useState({});
   const [direction, setDirection] = useState("tableTransitionRight");
-  const containerRef = useRef(null);
+  const tableRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -28,13 +27,10 @@ const SideTable = () => {
   }, [dispatch]);
 
   useEffect(() => {
-    const child = containerRef.current.children[0];
+    const child = tableRef.current;
 
-    if (child)
-      setTableWidth({
-        width: child.getBoundingClientRect().width,
-      });
-  }, [selectedTable]);
+    if (child) setWidth({ width: child.getBoundingClientRect().width });
+  }, [setWidth, tables]);
 
   const changeTable = (num) => {
     if (selectedTable + num >= 0 && selectedTable + num < tables.length) {
@@ -47,7 +43,7 @@ const SideTable = () => {
   };
 
   return (
-    <div className="tableContainer" ref={containerRef} style={tableWidth}>
+    <div className="tableContainer">
       {tables ? (
         <SwitchTransition>
           <CSSTransition
@@ -57,7 +53,7 @@ const SideTable = () => {
             }
             classNames={direction}
           >
-            <table>
+            <table ref={tableRef}>
               <thead>
                 <tr>
                   <th colSpan="2">

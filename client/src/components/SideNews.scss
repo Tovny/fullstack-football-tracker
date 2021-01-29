@@ -1,9 +1,9 @@
+@use '../assets/variables';
+
 .sideNewsContainer {
-  background: rgb(240, 239, 239);
-  width: 20rem;
-  padding: 0.5rem;
+  background: variables.$heading-bg-colour;
   margin-top: 1rem;
-  border-radius: 0.7rem;
+  width: 100%;
 
   h4 {
     margin: 0.5rem;
@@ -14,12 +14,13 @@
   .newsLinkContainer {
     text-align: center;
     padding: 0.2rem;
+    padding-bottom: 0.5rem;
 
     a {
       text-decoration: none;
       font-weight: 500;
-      color: black;
       font-size: 0.8rem;
+      color: black;
     }
 
     a:hover {
@@ -30,10 +31,12 @@
   .article {
     display: grid;
     grid-template-columns: auto auto;
-    background: rgb(247, 247, 247);
+    background: variables.$body-bg-colour;
     margin: 0.2rem;
     margin-bottom: 0.2rem;
-    border-radius: 0.7rem;
+    margin-left: 0.5rem;
+    margin-right: 0.5rem;
+    cursor: pointer;
 
     h5 {
       margin: 0.3rem;
@@ -62,7 +65,6 @@
   }
 
   .article:hover {
-    background: white;
-    cursor: pointer;
+    filter: brightness(90%);
   }
 }

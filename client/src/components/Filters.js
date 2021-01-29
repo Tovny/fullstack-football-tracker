@@ -160,6 +160,8 @@ const Filters = () => {
                   matchday: "",
                   status: "",
                 });
+                if (globalFilters.date === "all")
+                  dispatch(setFilters({ date: new Date() }));
               }}
             />
           ) : null}

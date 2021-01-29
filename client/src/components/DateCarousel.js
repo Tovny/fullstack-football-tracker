@@ -1,25 +1,27 @@
 import "./DateCarousel.scss";
 import { useState, useEffect, useRef } from "react";
-import moment from "moment";
 //import ArrowBack from "@material-ui/icons/ArrowBackIosOutlined";
 //import ArrowForward from "@material-ui/icons/ArrowForwardIosOutlined";
 import CalendarTodaySharpIcon from "@material-ui/icons/CalendarTodaySharp";
-import DateFnsUtils from "@date-io/date-fns";
-import { DatePicker, MuiPickersUtilsProvider } from "@material-ui/pickers";
 import { CSSTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
 import { setFilters } from "../redux/actions/filter-actions";
+import { enGB } from "date-fns/locale";
+import { format, isToday, isTomorrow, isYesterday } from "date-fns";
+import { DatePickerCalendar } from "react-nice-dates";
+import "react-nice-dates/src/style.scss";
 
-moment.updateLocale("en", {
-  calendar: {
-    lastDay: "[Yesterday]",
-    sameDay: "[Today]",
-    nextDay: "[Tomorrow]",
-    lastWeek: "ddd, MMM Do",
-    nextWeek: "ddd, MMM Do",
-    sameElse: "ddd, MMM Do",
-  },
-});
+const formatDate = (date) => {
+  if (isToday(date)) {
+    return format(date, "'Today'");
+  } else if (isTomorrow(date)) {
+    return format(date, "'Tomorrow'");
+  } else if (isYesterday(date)) {
+    return format(date, "'Yesterday'");
+  } else {
+    return format(date, "iii, LLL do");
+  }
+};
 
 const DateCarousel = (props) => {
   const dispatch = useDispatch();
@@ -46,24 +48,9 @@ const DateCarousel = (props) => {
     }
   }, [date]);
 
-  const handleCalendarOpen = () => {
-    console.log(openCalendar);
-    setOpenCalendar(false);
-    console.log(openCalendar);
-  };
-
   useEffect(() => {
-    (async () => {
-      if (openCalendar) {
-        await new Promise((resolve) => {
-          setTimeout(resolve, 100);
-        });
-        window.addEventListener("click", handleCalendarOpen);
-      } else {
-        window.removeEventListener("click", handleCalendarOpen);
-      }
-    })();
-  }, [openCalendar]);
+    window.addEventListener("click", () => setOpenCalendar(false));
+  }, []);
 
   const createDateSelectors = () => {
     const dateSelectors = [];
@@ -97,9 +84,8 @@ const DateCarousel = (props) => {
 
     dispatch(setFilters({ date: calendarDate }));
     setCarouselDate(calendarDate);
+    setOpenCalendar(false);
   };
-
-  const disableScroll = (e) => e.preventDefault();
 
   return (
     <div className="datePickerContainer">
@@ -107,51 +93,49 @@ const DateCarousel = (props) => {
         ref={dateSliderRef}
         className="dateCarousel"
         onWheel={(event) => {
+          event.preventDefault();
+          event.nativeEvent.stopImmediatePropagation();
+          event.stopPropagation();
           dateSliderRef.current.scrollLeft =
             dateSliderRef.current.scrollLeft + event.deltaY / 3;
         }}
-        onMouseEnter={() => {
-          window.addEventListener("wheel", disableScroll, {
-            passive: false,
-          });
-        }}
-        onMouseLeave={() =>
-          window.removeEventListener("wheel", disableScroll, {
-            passive: false,
-          })
-        }
       >
         <ul>{createDateSelectors()}</ul>
       </div>
       <div className="calendarContainer">
         <CalendarTodaySharpIcon
-          onClick={() => setOpenCalendar(!openCalendar)}
+          onClick={(event) => {
+            event.stopPropagation();
+            event.nativeEvent.stopImmediatePropagation();
+            setOpenCalendar(!openCalendar);
+          }}
+          color={openCalendar ? "secondary" : "action"}
+          style={{ transition: "all .2s" }}
         />
         <CSSTransition
           in={openCalendar}
           timeout={250}
-          unmountOnExit
+          className="calendar"
           mountOnEnter
+          unmountOnExit
         >
-          <div className="calendar">
-            <MuiPickersUtilsProvider utils={DateFnsUtils}>
-              <DatePicker
-                variant="static"
-                disableToolbar
-                value={date}
-                onChange={handleCalendarChange}
-              />
-            </MuiPickersUtilsProvider>
-            <button
-              id="todayButton"
-              onClick={() => {
-                const today = new Date();
-                dispatch(setFilters({ date: today }));
-                setOpenCalendar(false);
-              }}
-            >
-              Today
-            </button>
+          <div
+            onClick={(event) => {
+              event.stopPropagation();
+              event.nativeEvent.stopImmediatePropagation();
+            }}
+          >
+            <DatePickerCalendar
+              locale={enGB}
+              date={date !== "all" ? date : new Date()}
+              onDateChange={handleCalendarChange}
+            />
+            <div className="calendarButtons">
+              <button onClick={() => handleCalendarChange(new Date())}>
+                Today
+              </button>
+              <button onClick={() => setOpenCalendar(false)}>Close</button>
+            </div>
           </div>
         </CSSTransition>
       </div>
@@ -195,7 +179,7 @@ const DateSelector = (props) => {
           : null
       }
     >
-      {moment(selectorDate).calendar()}
+      {formatDate(selectorDate)}
     </li>
   ) : null;
 };

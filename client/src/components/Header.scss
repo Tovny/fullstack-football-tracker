@@ -1,8 +1,11 @@
+@use '../assets/variables';
+
 .header {
   display: flex;
   justify-content: center;
-  background: rgb(22, 22, 22);
-  color: white;
+  background: rgb(0, 0, 0);
+  border-bottom: 3px solid variables.$accent-colour;
+  color: variables.$heading-text-colour;
 
   h3 {
     margin: 4rem;
@@ -13,6 +16,10 @@
   }
 
   h3:hover {
+    transform: scale(1.1);
+  }
+
+  #activePage {
     transform: scale(1.1);
   }
 }

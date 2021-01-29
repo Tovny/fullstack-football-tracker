@@ -6,18 +6,7 @@ import { CSSTransition, SwitchTransition } from "react-transition-group";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { useSelector, useDispatch } from "react-redux";
 import setFixtures from "../redux/actions/fixture-actions";
-import moment from "moment";
-
-moment.updateLocale("en", {
-  calendar: {
-    lastDay: "ddd, MMM Do, YYYY",
-    sameDay: "ddd, MMM Do, YYYY",
-    nextDay: "ddd, MMM Do, YYYY",
-    lastWeek: "ddd, MMM Do, YYYY",
-    nextWeek: "ddd, MMM Do, YYYY",
-    sameElse: "ddd, MMM Do, YYYY",
-  },
-});
+import { format } from "date-fns";
 
 const Fixtures = () => {
   const dispatch = useDispatch();
@@ -31,7 +20,7 @@ const Fixtures = () => {
     matchday,
     status,
   } = useSelector((state) => state.filters);
-  const [direction, setDirection] = useState("fixturesTransitionRight");
+  const [direction, setDirection] = useState("fixturesTransitionOpacity");
 
   useEffect(() => {
     (async () => {
@@ -129,11 +118,13 @@ const LeagueFixtures = (props) => {
   return props.league ? (
     <div className="leagueFixtures" ref={heightRef} style={{ height: height }}>
       <div className="fixturesHeading">
-        <img
-          id="leagueLogo"
-          src={props.league.logo}
-          alt={`${props.league.league} logo`}
-        ></img>
+        <div className="leagueLogoContainer">
+          <img
+            id="leagueLogo"
+            src={props.league.logo}
+            alt={`${props.league.league} logo`}
+          ></img>
+        </div>
         <h3>
           {props.league.country} - {props.league.league}
         </h3>
@@ -225,7 +216,7 @@ const LeagueFixtures = (props) => {
                 {props.date === "all" ? (
                   <div id="date">
                     {date.toDateString() !== "Invalid Date"
-                      ? moment(date).calendar()
+                      ? format(date, "iii, LLL do")
                       : "Date To Be Confirmed"}
                   </div>
                 ) : null}

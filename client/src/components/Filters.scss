@@ -1,7 +1,7 @@
+@use "../assets/variables";
+
 .filtersContainer {
-  background: rgb(240, 239, 239);
-  margin-top: 2rem;
-  border-radius: 0.7rem;
+  background: variables.$heading-bg-colour;
   text-align: right;
   padding-bottom: 2rem;
   display: flex;
@@ -25,6 +25,8 @@
       select {
         width: 12rem;
         font-size: 0.8rem;
+        background-color: variables.$body-bg-colour;
+        color: white;
       }
     }
 
@@ -37,8 +39,8 @@
       .slider {
         -webkit-appearance: none;
         appearance: none;
-        background: #cacaca;
-        border-radius: 1rem;
+        background: #000000;
+        border-radius: 100%;
         height: 0.2rem;
         outline: 0 none !important;
         align-self: center;
@@ -61,7 +63,7 @@
         height: 0.6rem;
         width: 0.6rem;
         border-radius: 100%;
-        background: rgb(207, 72, 72);
+        background: variables.$accent-colour;
         cursor: pointer;
       }
 
@@ -74,6 +76,36 @@
       display: grid;
       grid-template-columns: auto auto auto auto 0.5rem;
       margin-bottom: 0.5rem;
+
+      input[type="radio"]:after {
+        width: 11px;
+        height: 11px;
+        border-radius: 11px;
+        position: relative;
+        background-color: variables.$body-bg-colour;
+        content: "";
+        display: inline-block;
+        visibility: visible;
+        border: 1px solid variables.$accent-colour;
+      }
+
+      input[type="radio"]:checked:after {
+        width: 11px;
+        height: 11px;
+        border-radius: 11px;
+        position: relative;
+        background-color: variables.$accent-colour;
+        content: "";
+        display: inline-block;
+        visibility: visible;
+        border: 1px solid white;
+      }
+    }
+
+    input[type="submit"] {
+      background-color: variables.$body-bg-colour;
+      height: 1.8rem;
+      margin: 0.5rem;
     }
 
     #clearFilterBtn {

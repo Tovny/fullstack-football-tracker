@@ -1,3 +1,5 @@
+@use '../assets/variables';
+
 .datePickerContainer {
   display: flex;
   flex-flow: row;
@@ -11,11 +13,49 @@
     .calendar {
       z-index: 15;
       position: absolute;
-      background: white;
-      border: 1px solid black;
       left: 0;
-      top: 3rem;
-      transform: translateX(50%);
+      margin-top: 1rem;
+      padding-bottom: 1rem;
+      width: 100%;
+      background-color: white;
+      border: 1px solid variables.$accent-colour;
+      box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.3);
+      box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.3);
+
+      .calendarButtons {
+        display: flex;
+        justify-content: space-evenly;
+
+        button {
+          width: 25%;
+          height: 2rem;
+          margin-top: 1rem;
+          border: none;
+          background-color: variables.$accent-colour;
+          border-radius: 1rem;
+          font-size: 1.1rem;
+        }
+
+        button:hover {
+          color: white;
+          background-color: variables.$accent-important-colour;
+        }
+      }
+    }
+
+    .calendar-enter {
+      opacity: 0;
+    }
+    .calendar-enter-active {
+      opacity: 1;
+      transition: opacity 200ms ease-in;
+    }
+    .calendar-exit {
+      opacity: 1;
+    }
+    .calendar-exit-active {
+      opacity: 0;
+      transition: opacity 200ms ease-in;
     }
   }
 
@@ -26,13 +66,14 @@
     width: 99%;
     align-self: center;
     white-space: pre;
+    color: white;
 
     ul {
       list-style: none;
       display: flex;
 
       li {
-        border-bottom: 0.15rem solid silver;
+        border-bottom: 0.15rem solid variables.$accent-colour;
         padding: 0 0.8rem 0.3rem 0.8rem;
         font-size: 0.8rem;
         font-weight: bold;
@@ -46,7 +87,7 @@
       }
 
       #selectedDate {
-        border-bottom: 0.15rem solid rgb(207, 72, 72);
+        border-bottom: 0.15rem solid variables.$accent-important-colour;
       }
     }
   }
