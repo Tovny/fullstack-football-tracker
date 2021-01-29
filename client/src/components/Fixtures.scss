@@ -9,7 +9,6 @@
 
   .fixtures {
     .leagueFixtures {
-      border-radius: 0.7rem;
       margin-top: 1.5rem;
       overflow: hidden;
       position: relative;
@@ -106,10 +105,6 @@
             margin-top: -0.3rem;
             margin-bottom: 0.3rem;
           }
-        }
-
-        .fixtureBody:last-child {
-          border-radius: 0 0 0.7rem 0.7rem;
         }
 
         .fixtureBody:hover {
