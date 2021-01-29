@@ -42,56 +42,61 @@
         .fixtureBody {
           background: variables.$body-bg-colour;
           display: grid;
-          grid-template-columns: 5fr 1fr 5fr;
-          align-items: center;
+          grid-template-rows: auto auto;
           font-weight: 630;
           font-size: 1rem;
           letter-spacing: 0.03rem;
           border-top: 1px solid variables.$accent-colour;
 
-          #home,
-          #away {
-            display: flex;
-            flex-direction: row;
+          .fixtureInfo {
+            display: grid;
+            grid-template-columns: 5fr 1fr 5fr;
             align-items: center;
-            text-transform: capitalize;
-          }
 
-          #home {
-            justify-content: flex-end;
-          }
-
-          #away {
-            justify-content: flex-start;
-          }
-
-          #crest {
-            height: 1.5rem;
-            width: 1.5rem;
-            margin: 0.5rem;
-          }
-
-          #scoreContainer {
-            display: flex;
-            flex-flow: row;
-
-            #score {
-              background: variables.$accent-important-colour;
-              color: white;
-              margin: 0.05rem;
-              font-weight: bold;
-              font-size: 1.2rem;
-              padding: 0.1rem;
-              padding-left: 0.5rem;
-              padding-right: 0.5rem;
+            #home,
+            #away {
+              display: flex;
+              flex-direction: row;
+              align-items: center;
+              text-transform: capitalize;
             }
-          }
 
-          #kickOff {
-            text-align: center;
-            margin: 0.05rem;
-            font-weight: 650;
-            letter-spacing: 0.07rem;
+            #home {
+              justify-content: flex-end;
+            }
+
+            #away {
+              justify-content: flex-start;
+            }
+
+            #crest {
+              height: 1.5rem;
+              width: 1.5rem;
+              margin: 0.5rem;
+            }
+
+            #scoreContainer {
+              display: flex;
+              flex-flow: row;
+
+              #score {
+                background: variables.$accent-important-colour;
+                color: white;
+                margin: 0.05rem;
+                font-weight: bold;
+                font-size: 1.2rem;
+                padding: 0.1rem;
+                padding-left: 0.5rem;
+                padding-right: 0.5rem;
+              }
+            }
+
+            #kickOff {
+              text-align: center;
+              margin: 0.05rem;
+              font-weight: 650;
+              letter-spacing: 0.07rem;
+            }
           }
 
           #date {

@@ -173,50 +173,52 @@ const LeagueFixtures = (props) => {
                     : null
                 }
               >
-                <div id="home">
-                  {match.teams.home.shortName
-                    ? match.teams.home.shortName
-                    : match.teams.home.name}
-                  <span>
-                    <img
-                      id="crest"
-                      src={match.teams.home.crest}
-                      alt={`${match.teams.home.name} logo`}
-                    ></img>
-                  </span>
-                </div>
-
-                {typeof match.result.home.score == "number" ? (
-                  <div id="scoreContainer">
-                    <div id="score">{match.result.home.score}</div>
-                    <div id="score">{match.result.away.score}</div>
+                <div className="fixtureInfo">
+                  <div id="home">
+                    {match.teams.home.shortName
+                      ? match.teams.home.shortName
+                      : match.teams.home.name}
+                    <span>
+                      <img
+                        id="crest"
+                        src={match.teams.home.crest}
+                        alt={`${match.teams.home.name} logo`}
+                      ></img>
+                    </span>
                   </div>
-                ) : (
-                  <div id="kickOff">
-                    {date.toString() !== "Invalid Date"
-                      ? `${date.getHours()}:${
-                          date.getMinutes() === 0 ? "00" : date.getMinutes()
-                        }`
-                      : "TBC"}
-                  </div>
-                )}
 
-                <div id="away">
-                  <span>
-                    <img
-                      id="crest"
-                      src={match.teams.away.crest}
-                      alt={`${match.teams.away.crest} logo`}
-                    ></img>
-                  </span>
-                  {match.teams.away.shortName
-                    ? match.teams.away.shortName
-                    : match.teams.away.name}
+                  {typeof match.result.home.score == "number" ? (
+                    <div id="scoreContainer">
+                      <div id="score">{match.result.home.score}</div>
+                      <div id="score">{match.result.away.score}</div>
+                    </div>
+                  ) : (
+                    <div id="kickOff">
+                      {date.toString() !== "Invalid Date"
+                        ? `${date.getHours()}:${
+                            date.getMinutes() === 0 ? "00" : date.getMinutes()
+                          }`
+                        : "TBC"}
+                    </div>
+                  )}
+
+                  <div id="away">
+                    <span>
+                      <img
+                        id="crest"
+                        src={match.teams.away.crest}
+                        alt={`${match.teams.away.crest} logo`}
+                      ></img>
+                    </span>
+                    {match.teams.away.shortName
+                      ? match.teams.away.shortName
+                      : match.teams.away.name}
+                  </div>
                 </div>
                 {props.date === "all" ? (
                   <div id="date">
                     {date.toDateString() !== "Invalid Date"
-                      ? format(date, "iii, LLL do")
+                      ? format(date, "iii, LLL do, yyyy")
                       : "Date To Be Confirmed"}
                   </div>
                 ) : null}
