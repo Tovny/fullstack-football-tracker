@@ -23,3 +23,22 @@
     transform: scale(1.1);
   }
 }
+
+@media screen and (max-width: 992px) {
+  .header {
+    justify-content: space-evenly;
+
+    h3 {
+      margin: 0.5rem;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .header {
+    h3 {
+      margin: 0.3rem;
+      font-size: 0.8rem;
+    }
+  }
+}

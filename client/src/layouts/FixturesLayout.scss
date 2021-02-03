@@ -16,3 +16,25 @@
     padding: 0;
   }
 }
+
+@media screen and (max-width: 992px) {
+  .fixturesLayout {
+    display: flex;
+    flex-flow: column;
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .fixturesLayout {
+    display: flex;
+    flex-flow: column;
+
+    .filterContainer {
+      display: none;
+    }
+
+    .tableAndNewsContainer {
+      display: none;
+    }
+  }
+}

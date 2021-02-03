@@ -3,59 +3,38 @@
 .datePickerContainer {
   display: flex;
   flex-flow: row;
-  position: relative;
 
-  .calendarContainer {
+  #calendarIcon {
     margin: 0.5rem;
     margin-left: 1rem;
     cursor: pointer;
+  }
+
+  .calendarModal {
+    z-index: 15;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    right: 0;
+    top: 0;
+    background-color: rgba(0, 0, 0, 0.637);
 
     .calendar {
-      z-index: 15;
+      border: 3px solid variables.$accent-colour;
+      display: flex;
+      width: 35%;
       position: absolute;
-      left: 0;
-      margin-top: 1rem;
-      padding-bottom: 1rem;
-      width: 100%;
-      background-color: white;
-      border: 1px solid variables.$accent-colour;
-      box-shadow: 0 0 0 1000px rgba(0, 0, 0, 0.3);
-      box-shadow: 0 0 0 100vmax rgba(0, 0, 0, 0.3);
+      left: 50%;
+      top: 10%;
+      transform: translateX(-50%);
+      flex-flow: column;
+      background-color: rgb(255, 255, 255);
 
-      .calendarButtons {
-        display: flex;
-        justify-content: space-evenly;
-
-        button {
-          width: 25%;
-          height: 2rem;
-          margin-top: 1rem;
-          border: none;
-          background-color: variables.$accent-colour;
-          border-radius: 1rem;
-          font-size: 1.1rem;
-        }
-
-        button:hover {
-          color: white;
-          background-color: variables.$accent-important-colour;
-        }
+      #calendarToday {
+        margin-right: 4rem;
+        margin-left: 2rem;
+        cursor: pointer;
       }
-    }
-
-    .calendar-enter {
-      opacity: 0;
-    }
-    .calendar-enter-active {
-      opacity: 1;
-      transition: opacity 200ms ease-in;
-    }
-    .calendar-exit {
-      opacity: 1;
-    }
-    .calendar-exit-active {
-      opacity: 0;
-      transition: opacity 200ms ease-in;
     }
   }
 
@@ -63,14 +42,15 @@
     display: flex;
     width: 100%;
     overflow-x: scroll;
-    width: 99%;
     align-self: center;
     white-space: pre;
     color: white;
+    margin-bottom: 0.5rem;
 
     ul {
       list-style: none;
       display: flex;
+      padding-left: 0;
 
       li {
         border-bottom: 0.15rem solid variables.$accent-colour;
@@ -78,12 +58,16 @@
         font-size: 0.8rem;
         font-weight: bold;
         text-align: center;
-        transition: all 0.1s;
-        cursor: pointer;
-      }
 
-      li:hover {
-        filter: brightness(30%);
+        span {
+          display: inline-block;
+          cursor: pointer;
+          transition: transform 0.1s ease-in;
+        }
+
+        span:hover {
+          transform: translateY(-15%);
+        }
       }
 
       #selectedDate {
@@ -99,5 +83,23 @@
   .dateCarousel {
     -ms-overflow-style: none;
     scrollbar-width: none;
+  }
+}
+
+@media screen and (max-width: 992px) {
+}
+
+@media screen and (max-width: 600px) {
+  #calendarIcon {
+    position: absolute;
+    right: 0;
+    top: 1.8rem;
+  }
+
+  .calendarModal {
+    .calendar {
+      width: 100% !important;
+      border: none !important;
+    }
   }
 }

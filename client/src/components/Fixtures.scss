@@ -9,7 +9,7 @@
 
   .fixtures {
     .leagueFixtures {
-      margin-top: 1.5rem;
+      margin-bottom: 1.5rem;
       overflow: hidden;
       position: relative;
       transition: all 250ms ease-in;
@@ -23,11 +23,15 @@
         z-index: 10;
 
         .leagueLogoContainer {
-          width: 4.5rem;
+          width: 3.5rem;
+          height: 3.5rem;
           display: flex;
+          margin-left: 0.5rem;
+          margin-right: 0.5rem;
 
           #leagueLogo {
-            height: 3rem;
+            height: 90%;
+            width: auto;
             margin: auto;
           }
         }
@@ -107,8 +111,12 @@
           }
         }
 
+        .fixtureBody:first-child {
+          border-top: none;
+        }
+
         .fixtureBody:hover {
-          background: linear-gradient(270deg, #cc8bf1, #dabaff 45%);
+          filter: brightness(90%);
           cursor: pointer;
         }
       }
@@ -181,5 +189,45 @@
   .fixturesTransitionOpacity-exit-active {
     opacity: 0;
     transition: opacity 200ms ease-in;
+  }
+}
+
+@media screen and (max-width: 992px) {
+}
+
+@media screen and (max-width: 600px) {
+  .fixtures {
+    margin: 0.3rem;
+
+    .fixturesHeading {
+      .leagueLogoContainer {
+        width: 2.5rem !important;
+        height: 2.5rem !important;
+        display: flex;
+        margin-left: 0.3rem !important;
+        margin-right: 0.3rem !important;
+
+        #leagueLogo {
+          height: 95% !important;
+          width: auto;
+          margin: auto;
+        }
+      }
+      h3 {
+        font-size: 0.8rem;
+      }
+    }
+
+    .fixtureBodies {
+      .fixtureBody {
+        #home,
+        #away {
+          font-size: 0.7rem;
+        }
+        #kickOff {
+          font-size: 0.7rem;
+        }
+      }
+    }
   }
 }

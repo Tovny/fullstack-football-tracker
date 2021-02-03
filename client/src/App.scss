@@ -7,13 +7,14 @@ html,
 body {
   background-image: radial-gradient(
       circle,
-      rgb(5, 66, 197, 0.95) 0%,
-      rgba(7, 70, 165, 0.9) 70%,
-      rgba(1, 40, 99, 0.8) 100%
+      rgb(5, 66, 197, 0.9) 0%,
+      rgba(7, 70, 165, 0.9) 60%,
+      rgba(7, 6, 6, 0.788) 100%
     ),
     url("/assets/crowd-background.jpg");
   background-size: cover;
   height: 100%;
+  width: 100%;
   overflow-y: hidden;
 
   body {
