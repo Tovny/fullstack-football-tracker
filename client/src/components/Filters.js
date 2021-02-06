@@ -5,6 +5,9 @@ import { useSelector, useDispatch } from "react-redux";
 import getLeagues from "../redux/actions/league-actions";
 import { setFilters } from "../redux/actions/filter-actions";
 import ClearIcon from "@material-ui/icons/Clear";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import { CSSTransition } from "react-transition-group";
 
 const Filters = () => {
   const dispatch = useDispatch();
@@ -22,6 +25,10 @@ const Filters = () => {
     matchday: "",
     status: "",
   });
+  const isMobile = window.matchMedia("screen and (max-width: 600px)").matches;
+  const [openFilters, setOpenFilters] = useState(true);
+  const selectRef = useRef(null);
+  const [formWidth, setFormWidth] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -60,9 +67,26 @@ const Filters = () => {
     }
   }, [globalFilters.date]);
 
+  useEffect(() => {
+    if (!isMobile) {
+      setOpenFilters(true);
+      console.log(isMobile);
+    } else {
+      setOpenFilters(false);
+    }
+  }, [isMobile]);
+
+  useEffect(() => {
+    if (selectRef.current) {
+      const width = selectRef.current.getBoundingClientRect().width;
+      setFormWidth(width + 8);
+    }
+  }, [selectRef, openFilters]);
+
   const handleSubmit = (event) => {
     event.preventDefault();
     delete selectedFilters.innerLeagueValue;
+    if (isMobile) setOpenFilters(false);
 
     dispatch(setFilters(selectedFilters));
   };
@@ -112,215 +136,256 @@ const Filters = () => {
 
   return leagues ? (
     <div className="filtersContainer">
-      <form onSubmit={handleSubmit}>
-        <h4>Filter by League</h4>
-        <div className="selectContainer">
-          <select
-            onChange={(event) => {
-              setSelectedFilters({
-                league: event.target.value.split("|||")[0],
-                innerLeagueValue: event.target.value,
-                date: "all",
-                team: "",
-                hometeam: "",
-                awayteam: "",
-                matchday: "",
-                status: "",
-              });
-              setSelectedLeague(event.target.value.split("|||")[1]);
+      {isMobile ? (
+        <FontAwesomeIcon
+          id="filtersIcon"
+          icon={faFilter}
+          onClick={() => setOpenFilters(!openFilters)}
+        />
+      ) : null}
+      <CSSTransition
+        classNames="filters"
+        in={openFilters}
+        timeout={200}
+        mountOnEnter
+        unmountOnExit
+      >
+        <div
+          className="filters"
+          onClick={isMobile ? () => setOpenFilters(false) : null}
+        >
+          <form
+            onClick={(event) => {
+              event.stopPropagation();
+              event.nativeEvent.stopImmediatePropagation();
             }}
-            value={selectedFilters.innerLeagueValue}
+            onSubmit={handleSubmit}
+            style={{ width: formWidth }}
           >
-            <option value="|||0" hidden>
-              Select League
-            </option>
-            {leagues.map((league, i) => {
-              return (
-                <option
-                  value={`${league.league}|||${i}`}
-                  key={`${league.league}${i}`}
-                >
-                  {league.league}
+            <h4>Filter by League</h4>
+            <div className="selectContainer">
+              <select
+                ref={selectRef}
+                onChange={(event) => {
+                  setSelectedFilters({
+                    league: event.target.value.split("|||")[0],
+                    innerLeagueValue: event.target.value,
+                    date: "all",
+                    team: "",
+                    hometeam: "",
+                    awayteam: "",
+                    matchday: "",
+                    status: "",
+                  });
+                  setSelectedLeague(event.target.value.split("|||")[1]);
+                }}
+                value={selectedFilters.innerLeagueValue}
+              >
+                <option value="|||0" hidden>
+                  Select League
                 </option>
-              );
-            })}
-          </select>
-          {selectedFilters.league ? (
-            <ClearIcon
-              id="clearFilterBtn"
-              onClick={() => {
-                setSelectedLeague(0);
-                setSelectedFilters({
-                  league: "",
-                  innerLeagueValue: "|||0",
-                  date: "all",
-                  team: "",
-                  hometeam: "",
-                  awayteam: "",
-                  matchday: "",
-                  status: "",
-                });
-                if (globalFilters.date === "all")
-                  dispatch(setFilters({ date: new Date() }));
-              }}
-            />
-          ) : null}
-        </div>
-        <h4>Filter by Team</h4>
-        <div className="selectContainer">
-          <select
-            disabled={
-              !selectedFilters.league ||
-              selectedFilters.hometeam ||
-              selectedFilters.awayteam
-            }
-            value={selectedFilters.team}
-            onChange={(event) => handleChange(event, "team")}
-          >
-            <option value="" hidden>
-              Select Team
-            </option>
-            {leagues[selectedLeague].teams.map((team, i) => {
-              return (
-                <option value={team} key={`${team}${i}`}>
-                  {team}
+                {leagues.map((league, i) => {
+                  return (
+                    <option
+                      value={`${league.league}|||${i}`}
+                      key={`${league.league}${i}`}
+                    >
+                      {league.league}
+                    </option>
+                  );
+                })}
+              </select>
+              {selectedFilters.league ? (
+                <ClearIcon
+                  id="clearFilterBtn"
+                  onClick={() => {
+                    setSelectedLeague(0);
+                    setSelectedFilters({
+                      league: "",
+                      innerLeagueValue: "|||0",
+                      date: "all",
+                      team: "",
+                      hometeam: "",
+                      awayteam: "",
+                      matchday: "",
+                      status: "",
+                    });
+                    if (globalFilters.date === "all")
+                      dispatch(setFilters({ date: new Date() }));
+                    if (isMobile) setOpenFilters(false);
+                  }}
+                />
+              ) : null}
+            </div>
+            <h4>Filter by Team</h4>
+            <div className="selectContainer">
+              <select
+                disabled={
+                  !selectedFilters.league ||
+                  selectedFilters.hometeam ||
+                  selectedFilters.awayteam
+                }
+                value={selectedFilters.team}
+                onChange={(event) => handleChange(event, "team")}
+              >
+                <option value="" hidden>
+                  Select Team
                 </option>
-              );
-            })}
-          </select>
-          {selectedFilters.team ? (
-            <ClearIcon
-              id="clearFilterBtn"
-              onClick={() => handleClick("team")}
-            />
-          ) : null}
-        </div>
-        <h4>Filter by Home Team</h4>
-        <div className="selectContainer">
-          <select
-            disabled={!selectedFilters.league}
-            onChange={(event) =>
-              !selectedFilters.awayteam
-                ? handleChange(event, "hometeam", "team", "matchday")
-                : handleChange(event, "hometeam", "team", "status", "matchday")
-            }
-            value={selectedFilters.hometeam}
-          >
-            <option value="" hidden>
-              Select Home Team
-            </option>
-            {leagues[selectedLeague].teams.map((team, i) => {
-              return (
-                <option value={team} key={`${team}${i}`}>
-                  {team}
+                {leagues[selectedLeague].teams.map((team, i) => {
+                  return (
+                    <option value={team} key={`${team}${i}`}>
+                      {team}
+                    </option>
+                  );
+                })}
+              </select>
+              {selectedFilters.team ? (
+                <ClearIcon
+                  id="clearFilterBtn"
+                  onClick={() => handleClick("team")}
+                />
+              ) : null}
+            </div>
+            <h4>Filter by Home Team</h4>
+            <div className="selectContainer">
+              <select
+                disabled={!selectedFilters.league}
+                onChange={(event) =>
+                  !selectedFilters.awayteam
+                    ? handleChange(event, "hometeam", "team", "matchday")
+                    : handleChange(
+                        event,
+                        "hometeam",
+                        "team",
+                        "status",
+                        "matchday"
+                      )
+                }
+                value={selectedFilters.hometeam}
+              >
+                <option value="" hidden>
+                  Select Home Team
                 </option>
-              );
-            })}
-          </select>
-          {selectedFilters.hometeam ? (
-            <ClearIcon
-              id="clearFilterBtn"
-              onClick={() => handleClick("hometeam")}
-            />
-          ) : null}
-        </div>
-        <h4>Filter by Away Team</h4>
-        <div className="selectContainer">
-          <select
-            disabled={!selectedFilters.league}
-            onChange={(event) =>
-              !selectedFilters.hometeam
-                ? handleChange(event, "awayteam", "team", "matchday")
-                : handleChange(event, "awayteam", "team", "status", "matchday")
-            }
-            value={selectedFilters.awayteam}
-          >
-            <option value="" hidden>
-              Select Away Team
-            </option>
-            {leagues[selectedLeague].teams.map((team, i) => {
-              return (
-                <option value={team} key={`${team}${i}`}>
-                  {team}
+                {leagues[selectedLeague].teams.map((team, i) => {
+                  return (
+                    <option value={team} key={`${team}${i}`}>
+                      {team}
+                    </option>
+                  );
+                })}
+              </select>
+              {selectedFilters.hometeam ? (
+                <ClearIcon
+                  id="clearFilterBtn"
+                  onClick={() => handleClick("hometeam")}
+                />
+              ) : null}
+            </div>
+            <h4>Filter by Away Team</h4>
+            <div className="selectContainer">
+              <select
+                disabled={!selectedFilters.league}
+                onChange={(event) =>
+                  !selectedFilters.hometeam
+                    ? handleChange(event, "awayteam", "team", "matchday")
+                    : handleChange(
+                        event,
+                        "awayteam",
+                        "team",
+                        "status",
+                        "matchday"
+                      )
+                }
+                value={selectedFilters.awayteam}
+              >
+                <option value="" hidden>
+                  Select Away Team
                 </option>
-              );
-            })}
-          </select>
-          {selectedFilters.awayteam ? (
-            <ClearIcon
-              id="clearFilterBtn"
-              onClick={() => handleClick("awayteam")}
-            />
-          ) : null}
+                {leagues[selectedLeague].teams.map((team, i) => {
+                  return (
+                    <option value={team} key={`${team}${i}`}>
+                      {team}
+                    </option>
+                  );
+                })}
+              </select>
+              {selectedFilters.awayteam ? (
+                <ClearIcon
+                  id="clearFilterBtn"
+                  onClick={() => handleClick("awayteam")}
+                />
+              ) : null}
+            </div>
+            <h4>Filter by Matchday</h4>
+            <div className="sliderContainer">
+              <input
+                className="slider"
+                disabled={
+                  !selectedFilters.league ||
+                  selectedFilters.hometeam ||
+                  selectedFilters.awayteam
+                }
+                type="range"
+                min="1"
+                max="38"
+                value={selectedFilters.matchday}
+                onInput={(event) => handleChange(event, "matchday", "status")}
+              ></input>
+              {selectedFilters.matchday ? (
+                <span id="sliderValue">{selectedFilters.matchday}</span>
+              ) : null}
+              {selectedFilters.matchday ? (
+                <ClearIcon
+                  id="clearFilterBtn"
+                  onClick={() => handleClick("matchday")}
+                />
+              ) : null}
+            </div>
+            <h4>Filter by Status</h4>
+            <div className="radioBtnContainer">
+              <input
+                ref={selectedRef}
+                disabled={
+                  selectedFilters.matchday ||
+                  (selectedFilters.hometeam && selectedFilters.awayteam) ||
+                  !selectedFilters.league
+                }
+                type="radio"
+                id="scheduled"
+                name="status"
+                value="scheduled"
+                onChange={(event) => handleChange(event, "status")}
+              ></input>
+              <label htmlFor="scheduled">Scheduled</label>
+              <input
+                ref={fulltimeRef}
+                disabled={
+                  selectedFilters.matchday ||
+                  (selectedFilters.hometeam && selectedFilters.awayteam) ||
+                  !selectedFilters.league
+                }
+                type="radio"
+                id="fullTime"
+                name="status"
+                value="full-time"
+                onClick={(event) => handleChange(event, "status")}
+              ></input>
+              <label htmlFor="full-time">Full Time</label>
+              {selectedFilters.status ? (
+                <ClearIcon
+                  id="clearFilterBtn"
+                  onClick={() => handleClick("status")}
+                />
+              ) : null}
+            </div>
+            <input
+              type="submit"
+              disabled={!selectedFilters.league}
+              value="Apply Filters"
+            ></input>
+          </form>
         </div>
-        <h4>Filter by Matchday</h4>
-        <div className="sliderContainer">
-          <input
-            className="slider"
-            disabled={
-              !selectedFilters.league ||
-              selectedFilters.hometeam ||
-              selectedFilters.awayteam
-            }
-            type="range"
-            min="1"
-            max="38"
-            value={selectedFilters.matchday}
-            onInput={(event) => handleChange(event, "matchday", "status")}
-          ></input>
-          {selectedFilters.matchday ? (
-            <span id="sliderValue">{selectedFilters.matchday}</span>
-          ) : null}
-          {selectedFilters.matchday ? (
-            <ClearIcon
-              id="clearFilterBtn"
-              onClick={() => handleClick("matchday")}
-            />
-          ) : null}
-        </div>
-        <h4>Filter by Status</h4>
-        <div className="radioBtnContainer">
-          <input
-            ref={selectedRef}
-            disabled={
-              selectedFilters.matchday ||
-              (selectedFilters.hometeam && selectedFilters.awayteam) ||
-              !selectedFilters.league
-            }
-            type="radio"
-            id="scheduled"
-            name="status"
-            value="scheduled"
-            onChange={(event) => handleChange(event, "status")}
-          ></input>
-          <label htmlFor="scheduled">Scheduled</label>
-          <input
-            ref={fulltimeRef}
-            disabled={
-              selectedFilters.matchday ||
-              (selectedFilters.hometeam && selectedFilters.awayteam) ||
-              !selectedFilters.league
-            }
-            type="radio"
-            id="fullTime"
-            name="status"
-            value="full-time"
-            onClick={(event) => handleChange(event, "status")}
-          ></input>
-          <label htmlFor="full-time">Full Time</label>
-          {selectedFilters.status ? (
-            <ClearIcon
-              id="clearFilterBtn"
-              onClick={() => handleClick("status")}
-            />
-          ) : null}
-        </div>
-        <input
-          type="submit"
-          disabled={!selectedFilters.league}
-          value="Apply Filters"
-        ></input>
-      </form>
+      </CSSTransition>
     </div>
   ) : null;
 };

@@ -4,10 +4,25 @@
   display: flex;
   flex-flow: row;
 
+  .sliderButton {
+    margin: 0;
+    margin-bottom: 1rem;
+    padding: 0;
+    background-color: rgba(0, 0, 0, 0);
+    border: none;
+    align-self: center;
+  }
+
+  .sliderButton:hover {
+    filter: brightness(90%);
+    cursor: pointer;
+  }
+
   #calendarIcon {
     margin: 0.5rem;
-    margin-left: 1rem;
+    margin-left: 0.3rem;
     cursor: pointer;
+    z-index: 20;
   }
 
   .calendarModal {
@@ -17,18 +32,18 @@
     height: 100%;
     right: 0;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.637);
+    background-color: variables.$modal-bg-colour;
 
     .calendar {
-      border: 3px solid variables.$accent-colour;
       display: flex;
       width: 35%;
-      position: absolute;
+      position: relative;
       left: 50%;
-      top: 10%;
+      top: 15%;
       transform: translateX(-50%);
       flex-flow: column;
       background-color: rgb(255, 255, 255);
+      border: 3px solid variables.$accent-colour;
 
       #calendarToday {
         margin-right: 4rem;
@@ -36,12 +51,41 @@
         cursor: pointer;
       }
     }
+
+    .calendar::before {
+      content: " ";
+      background-color: rgb(255, 255, 255);
+      height: 1rem;
+      width: 1rem;
+      border-top: 3px solid variables.$accent-colour;
+      border-left: 3px solid variables.$accent-colour;
+      position: absolute;
+      display: block;
+      right: 1.5rem;
+      top: -0.75rem;
+      transform: rotate(45deg);
+    }
+  }
+
+  .calendarModal-enter {
+    opacity: 0;
+  }
+  .calendarModal-enter-active {
+    opacity: 1;
+    transition: opacity 200ms ease-in;
+  }
+  .calendarModal-exit {
+    opacity: 1;
+  }
+  .calendarModal-exit-active {
+    opacity: 0;
+    transition: opacity 200ms ease-in;
   }
 
   .dateCarousel {
     display: flex;
     width: 100%;
-    overflow-x: scroll;
+    overflow-x: hidden;
     align-self: center;
     white-space: pre;
     color: white;
@@ -75,15 +119,6 @@
       }
     }
   }
-
-  .dateCarousel::-webkit-scrollbar {
-    display: none;
-  }
-
-  .dateCarousel {
-    -ms-overflow-style: none;
-    scrollbar-width: none;
-  }
 }
 
 @media screen and (max-width: 992px) {
@@ -97,9 +132,37 @@
   }
 
   .calendarModal {
+    overflow: hidden !important;
+
     .calendar {
-      width: 100% !important;
+      width: 95% !important;
+      position: absolute;
+      top: 0;
       border: none !important;
+      padding-left: 1rem !important;
+      padding-right: 1rem !important;
+    }
+
+    .calendar::before {
+      height: 1rem !important;
+      width: 1rem !important;
+      top: -0.5rem !important;
+    }
+  }
+
+  .sliderButton {
+    display: none;
+  }
+
+  .dateCarousel {
+    overflow-x: scroll !important;
+
+    span {
+      font-size: 0.65rem !important;
+    }
+
+    span:hover {
+      transform: none !important;
     }
   }
 }

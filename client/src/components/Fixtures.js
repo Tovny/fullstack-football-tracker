@@ -7,6 +7,7 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { useSelector, useDispatch } from "react-redux";
 import setFixtures from "../redux/actions/fixture-actions";
 import { format } from "date-fns";
+import stadium from "../assets/stadium.png";
 
 const Fixtures = () => {
   const dispatch = useDispatch();
@@ -21,6 +22,8 @@ const Fixtures = () => {
     status,
   } = useSelector((state) => state.filters);
   const [direction, setDirection] = useState("fixturesTransitionOpacity");
+  const [fixtureElements, setFixtureElements] = useState(null);
+  const [causeRerender, setCauseRerender] = useState(false);
 
   useEffect(() => {
     (async () => {
@@ -32,10 +35,7 @@ const Fixtures = () => {
       let filterString = "?";
 
       if (dateString === "all") {
-        await new Promise((resolve) => {
-          setDirection("fixturesTransitionOpacity");
-          resolve();
-        });
+        setDirection("fixturesTransitionOpacity");
       }
 
       if (dateString) filterString = filterString + `&date=${dateString}`;
@@ -57,13 +57,28 @@ const Fixtures = () => {
     })();
   }, [date, league, team, hometeam, awayteam, matchday, status, dispatch]);
 
+  useEffect(() => {
+    if (fixtures) {
+      const temp = [];
+      fixtures.forEach((league) => {
+        temp.push(
+          <LeagueFixtures league={league} date={date} key={league.league} />
+        );
+      });
+      setFixtureElements(temp);
+      setCauseRerender(!causeRerender);
+    }
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [fixtures]);
+
   return (
     <div className="fixturesContainer">
       <DateCarousel setDirection={setDirection} />
       {fixtures ? (
         <SwitchTransition>
           <CSSTransition
-            key={[date, league, team, hometeam, awayteam, matchday, status]}
+            key={causeRerender}
             addEndListener={(node, done) =>
               node.addEventListener("transitionend", done, false)
             }
@@ -72,20 +87,21 @@ const Fixtures = () => {
             unmountOnExit
           >
             <div className="fixtures">
-              {fixtures.map((league) => {
-                return (
-                  <LeagueFixtures
-                    league={league}
-                    date={date}
-                    key={league.league}
-                  />
-                );
-              })}
+              {fixtureElements ? (
+                fixtureElements.length > 0 ? (
+                  fixtureElements
+                ) : (
+                  <div className="noFixtures">
+                    <img src={stadium} alt="stadium"></img>
+                    <h3>No scheduled fixtures</h3>
+                  </div>
+                )
+              ) : null}
             </div>
           </CSSTransition>
         </SwitchTransition>
       ) : (
-        <h2>Loading Fixtures</h2>
+        <div className="loadingIcon"></div>
       )}
     </div>
   );
@@ -97,14 +113,9 @@ const LeagueFixtures = (props) => {
   const heightRef = useRef(null);
 
   useEffect(() => {
-    (async () => {
-      await new Promise((resolve) => {
-        setTimeout(resolve, 250);
-      });
-      const currentElt = heightRef.current;
-      if (props.date !== "all" && currentElt)
-        setHeight(currentElt.getBoundingClientRect().height);
-    })();
+    const currentElt = heightRef.current;
+    if (props.date !== "all" && currentElt)
+      setHeight(currentElt.getBoundingClientRect().height);
   }, [props.league.fixtures, props.date]);
 
   const addHeight = (elt) => {
@@ -128,27 +139,25 @@ const LeagueFixtures = (props) => {
         <h3>
           {props.league.country} - {props.league.league}
         </h3>
-        {props.date !== "all" ? (
-          <ArrowDropDownIcon
-            onClick={() => setOpen(!open)}
-            style={
-              open
-                ? {
-                    position: "absolute",
-                    right: "1rem",
-                    transform: "rotateX(180deg)",
-                    transition: "transform 250ms ease-in",
-                    cursor: "pointer",
-                  }
-                : {
-                    position: "absolute",
-                    right: "1rem",
-                    transition: "transform 250ms ease-in",
-                    cursor: "pointer",
-                  }
-            }
-          />
-        ) : null}
+        <ArrowDropDownIcon
+          onClick={() => setOpen(!open)}
+          style={
+            open
+              ? {
+                  position: "absolute",
+                  right: "1rem",
+                  transform: "rotateX(180deg)",
+                  transition: "transform 250ms ease-in",
+                  cursor: "pointer",
+                }
+              : {
+                  position: "absolute",
+                  right: "1rem",
+                  transition: "transform 250ms ease-in",
+                  cursor: "pointer",
+                }
+          }
+        />
       </div>
       <CSSTransition
         in={open}
@@ -173,48 +182,47 @@ const LeagueFixtures = (props) => {
                     : null
                 }
               >
-                <div className="fixtureInfo">
-                  <div id="home">
-                    {match.teams.home.shortName
-                      ? match.teams.home.shortName
-                      : match.teams.home.name}
-                    <span>
-                      <img
-                        id="crest"
-                        src={match.teams.home.crest}
-                        alt={`${match.teams.home.name} logo`}
-                      ></img>
-                    </span>
-                  </div>
-
-                  {typeof match.result.home.score == "number" ? (
-                    <div id="scoreContainer">
-                      <div id="score">{match.result.home.score}</div>
-                      <div id="score">{match.result.away.score}</div>
-                    </div>
-                  ) : (
-                    <div id="kickOff">
-                      {date.toString() !== "Invalid Date"
-                        ? `${date.getHours()}:${
-                            date.getMinutes() === 0 ? "00" : date.getMinutes()
-                          }`
-                        : "TBC"}
-                    </div>
-                  )}
-
-                  <div id="away">
-                    <span>
-                      <img
-                        id="crest"
-                        src={match.teams.away.crest}
-                        alt={`${match.teams.away.crest} logo`}
-                      ></img>
-                    </span>
-                    {match.teams.away.shortName
-                      ? match.teams.away.shortName
-                      : match.teams.away.name}
-                  </div>
+                <div id="home">
+                  {match.teams.home.shortName
+                    ? match.teams.home.shortName
+                    : match.teams.home.name}
+                  <span>
+                    <img
+                      id="crest"
+                      src={match.teams.home.crest}
+                      alt={`${match.teams.home.name} logo`}
+                    ></img>
+                  </span>
                 </div>
+
+                {typeof match.result.home.score == "number" ? (
+                  <div id="scoreContainer">
+                    <div id="score">{match.result.home.score}</div>
+                    <div id="score">{match.result.away.score}</div>
+                  </div>
+                ) : (
+                  <div id="kickOff">
+                    {date.toString() !== "Invalid Date"
+                      ? `${date.getHours()}:${
+                          date.getMinutes() === 0 ? "00" : date.getMinutes()
+                        }`
+                      : "TBC"}
+                  </div>
+                )}
+
+                <div id="away">
+                  <span>
+                    <img
+                      id="crest"
+                      src={match.teams.away.crest}
+                      alt={`${match.teams.away.crest} logo`}
+                    ></img>
+                  </span>
+                  {match.teams.away.shortName
+                    ? match.teams.away.shortName
+                    : match.teams.away.name}
+                </div>
+
                 {props.date === "all" ? (
                   <div id="date">
                     {date.toDateString() !== "Invalid Date"

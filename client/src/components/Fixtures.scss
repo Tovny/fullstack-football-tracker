@@ -7,6 +7,40 @@
   margin-top: 1rem;
   margin-bottom: 1rem;
 
+  .loadingIcon {
+    width: 1.5rem;
+    height: 1.5rem;
+    border-radius: 50%;
+    border: 6px solid rgba(0, 0, 0, 0.4);
+    border-top: 6px solid transparent;
+    margin-right: auto;
+    margin-left: auto;
+    margin-top: 2rem;
+    margin-bottom: 1rem;
+    animation: spin 500ms linear infinite;
+  }
+
+  .loadingIcon::after {
+    content: " ";
+    height: 0.5rem;
+    width: 0.5rem;
+    border-top: 0.25rem solid rgba(0, 0, 0, 0.4);
+    border-right: 0.25rem solid rgba(0, 0, 0, 0.4);
+    position: relative;
+    display: block;
+    left: -25%;
+    top: -10%;
+  }
+
+  @keyframes spin {
+    0% {
+      transform: rotate(0deg);
+    }
+    100% {
+      transform: rotate(360deg);
+    }
+  }
+
   .fixtures {
     .leagueFixtures {
       margin-bottom: 1.5rem;
@@ -46,60 +80,56 @@
           background: variables.$body-bg-colour;
           display: grid;
           grid-template-rows: auto auto;
+          grid-template-columns: 5fr 1fr 5fr;
+          align-items: center;
           font-weight: 630;
           font-size: 1rem;
           letter-spacing: 0.03rem;
           border-top: 1px solid variables.$accent-colour;
 
-          .fixtureInfo {
-            display: grid;
-            grid-template-columns: 5fr 1fr 5fr;
+          #home,
+          #away {
+            display: flex;
+            flex-direction: row;
             align-items: center;
+            text-transform: capitalize;
+          }
 
-            #home,
-            #away {
-              display: flex;
-              flex-direction: row;
-              align-items: center;
-              text-transform: capitalize;
-            }
+          #home {
+            justify-content: flex-end;
+          }
 
-            #home {
-              justify-content: flex-end;
-            }
+          #away {
+            justify-content: flex-start;
+          }
 
-            #away {
-              justify-content: flex-start;
-            }
+          #crest {
+            height: 1.5rem;
+            width: 1.5rem;
+            margin: 0.5rem;
+          }
 
-            #crest {
-              height: 1.5rem;
-              width: 1.5rem;
-              margin: 0.5rem;
-            }
+          #scoreContainer {
+            display: flex;
+            flex-flow: row;
 
-            #scoreContainer {
-              display: flex;
-              flex-flow: row;
-
-              #score {
-                background: variables.$accent-important-colour;
-                color: white;
-                margin: 0.05rem;
-                font-weight: bold;
-                font-size: 1.2rem;
-                padding: 0.1rem;
-                padding-left: 0.5rem;
-                padding-right: 0.5rem;
-              }
-            }
-
-            #kickOff {
-              text-align: center;
+            #score {
+              background: variables.$accent-important-colour;
+              color: white;
               margin: 0.05rem;
-              font-weight: 650;
-              letter-spacing: 0.07rem;
+              font-weight: bold;
+              font-size: 1.2rem;
+              padding: 0.1rem;
+              padding-left: 0.5rem;
+              padding-right: 0.5rem;
             }
+          }
+
+          #kickOff {
+            text-align: center;
+            margin: 0.05rem;
+            font-weight: 650;
+            letter-spacing: 0.07rem;
           }
 
           #date {
@@ -144,6 +174,23 @@
         z-index: 1;
       }
     }
+
+    .noFixtures {
+      display: flex;
+      flex-flow: column;
+      align-items: center;
+
+      img {
+        width: 40%;
+        opacity: 40%;
+      }
+
+      h3 {
+        color: rgba(0, 0, 0, 0.4);
+        letter-spacing: 0.2rem;
+        margin: 0;
+      }
+    }
   }
 
   .fixturesTransitionRight-enter {
@@ -177,17 +224,17 @@
   }
 
   .fixturesTransitionOpacity-enter {
-    opacity: 0;
+    opacity: 0%;
   }
   .fixturesTransitionOpacity-enter-active {
-    opacity: 1;
+    opacity: 100%;
     transition: opacity 200ms ease-in;
   }
   .fixturesTransitionOpacity-exit {
-    opacity: 1;
+    opacity: 100%;
   }
   .fixturesTransitionOpacity-exit-active {
-    opacity: 0;
+    opacity: 0%;
     transition: opacity 200ms ease-in;
   }
 }
@@ -222,10 +269,25 @@
       .fixtureBody {
         #home,
         #away {
-          font-size: 0.7rem;
+          font-size: 0.75rem;
         }
         #kickOff {
-          font-size: 0.7rem;
+          font-size: 0.75rem;
+        }
+
+        #score {
+          font-size: 1rem !important;
+          padding-left: 0.35rem !important;
+          padding-right: 0.35rem !important;
+        }
+
+        #crest {
+          height: 1.35rem !important;
+          width: 1.35rem !important;
+        }
+
+        #date {
+          font-size: 0.7rem !important;
         }
       }
     }

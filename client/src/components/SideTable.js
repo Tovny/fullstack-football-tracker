@@ -103,9 +103,7 @@ const SideTable = ({ setWidth }) => {
             </table>
           </CSSTransition>
         </SwitchTransition>
-      ) : (
-        <h3>Loading table</h3>
-      )}
+      ) : null}
     </div>
   );
 };

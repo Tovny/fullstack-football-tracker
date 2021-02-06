@@ -1,7 +1,7 @@
 import "./DateCarousel.scss";
 import { useState, useEffect, useRef } from "react";
-//import ArrowBack from "@material-ui/icons/ArrowBackIosOutlined";
-//import ArrowForward from "@material-ui/icons/ArrowForwardIosOutlined";
+import ArrowBack from "@material-ui/icons/ArrowBackIosOutlined";
+import ArrowForward from "@material-ui/icons/ArrowForwardIosOutlined";
 import CalendarTodaySharpIcon from "@material-ui/icons/CalendarTodaySharp";
 import { CSSTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
@@ -28,23 +28,18 @@ const DateCarousel = (props) => {
   const { date } = useSelector((state) => state.filters);
   const [carouselDate, setCarouselDate] = useState(new Date(date));
   const dateSliderRef = useRef(null);
-  const selectedDate = document.getElementById("selectedDate");
+  const selectedDateRef = useRef(null);
   const [openCalendar, setOpenCalendar] = useState(false);
   const [selectorDates, setSelectorDates] = useState();
-
-  useEffect(() => {
-    if (document.getElementById("selectedDate"))
-      document.getElementById("selectedDate").scrollIntoView({
-        behavior: "smooth",
-        block: "center",
-        inline: "center",
-      });
-  }, [selectedDate, date]);
+  const [changeScrollX, setChangeScrollX] = useState(false);
+  const [currentSelectedI, setCurrentSelectedI] = useState(0);
+  const sliderULref = useRef(null);
+  const selectedDate = document.getElementById("selectedDate");
 
   useEffect(() => {
     if (date === "all") {
-      if (document.getElementById("selectedDate")) {
-        document.getElementById("selectedDate").removeAttribute("id");
+      if (selectedDateRef.current) {
+        selectedDateRef.current.removeAttribute("id");
       }
     }
   }, [date]);
@@ -61,7 +56,7 @@ const DateCarousel = (props) => {
     setSelectorDates(dateSelectors);
   }, [carouselDate]);
 
-  const handleCalendarChange = async (calendarDate) => {
+  const handleCalendarChange = (calendarDate) => {
     let direction;
     if (calendarDate > date) {
       direction = "Right";
@@ -69,10 +64,7 @@ const DateCarousel = (props) => {
       direction = "Left";
     }
 
-    await new Promise((res) => {
-      props.setDirection(`fixturesTransition${direction}`);
-      res();
-    });
+    props.setDirection(`fixturesTransition${direction}`);
 
     dispatch(setFilters({ date: calendarDate }));
     setCarouselDate(calendarDate);
@@ -83,7 +75,8 @@ const DateCarousel = (props) => {
     if (selectorDates)
       selectorDates.forEach((selectorDate, i) => {
         if (selectorDate === date) {
-          if (selectorDates.length - i <= 7) {
+          setCurrentSelectedI(i);
+          if (selectorDates.length - i <= 3) {
             const newSelectors = [];
             for (let j = 7 - (selectorDates.length - i - 1); j >= 1; j--) {
               const newDateSelector = new Date(
@@ -93,7 +86,7 @@ const DateCarousel = (props) => {
               newSelectors.unshift(newDateSelector);
             }
             setSelectorDates([...selectorDates, ...newSelectors]);
-          } else if (i < 7) {
+          } else if (i < 3) {
             const newSelectors = [];
             for (let j = 7 - i; j >= 1; j--) {
               const newDateSelector = new Date(selectorDates[0]);
@@ -101,10 +94,8 @@ const DateCarousel = (props) => {
               newSelectors.push(newDateSelector);
             }
             setSelectorDates([...newSelectors, ...selectorDates]);
-            if (selectedDate)
-              dateSliderRef.current.scrollLeft =
-                dateSliderRef.current.getBoundingClientRect().width +
-                selectedDate.getBoundingClientRect().width / 2;
+
+            if (selectedDateRef.current) setChangeScrollX(true);
           }
         }
       });
@@ -132,47 +123,98 @@ const DateCarousel = (props) => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [openCalendar]);
 
+  useEffect(() => {
+    if (changeScrollX) {
+      let scrollXto = 0;
+      for (let i = 0; i < 7 - currentSelectedI; i++) {
+        if (sliderULref.current) {
+          if (sliderULref.current.children[i]) {
+            scrollXto =
+              scrollXto +
+              sliderULref.current.children[i].getBoundingClientRect().width;
+          }
+        }
+      }
+
+      scrollXto = scrollXto + dateSliderRef.current.scrollLeft;
+
+      setChangeScrollX(false);
+      dateSliderRef.current.scrollLeft = scrollXto;
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [selectorDates]);
+
+  useEffect(() => {
+    if (selectedDateRef.current)
+      selectedDateRef.current.scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+      });
+  }, [selectedDate]);
+
+  const handleScroll = (direction) => {
+    const slider = dateSliderRef.current;
+    if (slider) {
+      const scrollAmount = slider.scrollLeft + direction;
+
+      dateSliderRef.current.scrollTo({
+        top: 0,
+        left: scrollAmount,
+        behavior: "smooth",
+      });
+    }
+  };
+
   return (
     <div className="datePickerContainer">
       <div
-        ref={dateSliderRef}
-        className="dateCarousel"
-        onWheel={(event) => {
-          dateSliderRef.current.scrollLeft =
-            dateSliderRef.current.scrollLeft + event.deltaY;
-        }}
+        className="sliderButton"
+        id="sliderLeft"
+        onClick={() => handleScroll(-300)}
       >
-        <ul>
+        <ArrowBack style={{ color: "rgb(170, 161, 30)" }} />
+      </div>
+      <div ref={dateSliderRef} className="dateCarousel">
+        <ul ref={sliderULref}>
           {selectorDates
-            ? selectorDates.map((selectorDate, i) => (
-                <DateSelector
-                  date={date}
-                  selectorDate={selectorDate}
-                  dispatch={dispatch}
-                  setDirection={props.setDirection}
-                  key={i}
-                />
-              ))
+            ? selectorDates.map((selectorDate, i) => {
+                return (
+                  <DateSelector
+                    date={date}
+                    selectorDate={selectorDate}
+                    dispatch={dispatch}
+                    setDirection={props.setDirection}
+                    key={i}
+                    selectedDateRef={selectedDateRef}
+                  />
+                );
+              })
             : null}
         </ul>
+      </div>
+      <div
+        className="sliderButton"
+        id="sliderRight"
+        onClick={() => handleScroll(300)}
+      >
+        <ArrowForward style={{ color: "rgb(170, 161, 30)" }} />
       </div>
       <CalendarTodaySharpIcon
         id="calendarIcon"
         onClick={() => {
           setOpenCalendar(!openCalendar);
         }}
-        color={openCalendar ? "secondary" : "action"}
-        style={{ transition: "all .2s" }}
+        style={{ transition: "all .2s", color: "rgb(170, 161, 30)" }}
       />
       <CSSTransition
         in={openCalendar}
-        timeout={250}
+        timeout={200}
         mountOnEnter
         unmountOnExit
-        className="calendarModal"
+        classNames="calendarModal"
         onClick={() => setOpenCalendar(false)}
       >
-        <div>
+        <div className="calendarModal">
           <div
             className="calendar"
             onClick={(event) => {
@@ -194,7 +236,7 @@ const DateCarousel = (props) => {
 };
 
 const DateSelector = (props) => {
-  const handleClick = async () => {
+  const handleClick = () => {
     let direction;
     if (props.selectorDate > props.date) {
       direction = "Right";
@@ -202,16 +244,20 @@ const DateSelector = (props) => {
       direction = "Left";
     }
 
-    await new Promise((res) => {
-      props.setDirection(`fixturesTransition${direction}`);
-      res();
-    });
+    props.setDirection(`fixturesTransition${direction}`);
 
     props.dispatch(setFilters({ date: props.selectorDate }));
   };
 
   return props.selectorDate ? (
     <li
+      ref={
+        props.date !== "all"
+          ? props.date.toDateString() === props.selectorDate.toDateString()
+            ? props.selectedDateRef
+            : null
+          : null
+      }
       id={
         props.date !== "all"
           ? props.date.toDateString() === props.selectorDate.toDateString()
