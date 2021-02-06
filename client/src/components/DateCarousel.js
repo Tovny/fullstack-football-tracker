@@ -167,13 +167,12 @@ const DateCarousel = (props) => {
 
   return (
     <div className="datePickerContainer">
-      <div
+      <ArrowBack
         className="sliderButton"
         id="sliderLeft"
         onClick={() => handleScroll(-300)}
-      >
-        <ArrowBack style={{ color: "rgb(170, 161, 30)" }} />
-      </div>
+      />
+
       <div ref={dateSliderRef} className="dateCarousel">
         <ul ref={sliderULref}>
           {selectorDates
@@ -192,19 +191,18 @@ const DateCarousel = (props) => {
             : null}
         </ul>
       </div>
-      <div
+
+      <ArrowForward
         className="sliderButton"
         id="sliderRight"
         onClick={() => handleScroll(300)}
-      >
-        <ArrowForward style={{ color: "rgb(170, 161, 30)" }} />
-      </div>
+      />
+
       <CalendarTodaySharpIcon
         id="calendarIcon"
         onClick={() => {
           setOpenCalendar(!openCalendar);
         }}
-        style={{ transition: "all .2s", color: "rgb(170, 161, 30)" }}
       />
       <CSSTransition
         in={openCalendar}

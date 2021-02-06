@@ -86,6 +86,7 @@
           font-size: 1rem;
           letter-spacing: 0.03rem;
           border-top: 1px solid variables.$accent-colour;
+          transition: filter 0.1s ease-in;
 
           #home,
           #away {
