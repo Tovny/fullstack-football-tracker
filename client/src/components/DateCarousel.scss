@@ -99,6 +99,8 @@
       margin: 0;
 
       li {
+        position: relative;
+        overflow: hidden;
         font-weight: bold;
         text-align: center;
         border-bottom: 0.15rem solid variables.$accent-colour;
@@ -116,8 +118,15 @@
         }
       }
 
-      #selectedDate {
-        border-bottom: 0.15rem solid variables.$accent-important-colour;
+      #selectedDate::after {
+        content: " ";
+        display: block;
+        position: absolute;
+        height: 0.75rem;
+        width: 0.75rem;
+        right: 50%;
+        transform: translate(50%, 25%) rotate(45deg);
+        background-color: variables.$accent-colour;
       }
     }
   }

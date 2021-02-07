@@ -65,6 +65,13 @@ const Fixtures = () => {
           <LeagueFixtures league={league} date={date} key={league.league} />
         );
       });
+      if (temp.length === 0)
+        temp.push(
+          <div className="noFixtures">
+            <img src={stadium} alt="stadium"></img>
+            <h3>No scheduled fixtures</h3>
+          </div>
+        );
       setFixtureElements(temp);
       setCauseRerender(!causeRerender);
     }
@@ -75,34 +82,25 @@ const Fixtures = () => {
   return (
     <div className="fixturesContainer">
       <DateCarousel setDirection={setDirection} />
-      {fixtures ? (
-        <SwitchTransition>
-          <CSSTransition
-            key={causeRerender}
-            addEndListener={(node, done) =>
-              node.addEventListener("transitionend", done, false)
-            }
-            classNames={direction}
-            mountOnEnter
-            unmountOnExit
-          >
-            <div className="fixtures">
-              {fixtureElements ? (
-                fixtureElements.length > 0 ? (
-                  fixtureElements
-                ) : (
-                  <div className="noFixtures">
-                    <img src={stadium} alt="stadium"></img>
-                    <h3>No scheduled fixtures</h3>
-                  </div>
-                )
-              ) : null}
-            </div>
-          </CSSTransition>
-        </SwitchTransition>
-      ) : (
-        <div className="loadingIcon"></div>
-      )}
+      <SwitchTransition>
+        <CSSTransition
+          key={causeRerender}
+          addEndListener={(node, done) =>
+            node.addEventListener("transitionend", done, false)
+          }
+          classNames={direction}
+          mountOnEnter
+          unmountOnExit
+        >
+          <div className="fixtures">
+            {fixtureElements ? (
+              fixtureElements
+            ) : (
+              <div className="loadingIcon"></div>
+            )}
+          </div>
+        </CSSTransition>
+      </SwitchTransition>
     </div>
   );
 };

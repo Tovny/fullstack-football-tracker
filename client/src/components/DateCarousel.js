@@ -30,7 +30,7 @@ const DateCarousel = (props) => {
   const dateSliderRef = useRef(null);
   const selectedDateRef = useRef(null);
   const [openCalendar, setOpenCalendar] = useState(false);
-  const [selectorDates, setSelectorDates] = useState();
+  const [selectorDates, setSelectorDates] = useState([]);
   const [changeScrollX, setChangeScrollX] = useState(false);
   const [currentSelectedI, setCurrentSelectedI] = useState(0);
   const sliderULref = useRef(null);
@@ -42,6 +42,11 @@ const DateCarousel = (props) => {
         selectedDateRef.current.removeAttribute("id");
       }
     }
+
+    if (isToday(date) && !selectorDates.includes(date))
+      setCarouselDate(new Date(date));
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
 
   useEffect(() => {
@@ -72,33 +77,32 @@ const DateCarousel = (props) => {
   };
 
   useEffect(() => {
-    if (selectorDates)
-      selectorDates.forEach((selectorDate, i) => {
-        if (selectorDate === date) {
-          setCurrentSelectedI(i);
-          if (selectorDates.length - i <= 3) {
-            const newSelectors = [];
-            for (let j = 7 - (selectorDates.length - i - 1); j >= 1; j--) {
-              const newDateSelector = new Date(
-                selectorDates[selectorDates.length - 1]
-              );
-              newDateSelector.setDate(newDateSelector.getDate() + j);
-              newSelectors.unshift(newDateSelector);
-            }
-            setSelectorDates([...selectorDates, ...newSelectors]);
-          } else if (i < 3) {
-            const newSelectors = [];
-            for (let j = 7 - i; j >= 1; j--) {
-              const newDateSelector = new Date(selectorDates[0]);
-              newDateSelector.setDate(newDateSelector.getDate() - j);
-              newSelectors.push(newDateSelector);
-            }
-            setSelectorDates([...newSelectors, ...selectorDates]);
-
-            if (selectedDateRef.current) setChangeScrollX(true);
+    selectorDates.forEach((selectorDate, i) => {
+      if (selectorDate === date) {
+        setCurrentSelectedI(i);
+        if (selectorDates.length - i <= 3) {
+          const newSelectors = [];
+          for (let j = 7 - (selectorDates.length - i - 1); j >= 1; j--) {
+            const newDateSelector = new Date(
+              selectorDates[selectorDates.length - 1]
+            );
+            newDateSelector.setDate(newDateSelector.getDate() + j);
+            newSelectors.unshift(newDateSelector);
           }
+          setSelectorDates([...selectorDates, ...newSelectors]);
+        } else if (i < 3) {
+          const newSelectors = [];
+          for (let j = 7 - i; j >= 1; j--) {
+            const newDateSelector = new Date(selectorDates[0]);
+            newDateSelector.setDate(newDateSelector.getDate() - j);
+            newSelectors.push(newDateSelector);
+          }
+          setSelectorDates([...newSelectors, ...selectorDates]);
+
+          if (selectedDateRef.current) setChangeScrollX(true);
         }
-      });
+      }
+    });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
 
@@ -172,7 +176,6 @@ const DateCarousel = (props) => {
         id="sliderLeft"
         onClick={() => handleScroll(-300)}
       />
-
       <div ref={dateSliderRef} className="dateCarousel">
         <ul ref={sliderULref}>
           {selectorDates
@@ -191,13 +194,11 @@ const DateCarousel = (props) => {
             : null}
         </ul>
       </div>
-
       <ArrowForward
         className="sliderButton"
         id="sliderRight"
         onClick={() => handleScroll(300)}
       />
-
       <CalendarTodaySharpIcon
         id="calendarIcon"
         onClick={() => {
