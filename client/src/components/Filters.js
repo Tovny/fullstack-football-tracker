@@ -5,8 +5,7 @@ import { useSelector, useDispatch } from "react-redux";
 import getLeagues from "../redux/actions/league-actions";
 import { setFilters } from "../redux/actions/filter-actions";
 import ClearIcon from "@material-ui/icons/Clear";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { faFilter } from "@fortawesome/free-solid-svg-icons";
+import FilterIcon from "@material-ui/icons/Filter";
 import { CSSTransition } from "react-transition-group";
 
 const Filters = () => {
@@ -70,7 +69,6 @@ const Filters = () => {
   useEffect(() => {
     if (!isMobile) {
       setOpenFilters(true);
-      console.log(isMobile);
     } else {
       setOpenFilters(false);
     }
@@ -136,13 +134,10 @@ const Filters = () => {
 
   return leagues ? (
     <div className="filtersContainer">
-      {isMobile ? (
-        <FontAwesomeIcon
-          id="filtersIcon"
-          icon={faFilter}
-          onClick={() => setOpenFilters(!openFilters)}
-        />
-      ) : null}
+      <FilterIcon
+        id="filtersIcon"
+        onClick={() => setOpenFilters(!openFilters)}
+      />
       <CSSTransition
         classNames="filters"
         in={openFilters}
@@ -198,6 +193,7 @@ const Filters = () => {
               {selectedFilters.league ? (
                 <ClearIcon
                   id="clearFilterBtn"
+                  style={{ color: "red" }}
                   onClick={() => {
                     setSelectedLeague(0);
                     setSelectedFilters({

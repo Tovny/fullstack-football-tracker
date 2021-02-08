@@ -67,7 +67,7 @@ const Fixtures = () => {
       });
       if (temp.length === 0)
         temp.push(
-          <div className="noFixtures">
+          <div className="noFixtures" key="noFix">
             <img src={stadium} alt="stadium"></img>
             <h3>No scheduled fixtures</h3>
           </div>

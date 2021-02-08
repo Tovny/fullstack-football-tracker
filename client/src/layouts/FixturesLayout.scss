@@ -6,21 +6,24 @@
     display: flex;
     flex-flow: column;
     align-items: flex-end;
-    margin: 1rem;
+    margin: 0.5rem;
   }
 
   .tableAndNewsContainer {
     display: flex;
     flex-flow: column;
-    margin: 1rem;
+    margin: 0.5rem;
     padding: 0;
   }
 }
 
 @media screen and (max-width: 992px) {
   .fixturesLayout {
-    display: flex;
-    flex-flow: column;
+    display: grid;
+    grid-template-columns: auto auto;
+    .tableAndNewsContainer {
+      display: none;
+    }
   }
 }
 
@@ -30,6 +33,12 @@
     flex-flow: column;
 
     .filterContainer {
+      position: absolute;
+      width: 100%;
+      height: 100%;
+      top: 0;
+      left: 0;
+      margin: 0;
     }
 
     .tableAndNewsContainer {

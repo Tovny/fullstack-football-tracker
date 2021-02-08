@@ -25,6 +25,7 @@ const SideNews = ({ containerWidth }) => {
       <NewsArticle article={news[0]} />
       <NewsArticle article={news[1]} />
       <NewsArticle article={news[2]} />
+      <NewsArticle article={news[3]} />
       <div className="newsLinkContainer">
         <a href="#ds">More Football News</a>
       </div>

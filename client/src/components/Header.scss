@@ -3,24 +3,35 @@
 .header {
   display: flex;
   justify-content: center;
-  background: rgb(0, 0, 0);
-  border-bottom: 3px solid variables.$accent-colour;
-  color: variables.$heading-text-colour;
 
-  h3 {
-    margin: 4rem;
-    margin-top: 1rem;
-    margin-bottom: 1rem;
-    cursor: pointer;
-    transition: all 0.1s ease-in;
+  a {
+    display: flex;
+    flex-flow: column;
+    justify-content: center;
+    align-items: center;
+    color: white;
+    text-decoration: none;
+    margin: 1rem;
+    margin-left: 2rem;
+    margin-right: 2rem;
+    transition: all 0.2s ease-in;
+
+    svg {
+      width: 2rem;
+      height: 2rem;
+    }
+
+    span {
+      font-size: 0.9rem;
+    }
   }
 
-  h3:hover {
-    transform: scale(1.1);
+  a:hover {
+    filter: brightness(80%);
   }
 
   #activePage {
-    transform: scale(1.1);
+    color: variables.$accent-colour;
   }
 }
 
@@ -36,9 +47,15 @@
 
 @media screen and (max-width: 600px) {
   .header {
-    h3 {
-      margin: 0.3rem;
-      font-size: 0.8rem;
+    a {
+      margin-left: 1rem;
+      margin-right: 1rem;
+      margin-top: 0.5rem;
+
+      svg {
+        height: 1.5rem;
+        width: 1.5rem;
+      }
     }
   }
 }

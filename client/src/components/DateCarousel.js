@@ -35,6 +35,9 @@ const DateCarousel = (props) => {
   const [currentSelectedI, setCurrentSelectedI] = useState(0);
   const sliderULref = useRef(null);
   const selectedDate = document.getElementById("selectedDate");
+  const calendarIconRef = useRef(null);
+  const [calendarY, setCalendarY] = useState();
+  const isMobile = window.matchMedia("screen and (max-width: 600px)");
 
   useEffect(() => {
     if (date === "all") {
@@ -116,9 +119,14 @@ const DateCarousel = (props) => {
         childSpan.appendChild(textNode);
         childSpan.id = "calendarToday";
 
-        childSpan.addEventListener("click", () =>
-          handleCalendarChange(new Date())
-        );
+        childSpan.addEventListener("click", () => {
+          handleCalendarChange(new Date());
+          if (selectedDateRef.current)
+            selectedDateRef.current.scrollIntoView({
+              behavior: "smooth",
+              inline: "center",
+            });
+        });
 
         elt.appendChild(childSpan);
       }
@@ -169,6 +177,15 @@ const DateCarousel = (props) => {
     }
   };
 
+  useEffect(() => {
+    if (calendarIconRef.current) {
+      const yPos =
+        calendarIconRef.current.getBoundingClientRect().y +
+        (isMobile.matches ? 72 : 48);
+      setCalendarY(yPos);
+    }
+  }, [isMobile]);
+
   return (
     <div className="datePickerContainer">
       <ArrowBack
@@ -200,6 +217,7 @@ const DateCarousel = (props) => {
         onClick={() => handleScroll(300)}
       />
       <CalendarTodaySharpIcon
+        ref={calendarIconRef}
         id="calendarIcon"
         onClick={() => {
           setOpenCalendar(!openCalendar);
@@ -216,6 +234,7 @@ const DateCarousel = (props) => {
         <div className="calendarModal">
           <div
             className="calendar"
+            style={{ top: calendarY }}
             onClick={(event) => {
               event.stopPropagation();
               event.nativeEvent.stopImmediatePropagation();

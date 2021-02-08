@@ -5,7 +5,7 @@
   flex-flow: row;
   background-color: variables.$heading-bg-colour;
   align-items: center;
-  margin-bottom: 1rem;
+  font-size: 0.7rem;
 
   svg {
     padding-left: 0.3rem;
@@ -23,8 +23,6 @@
 
   #calendarIcon {
     padding-right: 0.5rem;
-
-    z-index: 20;
   }
 
   .calendarModal {
@@ -48,6 +46,7 @@
       border: 3px solid variables.$accent-colour;
 
       #calendarToday {
+        font-size: 1rem;
         margin-right: 4rem;
         margin-left: 2rem;
         cursor: pointer;
@@ -64,7 +63,7 @@
       position: absolute;
       display: block;
       right: 1.5rem;
-      top: -0.75rem;
+      top: -0.8rem;
       transform: rotate(45deg);
     }
   }
@@ -107,7 +106,6 @@
         padding: 0.5rem;
 
         span {
-          font-size: 0.8rem;
           display: inline-block;
           cursor: pointer;
           transition: transform 0.1s ease-in;
@@ -125,7 +123,7 @@
         height: 0.75rem;
         width: 0.75rem;
         right: 50%;
-        transform: translate(50%, 25%) rotate(45deg);
+        transform: translate(50%, 35%) rotate(45deg);
         background-color: variables.$accent-colour;
       }
     }
@@ -136,50 +134,56 @@
 }
 
 @media screen and (max-width: 600px) {
-  #sliderLeft,
-  #sliderRight {
-    display: none;
-  }
+  .datePickerContainer {
+    display: grid;
+    grid-template-rows: auto auto;
 
-  #calendarIcon {
-    position: absolute;
-    right: 0;
-    top: 1.8rem;
-    height: auto;
-  }
-
-  .calendarModal {
-    overflow: hidden !important;
-
-    .calendar {
-      width: 95% !important;
-      position: absolute;
-      top: 0;
-      border: none !important;
-      padding-left: 1rem !important;
-      padding-right: 1rem !important;
+    #sliderLeft,
+    #sliderRight {
+      display: none;
     }
 
-    .calendar::before {
-      height: 1rem !important;
-      width: 1rem !important;
-      top: -0.5rem !important;
-    }
-  }
-
-  .sliderButton {
-    display: none;
-  }
-
-  .dateCarousel {
-    overflow-x: scroll !important;
-
-    span {
-      font-size: 0.65rem !important;
+    #calendarIcon {
+      margin-right: 0.5rem;
+      margin-bottom: 1.5rem;
+      padding-top: 1rem;
+      grid-row-start: 1;
+      justify-self: end;
+      background-color: transparent;
     }
 
-    span:hover {
-      transform: none !important;
+    .calendarModal {
+      overflow: hidden !important;
+
+      .calendar {
+        width: 95% !important;
+        border: none !important;
+        padding-left: 1rem !important;
+        padding-right: 1rem !important;
+      }
+
+      .calendar::before {
+        right: 1.5rem;
+        top: -0.75rem;
+        transform: translateY(20%) rotate(45deg);
+        border: none;
+      }
+    }
+
+    .sliderButton {
+      display: none;
+    }
+
+    .dateCarousel {
+      overflow-x: scroll !important;
+
+      span {
+        font-size: 0.65rem !important;
+      }
+
+      span:hover {
+        transform: none !important;
+      }
     }
   }
 }
