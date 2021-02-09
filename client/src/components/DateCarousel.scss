@@ -116,6 +116,10 @@
         }
       }
 
+      #selectedDate {
+        color: variables.$accent-colour;
+      }
+
       #selectedDate::after {
         content: " ";
         display: block;
@@ -144,9 +148,10 @@
     }
 
     #calendarIcon {
-      margin-right: 0.5rem;
+      margin-right: 1rem;
       margin-bottom: 1.5rem;
-      padding-top: 1rem;
+      margin-top: 1rem;
+      padding: 0;
       grid-row-start: 1;
       justify-self: end;
       background-color: transparent;
@@ -164,7 +169,7 @@
 
       .calendar::before {
         right: 1.5rem;
-        top: -0.75rem;
+        top: -0.6rem;
         transform: translateY(20%) rotate(45deg);
         border: none;
       }
@@ -184,6 +189,15 @@
       span:hover {
         transform: none !important;
       }
+    }
+
+    .dateCarousel::-webkit-scrollbar {
+      display: none;
+    }
+
+    .dateCarousel {
+      -ms-overflow-style: none;
+      scrollbar-width: none;
     }
   }
 }

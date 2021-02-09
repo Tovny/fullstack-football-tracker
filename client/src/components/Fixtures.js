@@ -6,6 +6,7 @@ import { CSSTransition, SwitchTransition } from "react-transition-group";
 import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 import { useSelector, useDispatch } from "react-redux";
 import setFixtures from "../redux/actions/fixture-actions";
+import { setFilters } from "../redux/actions/filter-actions";
 import { format } from "date-fns";
 import stadium from "../assets/stadium.png";
 
@@ -24,6 +25,7 @@ const Fixtures = () => {
   const [direction, setDirection] = useState("fixturesTransitionOpacity");
   const [fixtureElements, setFixtureElements] = useState(null);
   const [causeRerender, setCauseRerender] = useState(false);
+  const [xPos, setXPos] = useState(0);
 
   useEffect(() => {
     (async () => {
@@ -73,11 +75,114 @@ const Fixtures = () => {
           </div>
         );
       setFixtureElements(temp);
+      setXPos(0);
       setCauseRerender(!causeRerender);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fixtures]);
+
+  const handleMouseMove = (event) => {
+    let firstPos = event.clientX;
+    let secondPos = 0;
+    let finalPos;
+
+    const element = event.target;
+
+    event.preventDefault();
+
+    document.onmousemove = (event) => {
+      event.preventDefault();
+      secondPos = event.clientX;
+      finalPos = xPos + secondPos - firstPos;
+      setXPos(finalPos);
+    };
+
+    document.ontouchmove = (event) => {
+      event.preventDefault();
+      secondPos = event.clientX;
+      finalPos = xPos + secondPos - firstPos;
+      setXPos(finalPos);
+    };
+
+    document.onmouseup = () => {
+      document.onmousemove = null;
+      document.onmouseup = null;
+
+      const eltRect = element.getBoundingClientRect();
+
+      if (finalPos === 0 || !finalPos) {
+        return;
+      } else {
+        setDirection("fixturesTransitionOpacity");
+        if (finalPos < 0) {
+          if (-eltRect.width / 2 < finalPos) {
+            setXPos(0);
+          } else {
+            setXPos(-750);
+            const newFixDate = new Date(date);
+            newFixDate.setDate(newFixDate.getDate() + 1);
+            dispatch(setFilters({ date: newFixDate }));
+          }
+        } else {
+          if (eltRect.width / 2 > finalPos) {
+            setXPos(0);
+          } else {
+            setXPos(750);
+            const newFixDate = new Date(date);
+            newFixDate.setDate(newFixDate.getDate() - 1);
+            dispatch(setFilters({ date: newFixDate }));
+          }
+        }
+      }
+    };
+  };
+
+  const handleTouchMove = (event) => {
+    let firstPos = event.touches[0].clientX;
+    let secondPos = 0;
+    let finalPos;
+
+    const element = event.target;
+
+    element.ontouchmove = (event) => {
+      secondPos = event.touches[0].clientX;
+      finalPos = xPos + secondPos - firstPos;
+      setXPos(finalPos);
+    };
+
+    element.ontouchend = () => {
+      element.ontouchmove = null;
+      element.ontouchend = null;
+
+      const eltRect = element.getBoundingClientRect();
+
+      if (finalPos === 0 || !finalPos) {
+        return;
+      } else {
+        setDirection("fixturesTransitionOpacity");
+        if (finalPos < 0) {
+          if (-eltRect.width / 2 < finalPos) {
+            setXPos(0);
+          } else {
+            setXPos(-750);
+            const newFixDate = new Date(date);
+            newFixDate.setDate(newFixDate.getDate() + 1);
+            dispatch(setFilters({ date: newFixDate }));
+          }
+        } else {
+          if (eltRect.width / 2 > finalPos) {
+            setXPos(0);
+          } else {
+            setXPos(750);
+            const newFixDate = new Date(date);
+            newFixDate.setDate(newFixDate.getDate() - 1);
+            dispatch(setFilters({ date: newFixDate }));
+          }
+        }
+      }
+    };
+  };
 
   return (
     <div className="fixturesContainer">
@@ -92,7 +197,12 @@ const Fixtures = () => {
           mountOnEnter
           unmountOnExit
         >
-          <div className="fixtures">
+          <div
+            className="fixtures"
+            style={{ left: xPos }}
+            onMouseDown={handleMouseMove}
+            onTouchStart={handleTouchMove}
+          >
             {fixtureElements ? (
               fixtureElements
             ) : (

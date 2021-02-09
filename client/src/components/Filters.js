@@ -27,7 +27,6 @@ const Filters = () => {
   const isMobile = window.matchMedia("screen and (max-width: 600px)").matches;
   const [openFilters, setOpenFilters] = useState(true);
   const selectRef = useRef(null);
-  const [formWidth, setFormWidth] = useState({});
 
   useEffect(() => {
     (async () => {
@@ -73,13 +72,6 @@ const Filters = () => {
       setOpenFilters(false);
     }
   }, [isMobile]);
-
-  useEffect(() => {
-    if (selectRef.current) {
-      const width = selectRef.current.getBoundingClientRect().width;
-      setFormWidth(width + 8);
-    }
-  }, [selectRef, openFilters]);
 
   const handleSubmit = (event) => {
     event.preventDefault();
@@ -155,7 +147,6 @@ const Filters = () => {
               event.nativeEvent.stopImmediatePropagation();
             }}
             onSubmit={handleSubmit}
-            style={{ width: formWidth }}
           >
             <h4>Filter by League</h4>
             <div className="selectContainer">

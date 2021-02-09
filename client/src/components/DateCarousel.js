@@ -80,32 +80,33 @@ const DateCarousel = (props) => {
   };
 
   useEffect(() => {
-    selectorDates.forEach((selectorDate, i) => {
-      if (selectorDate === date) {
-        setCurrentSelectedI(i);
-        if (selectorDates.length - i <= 3) {
-          const newSelectors = [];
-          for (let j = 7 - (selectorDates.length - i - 1); j >= 1; j--) {
-            const newDateSelector = new Date(
-              selectorDates[selectorDates.length - 1]
-            );
-            newDateSelector.setDate(newDateSelector.getDate() + j);
-            newSelectors.unshift(newDateSelector);
-          }
-          setSelectorDates([...selectorDates, ...newSelectors]);
-        } else if (i < 3) {
-          const newSelectors = [];
-          for (let j = 7 - i; j >= 1; j--) {
-            const newDateSelector = new Date(selectorDates[0]);
-            newDateSelector.setDate(newDateSelector.getDate() - j);
-            newSelectors.push(newDateSelector);
-          }
-          setSelectorDates([...newSelectors, ...selectorDates]);
+    if (date.toDateString() !== "Invalid Date")
+      selectorDates.forEach((selectorDate, i) => {
+        if (selectorDate.toDateString() === date.toDateString()) {
+          setCurrentSelectedI(i);
+          if (selectorDates.length - i <= 3) {
+            const newSelectors = [];
+            for (let j = 7 - (selectorDates.length - i - 1); j >= 1; j--) {
+              const newDateSelector = new Date(
+                selectorDates[selectorDates.length - 1]
+              );
+              newDateSelector.setDate(newDateSelector.getDate() + j);
+              newSelectors.unshift(newDateSelector);
+            }
+            setSelectorDates([...selectorDates, ...newSelectors]);
+          } else if (i < 3) {
+            const newSelectors = [];
+            for (let j = 7 - i; j >= 1; j--) {
+              const newDateSelector = new Date(selectorDates[0]);
+              newDateSelector.setDate(newDateSelector.getDate() - j);
+              newSelectors.push(newDateSelector);
+            }
+            setSelectorDates([...newSelectors, ...selectorDates]);
 
-          if (selectedDateRef.current) setChangeScrollX(true);
+            if (selectedDateRef.current) setChangeScrollX(true);
+          }
         }
-      }
-    });
+      });
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [date]);
 
@@ -162,7 +163,7 @@ const DateCarousel = (props) => {
         behavior: "smooth",
         inline: "center",
       });
-  }, [selectedDate]);
+  }, [date, selectedDate]);
 
   const handleScroll = (direction) => {
     const slider = dateSliderRef.current;
@@ -181,7 +182,7 @@ const DateCarousel = (props) => {
     if (calendarIconRef.current) {
       const yPos =
         calendarIconRef.current.getBoundingClientRect().y +
-        (isMobile.matches ? 72 : 48);
+        (isMobile.matches ? 56 : 48);
       setCalendarY(yPos);
     }
   }, [isMobile]);

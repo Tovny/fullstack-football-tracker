@@ -147,6 +147,7 @@
       position: absolute;
       right: 3.5rem;
       top: 1rem;
+      z-index: 10;
     }
 
     .filters {
@@ -160,12 +161,18 @@
 
       form {
         background-color: variables.$heading-bg-colour;
+        width: 190px;
         padding: 1.5rem;
         padding-top: 0;
+        margin: 0;
         position: absolute;
         left: 50%;
         top: 4rem;
         transform: translateX(-50%);
+
+        h4 {
+          text-align: center;
+        }
       }
     }
   }
