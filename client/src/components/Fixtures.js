@@ -26,6 +26,7 @@ const Fixtures = () => {
   const [fixtureElements, setFixtureElements] = useState(null);
   const [causeRerender, setCauseRerender] = useState(false);
   const [xPos, setXPos] = useState(0);
+  const selectedDate = document.getElementById("selectedDate");
 
   useEffect(() => {
     (async () => {
@@ -82,105 +83,87 @@ const Fixtures = () => {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fixtures]);
 
-  const handleMouseMove = (event) => {
-    let firstPos = event.clientX;
-    let secondPos = 0;
-    let finalPos;
-
-    const element = event.target;
-
-    event.preventDefault();
-
-    document.onmousemove = (event) => {
-      event.preventDefault();
-      secondPos = event.clientX;
-      finalPos = xPos + secondPos - firstPos;
-      setXPos(finalPos);
-    };
-
-    document.ontouchmove = (event) => {
-      event.preventDefault();
-      secondPos = event.clientX;
-      finalPos = xPos + secondPos - firstPos;
-      setXPos(finalPos);
-    };
-
-    document.onmouseup = () => {
-      document.onmousemove = null;
-      document.onmouseup = null;
-
-      const eltRect = element.getBoundingClientRect();
-
-      if (finalPos === 0 || !finalPos) {
-        return;
-      } else {
-        setDirection("fixturesTransitionOpacity");
-        if (finalPos < 0) {
-          if (-eltRect.width / 2 < finalPos) {
-            setXPos(0);
-          } else {
-            setXPos(-750);
-            const newFixDate = new Date(date);
-            newFixDate.setDate(newFixDate.getDate() + 1);
-            dispatch(setFilters({ date: newFixDate }));
-          }
-        } else {
-          if (eltRect.width / 2 > finalPos) {
-            setXPos(0);
-          } else {
-            setXPos(750);
-            const newFixDate = new Date(date);
-            newFixDate.setDate(newFixDate.getDate() - 1);
-            dispatch(setFilters({ date: newFixDate }));
-          }
-        }
-      }
-    };
-  };
+  useEffect(() => {
+    if (document.getElementById("selectedDate"))
+      document.getElementById("selectedDate").scrollIntoView({
+        behavior: "smooth",
+        inline: "center",
+      });
+  }, [selectedDate]);
 
   const handleTouchMove = (event) => {
-    let firstPos = event.touches[0].clientX;
-    let secondPos = 0;
-    let finalPos;
+    let scrollPos = event.touches[0].clientY;
 
     const element = event.target;
 
     element.ontouchmove = (event) => {
-      secondPos = event.touches[0].clientX;
-      finalPos = xPos + secondPos - firstPos;
-      setXPos(finalPos);
+      let secondY = event.touches[0].clientY;
+
+      if (secondY > scrollPos - 2 && secondY < scrollPos + 2) {
+        element.onTouchStart = onTouchPreventScroll(event);
+      } else {
+        element.ontouchmove = null;
+      }
     };
 
-    element.ontouchend = () => {
-      element.ontouchmove = null;
-      element.ontouchend = null;
+    const onTouchPreventScroll = (event) => {
+      let firstPos = event.touches[0].clientX;
+      let secondPos = 0;
+      let finalPos;
 
-      const eltRect = element.getBoundingClientRect();
+      const element = event.target;
 
-      if (finalPos === 0 || !finalPos) {
-        return;
-      } else {
-        setDirection("fixturesTransitionOpacity");
-        if (finalPos < 0) {
-          if (-eltRect.width / 2 < finalPos) {
-            setXPos(0);
-          } else {
-            setXPos(-750);
-            const newFixDate = new Date(date);
-            newFixDate.setDate(newFixDate.getDate() + 1);
-            dispatch(setFilters({ date: newFixDate }));
-          }
+      element.ontouchmove = (event) => {
+        secondPos = event.touches[0].clientX;
+        finalPos = xPos + secondPos - firstPos;
+        setXPos(finalPos);
+      };
+
+      element.ontouchend = () => {
+        element.ontouchmove = null;
+        element.ontouchend = null;
+
+        const eltRect = element.getBoundingClientRect();
+
+        if (finalPos === 0 || !finalPos) {
+          return;
         } else {
-          if (eltRect.width / 2 > finalPos) {
-            setXPos(0);
+          setDirection("fixturesTransitionOpacity");
+          if (finalPos < 0) {
+            if (-eltRect.width / 2 < finalPos) {
+              setXPos(0);
+            } else {
+              setXPos(-750);
+              let newFixDate;
+              if (date !== "all") {
+                newFixDate = new Date(date);
+                newFixDate.setDate(newFixDate.getDate() + 1);
+              } else {
+                newFixDate = new Date();
+              }
+
+              dispatch(setFilters({ date: newFixDate }));
+            }
           } else {
-            setXPos(750);
-            const newFixDate = new Date(date);
-            newFixDate.setDate(newFixDate.getDate() - 1);
-            dispatch(setFilters({ date: newFixDate }));
+            if (eltRect.width / 2 > finalPos) {
+              setXPos(0);
+            } else {
+              setXPos(750);
+              let newFixDate;
+              if (date !== "all") {
+                newFixDate = new Date(date);
+                newFixDate.setDate(newFixDate.getDate() - 1);
+              } else {
+                newFixDate = new Date();
+              }
+
+              dispatch(setFilters({ date: newFixDate }));
+            }
           }
         }
-      }
+
+        element.onTouchStart = handleTouchMove;
+      };
     };
   };
 
@@ -196,12 +179,12 @@ const Fixtures = () => {
           classNames={direction}
           mountOnEnter
           unmountOnExit
+          style={{ left: xPos }}
         >
           <div
             className="fixtures"
-            style={{ left: xPos }}
-            onMouseDown={handleMouseMove}
             onTouchStart={handleTouchMove}
+            onScroll={() => console.log("scroll")}
           >
             {fixtureElements ? (
               fixtureElements
@@ -232,6 +215,63 @@ const LeagueFixtures = (props) => {
 
   const detractHeight = (elt) => {
     setHeight(height - elt.getBoundingClientRect().height);
+  };
+
+  const fixtureBody = (match, i = null) => {
+    const date = new Date(`${match.info.date}T${match.info.kickOff}Z`);
+
+    return (
+      <div
+        key={i ? i : null}
+        className="fixtureBody"
+        onClick={
+          match.info.status !== "Scheduled"
+            ? () => window.open(match.info.url)
+            : null
+        }
+      >
+        <div id="home">
+          {match.teams.home.shortName
+            ? match.teams.home.shortName
+            : match.teams.home.name}
+          <span>
+            <img
+              id="crest"
+              src={match.teams.home.crest}
+              alt={`${match.teams.home.name} logo`}
+            ></img>
+          </span>
+        </div>
+
+        {typeof match.result.home.score == "number" ? (
+          <div id="scoreContainer">
+            <div id="score">{match.result.home.score}</div>
+            <div id="score">{match.result.away.score}</div>
+          </div>
+        ) : (
+          <div id="kickOff">
+            {date.toString() !== "Invalid Date"
+              ? `${date.getHours()}:${
+                  date.getMinutes() === 0 ? "00" : date.getMinutes()
+                }`
+              : "TBC"}
+          </div>
+        )}
+
+        <div id="away">
+          <span>
+            <img
+              id="crest"
+              src={match.teams.away.crest}
+              alt={`${match.teams.away.crest} logo`}
+            ></img>
+          </span>
+          {match.teams.away.shortName
+            ? match.teams.away.shortName
+            : match.teams.away.name}
+        </div>
+      </div>
+    );
   };
 
   return props.league ? (
@@ -280,65 +320,24 @@ const LeagueFixtures = (props) => {
           {props.league.fixtures.map((match, i) => {
             const date = new Date(`${match.info.date}T${match.info.kickOff}Z`);
 
-            return (
-              <div
-                key={i}
-                className="fixtureBody"
-                onClick={
-                  match.info.status !== "Scheduled"
-                    ? () => window.open(match.info.url)
-                    : null
-                }
-              >
-                <div id="home">
-                  {match.teams.home.shortName
-                    ? match.teams.home.shortName
-                    : match.teams.home.name}
-                  <span>
-                    <img
-                      id="crest"
-                      src={match.teams.home.crest}
-                      alt={`${match.teams.home.name} logo`}
-                    ></img>
-                  </span>
-                </div>
-
-                {typeof match.result.home.score == "number" ? (
-                  <div id="scoreContainer">
-                    <div id="score">{match.result.home.score}</div>
-                    <div id="score">{match.result.away.score}</div>
-                  </div>
-                ) : (
-                  <div id="kickOff">
-                    {date.toString() !== "Invalid Date"
-                      ? `${date.getHours()}:${
-                          date.getMinutes() === 0 ? "00" : date.getMinutes()
-                        }`
-                      : "TBC"}
-                  </div>
-                )}
-
-                <div id="away">
-                  <span>
-                    <img
-                      id="crest"
-                      src={match.teams.away.crest}
-                      alt={`${match.teams.away.crest} logo`}
-                    ></img>
-                  </span>
-                  {match.teams.away.shortName
-                    ? match.teams.away.shortName
-                    : match.teams.away.name}
-                </div>
-
-                {props.date === "all" ? (
+            return (props.date === "all" && i === 0) ||
+              (i !== 0 &&
+                match.info.date !== props.league.fixtures[i - 1].info.date) ? (
+              <div key={i}>
+                {(props.date === "all" && i === 0) ||
+                (i !== 0 &&
+                  match.info.date !==
+                    props.league.fixtures[i - 1].info.date) ? (
                   <div id="date">
                     {date.toDateString() !== "Invalid Date"
                       ? format(date, "iii, LLL do, yyyy")
                       : "Date To Be Confirmed"}
                   </div>
                 ) : null}
+                {fixtureBody(match, props.date)}
               </div>
+            ) : (
+              fixtureBody(match, i)
             );
           })}
         </div>
