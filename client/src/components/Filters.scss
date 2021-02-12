@@ -1,6 +1,6 @@
 @use "../assets/variables";
 
-.filtersContainer {
+.filters {
   background: variables.$heading-bg-colour;
   text-align: right;
   padding-bottom: 2rem;
@@ -10,136 +10,143 @@
   #filtersIcon {
     display: none;
   }
+}
 
-  form {
-    margin-right: 1.5rem;
-    margin-left: 1rem;
-    text-align: center;
+form {
+  margin-right: 1rem;
+  text-align: center;
 
-    h4 {
-      text-align: right;
-    }
+  h4 {
+    text-align: right;
+  }
 
-    .selectContainer {
-      display: grid;
-      grid-template-columns: auto 0.5rem;
-      height: 1.5rem;
-      justify-content: right;
+  .selectContainer {
+    display: grid;
+    grid-template-columns: auto 0.5rem;
+    height: 1.5rem;
+    justify-content: right;
 
-      select {
-        width: 13rem;
-        font-size: 0.75rem;
-        background-color: variables.$body-bg-colour;
-        color: white;
-      }
-    }
-
-    .sliderContainer {
-      position: relative;
-      display: grid;
-      grid-template-columns: auto 0.5rem;
-      height: 1.5rem;
-
-      .slider {
-        -webkit-appearance: none;
-        appearance: none;
-        background: #000000;
-        height: 0.05rem;
-        outline: 0 none !important;
-        align-self: center;
-      }
-
-      #sliderValue {
-        position: absolute;
-        left: 0;
-        right: 0;
-        margin-left: auto;
-        margin-right: auto;
-        transform: translateY(-100%);
-        font-weight: bold;
-      }
-
-      .slider::-webkit-slider-thumb {
-        -webkit-appearance: none;
-        appearance: none;
-        height: 0.6rem;
-        width: 0.6rem;
-        border-radius: 50%;
-        background: variables.$accent-colour;
-        cursor: pointer;
-      }
-
-      :disabled {
-        opacity: 15%;
-      }
-    }
-
-    .radioBtnContainer {
-      display: grid;
-      grid-template-columns: auto auto auto auto 0.5rem;
-      margin-bottom: 0.5rem;
-
-      input[type="radio"] {
-        margin: 0;
-        margin-left: 0.5rem;
-        margin-right: 0.5rem;
-      }
-
-      input[type="radio"]:after {
-        width: 11px;
-        height: 11px;
-        border-radius: 11px;
-        position: relative;
-        background-color: variables.$body-bg-colour;
-        content: "";
-        display: inline-block;
-        visibility: visible;
-        border: 1px solid variables.$accent-colour;
-      }
-
-      input[type="radio"]:checked:after {
-        width: 11px;
-        height: 11px;
-        border-radius: 11px;
-        position: relative;
-        background-color: variables.$accent-colour;
-        content: "";
-        display: inline-block;
-        visibility: visible;
-        border: 1px solid white;
-      }
-    }
-
-    input[type="submit"] {
+    select {
+      width: 13rem;
+      font-size: 0.75rem;
       background-color: variables.$body-bg-colour;
-      height: 1.8rem;
-      margin: 0.5rem;
+      color: white;
     }
+  }
 
-    #clearFilterBtn {
-      height: 1rem;
+  .sliderContainer {
+    position: relative;
+    display: grid;
+    grid-template-columns: auto 0.5rem;
+    height: 1.5rem;
+
+    .slider {
+      -webkit-appearance: none;
+      appearance: none;
+      background: #000000;
+      height: 0.05rem;
+      outline: 0 none !important;
       align-self: center;
     }
+
+    #sliderValue {
+      position: absolute;
+      left: 0;
+      right: 0;
+      margin-left: auto;
+      margin-right: auto;
+      transform: translateY(-100%);
+      font-weight: bold;
+    }
+
+    .slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      appearance: none;
+      height: 0.6rem;
+      width: 0.6rem;
+      border-radius: 50%;
+      background: variables.$accent-colour;
+      cursor: pointer;
+    }
+
+    :disabled {
+      opacity: 15%;
+    }
   }
 
-  .filters-enter {
-    opacity: 0;
+  .radioBtnContainer {
+    display: grid;
+    grid-template-columns: auto auto auto auto 0.5rem;
+    margin-bottom: 0.5rem;
+
+    input[type="radio"] {
+      margin: 0;
+      margin-left: 0.5rem;
+      margin-right: 0.5rem;
+    }
+
+    input[type="radio"]:after {
+      width: 11px;
+      height: 11px;
+      border-radius: 11px;
+      position: relative;
+      background-color: variables.$body-bg-colour;
+      content: "";
+      display: inline-block;
+      visibility: visible;
+      border: 1px solid variables.$accent-colour;
+    }
+
+    input[type="radio"]:checked:after {
+      width: 11px;
+      height: 11px;
+      border-radius: 11px;
+      position: relative;
+      background-color: variables.$accent-colour;
+      content: "";
+      display: inline-block;
+      visibility: visible;
+      border: 1px solid white;
+    }
   }
-  .filters-enter-active {
-    opacity: 1;
-    transition: opacity 200ms ease-in;
+
+  input[type="submit"] {
+    background-color: variables.$body-bg-colour;
+    height: 1.8rem;
+    margin: 0.5rem;
   }
-  .filters-exit {
-    opacity: 1;
+
+  #clearFilterBtn {
+    height: 1rem;
+    align-self: center;
   }
-  .filters-exit-active {
-    opacity: 0;
-    transition: opacity 200ms ease-in;
+}
+
+@media screen and (max-width: 992px) {
+  .filters {
+    padding-bottom: 0;
+    margin-top: 2rem;
+
+    form {
+      h4 {
+        margin-top: 0.25rem;
+        margin-bottom: 0.25rem;
+      }
+
+      .radioBtnContainer {
+        margin-bottom: 0.25rem;
+        margin-top: 0.5rem;
+      }
+
+      input[type="submit"] {
+        margin: 0.25rem;
+      }
+    }
   }
 }
 
 @media screen and (max-width: 600px) {
-  .filtersContainer {
+  .filters {
     background: none;
 
     #filtersIcon {
@@ -147,33 +154,46 @@
       position: absolute;
       right: 3.5rem;
       top: 1rem;
-      z-index: 10;
+      z-index: 30;
     }
 
-    .filters {
-      position: absolute;
-      left: 0;
-      top: 0;
-      width: 100%;
-      height: 100%;
-      z-index: 15;
-      background-color: variables.$modal-bg-colour;
+    form {
+      display: none;
+    }
+  }
 
-      form {
-        background-color: variables.$heading-bg-colour;
-        width: 190px;
-        padding: 1.5rem;
-        padding-top: 0;
-        margin: 0;
-        position: absolute;
-        left: 50%;
-        top: 4rem;
-        transform: translateX(-50%);
+  .filtersModal {
+    display: flex;
+    position: absolute;
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, 0.637);
+    z-index: 30;
 
-        h4 {
-          text-align: center;
-        }
+    form {
+      background-color: variables.$heading-bg-colour;
+      width: 190px;
+      padding: 1.5rem;
+      margin: auto;
+
+      h4 {
+        text-align: center;
       }
     }
+  }
+
+  .filtersModal-enter {
+    opacity: 0;
+  }
+  .filtersModal-enter-active {
+    opacity: 1;
+    transition: opacity 200ms ease-in;
+  }
+  .filtersModal-exit {
+    opacity: 1;
+  }
+  .filtersModal-exit-active {
+    opacity: 0;
+    transition: opacity 200ms ease-in;
   }
 }

@@ -4,7 +4,7 @@ import x_auth from "../config/default";
 import { useSelector, useDispatch } from "react-redux";
 import getNews from "../redux/actions/news-actions";
 
-const SideNews = ({ containerWidth }) => {
+const SideNews = () => {
   const dispatch = useDispatch();
   const news = useSelector((state) => state.news);
 
@@ -19,7 +19,7 @@ const SideNews = ({ containerWidth }) => {
     })();
   }, [dispatch]);
 
-  return news && containerWidth.width ? (
+  return news ? (
     <div className="sideNewsContainer">
       <h4>Latest Football News</h4>
       <NewsArticle article={news[0]} />
@@ -33,7 +33,9 @@ const SideNews = ({ containerWidth }) => {
   ) : null;
 };
 
-const NewsArticle = (props) => {
+const NewsArticle = ({ article }) => {
+  const { url, title, image } = article;
+
   const sliceTitle = (title) => {
     let finalTitle = "";
     const slices = title.split(" ");
@@ -50,14 +52,10 @@ const NewsArticle = (props) => {
     return finalTitle;
   };
   return (
-    <div className="article" onClick={() => window.open(props.article.url)}>
-      <h5>
-        {props.article.title.length > 60
-          ? sliceTitle(props.article.title)
-          : props.article.title}
-      </h5>
+    <div className="article" onClick={() => window.open(url)}>
+      <h5>{title.length > 60 ? sliceTitle(title) : title}</h5>
       <div className="articleImage">
-        <img alt={props.article.title} src={props.article.image}></img>
+        <img alt={title} src={image}></img>
       </div>
     </div>
   );

@@ -1,9 +1,8 @@
 @use "../assets/variables";
 
 .fixturesContainer {
-  overflow: hidden;
   display: flex;
-  position: relative;
+  overflow: hidden;
   flex-flow: column;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
@@ -43,16 +42,12 @@
   }
 
   .fixtures {
-    position: absolute;
-    width: 100%;
-    top: 2.15rem;
-    cursor: grab;
+    transition: left 100ms linear;
 
     .leagueFixtures {
       overflow: hidden;
       position: relative;
       transition: all 250ms ease-in;
-      border-bottom: 1px solid rgb(72, 99, 156);
 
       .fixturesHeading {
         display: flex;
@@ -62,7 +57,6 @@
         position: relative;
         z-index: 5;
         font-size: 0.75rem;
-        filter: brightness(90%);
 
         .leagueLogoContainer {
           width: 2.5rem;
@@ -75,7 +69,6 @@
             height: 80%;
             width: auto;
             margin: auto;
-            filter: none;
           }
         }
 
@@ -85,84 +78,106 @@
       }
 
       .fixtureBodies {
-        .fixtureBody {
-          background: variables.$body-bg-colour;
-          display: grid;
-          grid-template-rows: auto auto;
-          grid-template-columns: 5fr 1fr 5fr;
-          align-items: center;
-          font-weight: 630;
-          letter-spacing: 0.05rem;
-          border-top: 1px solid variables.$accent-colour;
-          transition: filter 0.1s ease-in;
+        ul {
+          padding: 0;
+          margin: 0;
 
-          #home,
-          #away {
-            display: flex;
-            flex-direction: row;
-            align-items: center;
-            text-transform: capitalize;
-          }
+          li {
+            list-style: none;
 
-          #home {
-            justify-content: flex-end;
-          }
-
-          #away {
-            justify-content: flex-start;
-          }
-
-          #crest {
-            height: 1.5rem;
-            width: 1.5rem;
-            margin: 0.5rem;
-          }
-
-          #scoreContainer {
-            display: flex;
-            flex-flow: row;
-            justify-content: center;
-
-            #score {
-              background: variables.$accent-important-colour;
-              color: white;
-              margin: 0.05rem;
-              font-weight: bold;
+            .fixturesDate {
+              background-color: variables.$body-bg-colour;
+              text-align: center;
               font-size: 1rem;
-              padding: 0.35rem;
-              padding-left: 0.5rem;
-              padding-right: 0.5rem;
+              font-weight: bold;
+              color: white;
+              padding: 0.5rem 0 0.5rem 0;
+              filter: brightness(90%);
+            }
+
+            .fixtureBody {
+              background: variables.$body-bg-colour;
+              display: grid;
+              grid-template-rows: auto auto;
+              grid-template-columns: 5fr 1fr 5fr;
+              align-items: center;
+              font-weight: 630;
+              letter-spacing: 0.05rem;
+              border-top: 1px solid variables.$accent-colour;
+              transition: filter 0.1s ease-in;
+
+              #home,
+              #away {
+                display: flex;
+                flex-direction: row;
+                align-items: center;
+                text-transform: capitalize;
+              }
+
+              #home {
+                justify-content: flex-end;
+              }
+
+              #away {
+                justify-content: flex-start;
+              }
+
+              #crest {
+                height: 1.5rem;
+                width: 1.5rem;
+                margin: 0.5rem;
+              }
+
+              #scoreContainer {
+                display: flex;
+                flex-flow: row;
+                justify-content: center;
+
+                #score {
+                  background: variables.$accent-important-colour;
+                  color: white;
+                  margin: 0.05rem;
+                  font-weight: bold;
+                  font-size: 1rem;
+                  padding: 0.35rem;
+                  padding-left: 0.5rem;
+                  padding-right: 0.5rem;
+                }
+              }
+
+              #kickOff {
+                text-align: center;
+                margin: 0.05rem;
+                font-size: 0.9rem;
+                font-weight: 650;
+                letter-spacing: 0.15rem;
+              }
+            }
+
+            #date {
+              grid-column: span 3;
+              text-align: center;
+              font-size: 0.9rem;
+              font-weight: bold;
+              padding-top: 0.5rem;
+              padding-bottom: 0.5rem;
+              background-color: variables.$heading-bg-colour;
+              color: variables.$heading-text-colour;
+            }
+
+            .fixtureBody:first-child {
+              border-top: none;
+            }
+
+            .fixtureBody:last-child {
+              margin-bottom: -1px;
+            }
+
+            .fixtureBody:hover {
+              filter: brightness(90%);
+              cursor: pointer;
             }
           }
-
-          #kickOff {
-            text-align: center;
-            margin: 0.05rem;
-            font-size: 0.9rem;
-            font-weight: 650;
-            letter-spacing: 0.15rem;
-          }
-
-          #date {
-            grid-column: span 3;
-            text-align: center;
-            font-size: 0.8rem;
-            margin-top: -0.3rem;
-            margin-bottom: 0.3rem;
-          }
-        }
-
-        .fixtureBody:first-child {
-          border-top: none;
-        }
-
-        .fixtureBody:last-child {
-          margin-bottom: -1px;
-        }
-
-        .fixtureBody:hover {
-          filter: brightness(90%);
-          cursor: pointer;
         }
       }
 
@@ -245,33 +260,45 @@
 
   .fixturesTransitionOpacity-enter {
     opacity: 0%;
+    transition: left 0ms linear;
   }
   .fixturesTransitionOpacity-enter-active {
     opacity: 100%;
-    transition: opacity 200ms ease-in;
+    transition: opacity 200ms ease-in, left 0ms linear;
   }
   .fixturesTransitionOpacity-exit {
     opacity: 100%;
+    transition: left 0ms linear;
   }
   .fixturesTransitionOpacity-exit-active {
     opacity: 0%;
-    transition: opacity 200ms ease-in;
+    transition: opacity 200ms ease-in, left 0ms linear;
   }
 }
 
 @media screen and (max-width: 992px) {
+  .fixturesContainer {
+    margin-top: 0;
+
+    .fixtures {
+      margin-top: 2rem;
+    }
+  }
 }
 
 @media screen and (max-width: 600px) {
   .fixturesContainer {
-    margin-top: 0;
     position: absolute;
+    overflow-y: auto;
+    margin-top: 0;
     height: 100%;
     width: 100%;
 
     .fixtures {
-      top: 6.1rem;
       position: absolute;
+      top: 6.1rem;
+      margin-top: 0;
+      width: 100%;
       height: calc(100% - 6.1rem);
 
       .fixturesHeading {

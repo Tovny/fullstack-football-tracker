@@ -1,3 +1,4 @@
+@use './assets/variables';
 @import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Open+Sans:wght@300&display=swap");
 
 * {
@@ -26,14 +27,35 @@ body {
 
   body {
     overflow-y: auto;
+
+    .container {
+      display: grid;
+      grid-template-columns: auto minmax(auto, 1100px) auto;
+
+      .headerContainer {
+        grid-column-start: 2;
+        width: 100%;
+        background-color: variables.$heading-bg-colour;
+      }
+
+      .contentContainer {
+        grid-column-start: 2;
+        background-color: variables.$heading-bg-colour;
+      }
+    }
   }
 }
 
 @media screen and (max-width: 600px) {
-  .headerContainer {
-    position: absolute;
-    top: 0.25rem;
-    left: 0.5rem;
-    z-index: 10;
+  .container {
+    display: inline !important;
+
+    .headerContainer {
+      position: absolute;
+      width: min-content !important;
+      top: 0.25rem;
+      left: 0.5rem;
+      z-index: 30;
+    }
   }
 }

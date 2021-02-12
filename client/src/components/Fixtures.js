@@ -274,6 +274,49 @@ const LeagueFixtures = (props) => {
     );
   };
 
+  const createFixtures = (arr) => {
+    const fixturesElts = [];
+    let i = 0;
+
+    const innerLoop = () => {
+      const innerFixElts = [];
+      const currentDate = arr[i].info.date;
+      for (i; i <= arr.length - 1; i++) {
+        let fixtureDate = arr[i].info.date;
+        if (fixtureDate !== currentDate) {
+          break;
+        } else {
+          innerFixElts.push(
+            <li key={`li${i}`}>{fixtureBody(arr[i], props.date)}</li>
+          );
+        }
+      }
+      return innerFixElts;
+    };
+
+    if (props.date === "all") {
+      for (i; i <= arr.length - 1; i) {
+        const fixDate = new Date(`${arr[i].info.date}T${arr[i].info.kickOff}Z`);
+        fixturesElts.push(
+          <ul key={`ul${i}`}>
+            <li>
+              <div className="fixturesDate">
+                {fixDate.toDateString() !== "Invalid Date"
+                  ? format(fixDate, "iii, LLL do, yyyy")
+                  : "Date To Be Confirmed"}
+              </div>
+            </li>
+            {innerLoop()}
+          </ul>
+        );
+      }
+      return fixturesElts;
+    } else {
+      const dailyFixtures = <ul>{innerLoop()}</ul>;
+      return dailyFixtures;
+    }
+  };
+
   return props.league ? (
     <div className="leagueFixtures" ref={heightRef} style={{ height: height }}>
       <div className="fixturesHeading">
@@ -317,29 +360,7 @@ const LeagueFixtures = (props) => {
         onEnter={addHeight}
       >
         <div className="fixtureBodies">
-          {props.league.fixtures.map((match, i) => {
-            const date = new Date(`${match.info.date}T${match.info.kickOff}Z`);
-
-            return (props.date === "all" && i === 0) ||
-              (i !== 0 &&
-                match.info.date !== props.league.fixtures[i - 1].info.date) ? (
-              <div key={i}>
-                {(props.date === "all" && i === 0) ||
-                (i !== 0 &&
-                  match.info.date !==
-                    props.league.fixtures[i - 1].info.date) ? (
-                  <div id="date">
-                    {date.toDateString() !== "Invalid Date"
-                      ? format(date, "iii, LLL do, yyyy")
-                      : "Date To Be Confirmed"}
-                  </div>
-                ) : null}
-                {fixtureBody(match, props.date)}
-              </div>
-            ) : (
-              fixtureBody(match, i)
-            );
-          })}
+          {createFixtures(props.league.fixtures)}
         </div>
       </CSSTransition>
     </div>

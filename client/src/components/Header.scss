@@ -2,32 +2,35 @@
 
 .header {
   display: flex;
-  justify-content: center;
+  position: relative;
+  justify-content: space-evenly;
+  border-bottom: 3px solid variables.$accent-colour;
+  transition: opacity 150ms ease-in;
 
   a {
     display: flex;
-    flex-flow: column;
+    flex-flow: row;
     justify-content: center;
     align-items: center;
     color: white;
     text-decoration: none;
-    margin: 1rem;
-    margin-left: 5rem;
-    margin-right: 5rem;
+    margin: 0.5rem 0 0.5rem 0;
     transition: all 0.2s ease-in;
 
     svg {
       width: 2rem;
       height: 2rem;
+      margin-right: 0.5rem;
     }
 
     span {
       font-size: 0.9rem;
+      font-weight: bold;
     }
   }
 
   a:hover {
-    filter: brightness(80%);
+    color: red;
   }
 
   #activePage {
@@ -39,18 +42,25 @@
   .header {
     justify-content: space-evenly;
 
-    h3 {
-      margin: 0.5rem;
+    a {
+      svg {
+        height: 1.5rem;
+        width: 1.5rem;
+      }
     }
   }
 }
 
 @media screen and (max-width: 600px) {
   .header {
+    border-bottom: none;
+    margin-top: 0.5rem;
+
     a {
+      flex-flow: column;
       margin-left: 1rem;
       margin-right: 1rem;
-      margin-top: 0.5rem;
+      margin-top: 0;
 
       svg {
         height: 1.5rem;

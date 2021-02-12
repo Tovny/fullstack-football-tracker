@@ -2,6 +2,7 @@
 
 .tableContainer {
   overflow: hidden;
+  width: 100%;
 
   table {
     background-color: variables.$body-bg-colour;
@@ -43,7 +44,6 @@
 
       th:first-child {
         background: variables.$heading-bg-colour;
-        filter: brightness(90%);
       }
     }
 

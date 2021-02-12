@@ -1,5 +1,6 @@
 import "./DateCarousel.scss";
 import { useState, useEffect, useRef } from "react";
+import ReactDOM from "react-dom";
 import ArrowBack from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForward from "@material-ui/icons/ArrowForwardIosOutlined";
 import CalendarTodaySharpIcon from "@material-ui/icons/CalendarTodaySharp";
@@ -34,10 +35,10 @@ const DateCarousel = (props) => {
   const [changeScrollX, setChangeScrollX] = useState(false);
   const [currentSelectedI, setCurrentSelectedI] = useState(0);
   const sliderULref = useRef(null);
-  const selectedDate = document.getElementById("selectedDate");
   const calendarIconRef = useRef(null);
   const [calendarY, setCalendarY] = useState();
   const isMobile = window.matchMedia("screen and (max-width: 600px)");
+  const selectedDate = document.getElementById("selectedDate");
 
   useEffect(() => {
     if (date === "all") {
@@ -80,7 +81,7 @@ const DateCarousel = (props) => {
   };
 
   useEffect(() => {
-    if (date.toDateString() !== "Invalid Date")
+    if (date !== "all")
       selectorDates.forEach((selectorDate, i) => {
         if (selectorDate.toDateString() === date.toDateString()) {
           setCurrentSelectedI(i);
@@ -163,7 +164,7 @@ const DateCarousel = (props) => {
         behavior: "smooth",
         inline: "center",
       });
-  }, [date, selectedDate]);
+  }, [selectedDate]);
 
   const handleScroll = (direction) => {
     const slider = dateSliderRef.current;
@@ -224,32 +225,35 @@ const DateCarousel = (props) => {
           setOpenCalendar(!openCalendar);
         }}
       />
-      <CSSTransition
-        in={openCalendar}
-        timeout={200}
-        mountOnEnter
-        unmountOnExit
-        classNames="calendarModal"
-        onClick={() => setOpenCalendar(false)}
-      >
-        <div className="calendarModal">
-          <div
-            className="calendar"
-            style={{ top: calendarY }}
-            onClick={(event) => {
-              event.stopPropagation();
-              event.nativeEvent.stopImmediatePropagation();
-            }}
-          >
-            <DatePickerCalendar
-              locale={enGB}
-              date={date !== "all" ? date : new Date()}
-              onDateChange={handleCalendarChange}
-            />
-            <div className="calendarButtons"></div>
+      {ReactDOM.createPortal(
+        <CSSTransition
+          in={openCalendar}
+          timeout={200}
+          mountOnEnter
+          unmountOnExit
+          classNames="calendarModal"
+          onClick={() => setOpenCalendar(false)}
+        >
+          <div className="calendarModal">
+            <div
+              className="calendar"
+              style={{ top: calendarY }}
+              onClick={(event) => {
+                event.stopPropagation();
+                event.nativeEvent.stopImmediatePropagation();
+              }}
+            >
+              <DatePickerCalendar
+                locale={enGB}
+                date={date !== "all" ? date : new Date()}
+                onDateChange={handleCalendarChange}
+              />
+              <div className="calendarButtons"></div>
+            </div>
           </div>
-        </div>
-      </CSSTransition>
+        </CSSTransition>,
+        document.getElementById("root")
+      )}
     </div>
   );
 };

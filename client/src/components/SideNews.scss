@@ -13,7 +13,6 @@
 
   .newsLinkContainer {
     text-align: center;
-    padding: 0.2rem;
     padding-bottom: 0.5rem;
 
     a {
@@ -32,10 +31,7 @@
     display: grid;
     grid-template-columns: auto auto;
     background: variables.$body-bg-colour;
-    margin: 0.2rem;
     margin-bottom: 0.2rem;
-    margin-left: 0.5rem;
-    margin-right: 0.5rem;
     cursor: pointer;
     transition: 0.15s filter ease-in;
 

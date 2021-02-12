@@ -1,5 +1,5 @@
 import "./SideTable.scss";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect } from "react";
 import x_auth from "../config/default";
 import ArrowBack from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForward from "@material-ui/icons/ArrowForwardIosOutlined";
@@ -7,12 +7,11 @@ import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
 import getTables from "../redux/actions/table-actions";
 
-const SideTable = ({ setWidth }) => {
+const SideTable = () => {
   const dispatch = useDispatch();
   const tables = useSelector((state) => state.tables);
   const [selectedTable, setSelectedTable] = useState(0);
   const [direction, setDirection] = useState("tableTransitionRight");
-  const tableRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -25,12 +24,6 @@ const SideTable = ({ setWidth }) => {
       dispatch(getTables(data));
     })();
   }, [dispatch]);
-
-  useEffect(() => {
-    const child = tableRef.current;
-
-    if (child) setWidth({ width: child.getBoundingClientRect().width });
-  }, [setWidth, tables]);
 
   const changeTable = (num) => {
     if (selectedTable + num >= 0 && selectedTable + num < tables.length) {
@@ -53,7 +46,7 @@ const SideTable = ({ setWidth }) => {
             }
             classNames={direction}
           >
-            <table ref={tableRef}>
+            <table>
               <thead>
                 <tr>
                   <th colSpan="2">

@@ -1,6 +1,8 @@
+@use '../assets/variables';
+
 .fixturesLayout {
   display: grid;
-  grid-template-columns: repeat(3, 1fr);
+  grid-template-columns: auto minmax(350px, auto) 300px;
 
   .filterContainer {
     display: flex;
@@ -20,7 +22,12 @@
 @media screen and (max-width: 992px) {
   .fixturesLayout {
     display: grid;
-    grid-template-columns: auto auto;
+    grid-template-columns: min-content auto;
+
+    .filterContainer {
+      margin-top: 0;
+    }
+
     .tableAndNewsContainer {
       display: none;
     }
