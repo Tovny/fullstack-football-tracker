@@ -42,194 +42,214 @@
   }
 
   .fixtures {
+    position: relative;
+    display: flex;
     transition: left 100ms linear;
 
-    .leagueFixtures {
-      overflow: hidden;
-      position: relative;
-      transition: all 250ms ease-in;
+    #loadingIconLeft,
+    #loadingIconRight {
+      position: absolute;
+      width: 100%;
+    }
 
-      .fixturesHeading {
-        display: flex;
-        align-items: center;
-        background: variables.$heading-bg-colour;
-        color: variables.$heading-text-colour;
+    #loadingIconLeft {
+      left: -100%;
+    }
+
+    #loadingIconRight {
+      right: -100%;
+    }
+
+    .leagueFixturesContainer {
+      width: 100%;
+
+      .leagueFixtures {
+        overflow: hidden;
         position: relative;
-        z-index: 5;
-        font-size: 0.75rem;
+        transition: all 250ms ease-in;
 
-        .leagueLogoContainer {
-          width: 2.5rem;
-          height: 2.5rem;
+        .fixturesHeading {
           display: flex;
-          margin-left: 0.5rem;
-          margin-right: 0.5rem;
+          align-items: center;
+          background: variables.$heading-bg-colour;
+          color: variables.$heading-text-colour;
+          position: relative;
+          z-index: 5;
+          font-size: 0.75rem;
 
-          #leagueLogo {
-            height: 80%;
-            width: auto;
-            margin: auto;
+          .leagueLogoContainer {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
+
+            #leagueLogo {
+              height: 80%;
+              width: auto;
+              margin: auto;
+            }
+          }
+
+          h3 {
+            letter-spacing: 0.25rem;
           }
         }
 
-        h3 {
-          letter-spacing: 0.25rem;
-        }
-      }
+        .fixtureBodies {
+          ul {
+            padding: 0;
+            margin: 0;
 
-      .fixtureBodies {
-        ul {
-          padding: 0;
-          margin: 0;
+            li {
+              list-style: none;
 
-          li {
-            list-style: none;
+              .fixturesDate {
+                background-color: variables.$body-bg-colour;
+                text-align: center;
+                font-size: 1rem;
+                font-weight: bold;
+                color: white;
+                padding: 0.5rem 0 0.5rem 0;
+                filter: brightness(90%);
+              }
 
-            .fixturesDate {
-              background-color: variables.$body-bg-colour;
-              text-align: center;
-              font-size: 1rem;
-              font-weight: bold;
-              color: white;
-              padding: 0.5rem 0 0.5rem 0;
-              filter: brightness(90%);
-            }
-
-            .fixtureBody {
-              background: variables.$body-bg-colour;
-              display: grid;
-              grid-template-rows: auto auto;
-              grid-template-columns: 5fr 1fr 5fr;
-              align-items: center;
-              font-weight: 630;
-              letter-spacing: 0.05rem;
-              border-top: 1px solid variables.$accent-colour;
-              transition: filter 0.1s ease-in;
-
-              #home,
-              #away {
-                display: flex;
-                flex-direction: row;
+              .fixtureBody {
+                background: variables.$body-bg-colour;
+                display: grid;
+                grid-template-rows: auto auto;
+                grid-template-columns: 5fr 1fr 5fr;
                 align-items: center;
-                text-transform: capitalize;
-              }
+                font-weight: 630;
+                letter-spacing: 0.05rem;
+                border-top: 1px solid variables.$accent-colour;
+                transition: filter 0.1s ease-in;
 
-              #home {
-                justify-content: flex-end;
-              }
+                #home,
+                #away {
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  text-transform: capitalize;
+                }
 
-              #away {
-                justify-content: flex-start;
-              }
+                #home {
+                  justify-content: flex-end;
+                }
 
-              #crest {
-                height: 1.5rem;
-                width: 1.5rem;
-                margin: 0.5rem;
-              }
+                #away {
+                  justify-content: flex-start;
+                }
 
-              #scoreContainer {
-                display: flex;
-                flex-flow: row;
-                justify-content: center;
+                #crest {
+                  height: 1.5rem;
+                  width: 1.5rem;
+                  margin: 0.5rem;
+                }
 
-                #score {
-                  background: variables.$accent-important-colour;
-                  color: white;
+                #scoreContainer {
+                  display: flex;
+                  flex-flow: row;
+                  justify-content: center;
+
+                  #score {
+                    background: variables.$accent-important-colour;
+                    color: white;
+                    margin: 0.05rem;
+                    font-weight: bold;
+                    font-size: 1rem;
+                    padding: 0.35rem;
+                    padding-left: 0.5rem;
+                    padding-right: 0.5rem;
+                  }
+                }
+
+                #kickOff {
+                  text-align: center;
                   margin: 0.05rem;
-                  font-weight: bold;
-                  font-size: 1rem;
-                  padding: 0.35rem;
-                  padding-left: 0.5rem;
-                  padding-right: 0.5rem;
+                  font-size: 0.9rem;
+                  font-weight: 650;
+                  letter-spacing: 0.15rem;
                 }
               }
 
-              #kickOff {
+              #date {
+                grid-column: span 3;
                 text-align: center;
-                margin: 0.05rem;
                 font-size: 0.9rem;
-                font-weight: 650;
-                letter-spacing: 0.15rem;
+                font-weight: bold;
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+                background-color: variables.$heading-bg-colour;
+                color: variables.$heading-text-colour;
               }
-            }
 
-            #date {
-              grid-column: span 3;
-              text-align: center;
-              font-size: 0.9rem;
-              font-weight: bold;
-              padding-top: 0.5rem;
-              padding-bottom: 0.5rem;
-              background-color: variables.$heading-bg-colour;
-              color: variables.$heading-text-colour;
-            }
+              .fixtureBody:first-child {
+                border-top: none;
+              }
 
-            .fixtureBody:first-child {
-              border-top: none;
-            }
+              .fixtureBody:last-child {
+                margin-bottom: -1px;
+              }
 
-            .fixtureBody:last-child {
-              margin-bottom: -1px;
-            }
-
-            .fixtureBody:hover {
-              filter: brightness(90%);
-              cursor: pointer;
+              .fixtureBody:hover {
+                filter: brightness(90%);
+                cursor: pointer;
+              }
             }
           }
         }
+
+        .innerFixturesTransition-enter {
+          transform: translateY(-100%);
+          position: relative;
+          z-index: 1;
+        }
+        .innerFixturesTransition-enter-active {
+          transform: translateY(0);
+          transition: transform 250ms ease-in;
+          position: relative;
+          z-index: 1;
+        }
+        .innerFixturesTransition-exit {
+          transform: translateY(0);
+          position: relative;
+          z-index: 1;
+        }
+        .innerFixturesTransition-exit-active {
+          transform: translateY(-100%);
+          transition: transform 250ms ease-in;
+          position: relative;
+          z-index: 1;
+        }
       }
 
-      .innerFixturesTransition-enter {
-        transform: translateY(-100%);
-        position: relative;
-        z-index: 1;
-      }
-      .innerFixturesTransition-enter-active {
-        transform: translateY(0);
-        transition: transform 250ms ease-in;
-        position: relative;
-        z-index: 1;
-      }
-      .innerFixturesTransition-exit {
-        transform: translateY(0);
-        position: relative;
-        z-index: 1;
-      }
-      .innerFixturesTransition-exit-active {
-        transform: translateY(-100%);
-        transition: transform 250ms ease-in;
-        position: relative;
-        z-index: 1;
-      }
-    }
-
-    .leagueFixtures:last-child {
-      border-bottom: none;
-    }
-
-    .noFixtures {
-      display: flex;
-      flex-flow: column;
-      align-items: center;
-
-      img {
-        width: 40%;
-        opacity: 40%;
+      .leagueFixtures:last-child {
+        border-bottom: none;
       }
 
-      h3 {
-        color: rgba(0, 0, 0, 0.6);
-        font-size: 1.2rem;
-        letter-spacing: 0.2rem;
-        margin: 0;
+      .noFixtures {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+
+        img {
+          width: 40%;
+          opacity: 40%;
+        }
+
+        h3 {
+          color: rgba(0, 0, 0, 0.6);
+          font-size: 1.2rem;
+          letter-spacing: 0.2rem;
+          margin: 0;
+        }
       }
     }
   }
 
   .fixturesTransitionRight-enter {
-    transform: translate(110%);
+    transform: translate(100%);
   }
   .fixturesTransitionRight-enter-active {
     transform: translate(0);
@@ -244,7 +264,7 @@
   }
 
   .fixturesTransitionLeft-enter {
-    transform: translate(-110%);
+    transform: translate(-100%);
   }
   .fixturesTransitionLeft-enter-active {
     transform: translate(0);
@@ -264,7 +284,7 @@
   }
   .fixturesTransitionOpacity-enter-active {
     opacity: 100%;
-    transition: opacity 200ms ease-in, left 0ms linear;
+    transition: opacity 250ms ease-in, left 0ms linear;
   }
   .fixturesTransitionOpacity-exit {
     opacity: 100%;
@@ -272,7 +292,7 @@
   }
   .fixturesTransitionOpacity-exit-active {
     opacity: 0%;
-    transition: opacity 200ms ease-in, left 0ms linear;
+    transition: opacity 250ms ease-in, left 0ms linear;
   }
 }
 

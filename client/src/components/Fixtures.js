@@ -27,6 +27,7 @@ const Fixtures = () => {
   const [causeRerender, setCauseRerender] = useState(false);
   const [xPos, setXPos] = useState(0);
   const selectedDate = document.getElementById("selectedDate");
+  const fixturesContainer = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -39,6 +40,8 @@ const Fixtures = () => {
 
       if (dateString === "all") {
         setDirection("fixturesTransitionOpacity");
+        setFixtureElements(null);
+        setCauseRerender(!causeRerender);
       }
 
       if (dateString) filterString = filterString + `&date=${dateString}`;
@@ -58,11 +61,14 @@ const Fixtures = () => {
       const data = await res.json();
       dispatch(setFixtures(data));
     })();
-  }, [date, league, team, hometeam, awayteam, matchday, status, dispatch]);
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [date, league, team, hometeam, awayteam, matchday, status]);
 
   useEffect(() => {
     if (fixtures) {
       const temp = [];
+
       fixtures.forEach((league) => {
         temp.push(
           <LeagueFixtures league={league} date={date} key={league.league} />
@@ -77,6 +83,7 @@ const Fixtures = () => {
         );
       setFixtureElements(temp);
       setXPos(0);
+      setDirection("fixturesTransitionOpacity");
       setCauseRerender(!causeRerender);
     }
 
@@ -111,7 +118,7 @@ const Fixtures = () => {
       let secondPos = 0;
       let finalPos;
 
-      const element = event.target;
+      let element = event.target;
 
       element.ontouchmove = (event) => {
         secondPos = event.touches[0].clientX;
@@ -123,7 +130,9 @@ const Fixtures = () => {
         element.ontouchmove = null;
         element.ontouchend = null;
 
-        const eltRect = element.getBoundingClientRect();
+        let eltRect;
+        if (fixturesContainer.current)
+          eltRect = fixturesContainer.current.getBoundingClientRect();
 
         if (finalPos === 0 || !finalPos) {
           return;
@@ -133,7 +142,7 @@ const Fixtures = () => {
             if (-eltRect.width / 2 < finalPos) {
               setXPos(0);
             } else {
-              setXPos(-750);
+              setXPos(-eltRect.width || -750);
               let newFixDate;
               if (date !== "all") {
                 newFixDate = new Date(date);
@@ -148,7 +157,7 @@ const Fixtures = () => {
             if (eltRect.width / 2 > finalPos) {
               setXPos(0);
             } else {
-              setXPos(750);
+              setXPos(eltRect.width || 750);
               let newFixDate;
               if (date !== "all") {
                 newFixDate = new Date(date);
@@ -181,16 +190,24 @@ const Fixtures = () => {
           unmountOnExit
           style={{ left: xPos }}
         >
-          <div
-            className="fixtures"
-            onTouchStart={handleTouchMove}
-            onScroll={() => console.log("scroll")}
-          >
+          <div className="fixtures" onTouchStart={handleTouchMove}>
             {fixtureElements ? (
-              fixtureElements
-            ) : (
-              <div className="loadingIcon"></div>
-            )}
+              <div id="loadingIconLeft">
+                <div className="loadingIcon"></div>
+              </div>
+            ) : null}
+            <div className="leagueFixturesContainer" ref={fixturesContainer}>
+              {fixtureElements ? (
+                fixtureElements
+              ) : (
+                <div className="loadingIcon"></div>
+              )}
+            </div>
+            {fixtureElements ? (
+              <div id="loadingIconRight">
+                <div className="loadingIcon"></div>
+              </div>
+            ) : null}
           </div>
         </CSSTransition>
       </SwitchTransition>
