@@ -8,25 +8,31 @@
     display: flex;
     flex-flow: column;
     align-items: flex-end;
-    margin: 0.5rem;
+    padding: 0.5rem;
+    background-color: variables.$body-bg-dark;
   }
 
   .tableAndNewsContainer {
     display: flex;
     flex-flow: column;
-    margin: 0.5rem;
-    padding: 0;
+    padding: 0.5rem;
+    background-color: variables.$body-bg-dark;
   }
 }
 
 @media screen and (max-width: 992px) {
   .fixturesLayout {
     display: grid;
+    position: absolute;
     grid-template-columns: min-content auto;
+    width: 100%;
+    min-height: calc(100% - 2.75rem);
 
     .filterContainer {
       margin-top: 0;
+      padding: 0;
       width: 200px;
+      height: 100%;
     }
 
     .tableAndNewsContainer {
@@ -39,14 +45,13 @@
   .fixturesLayout {
     display: flex;
     flex-flow: column;
+    align-items: stretch;
+    height: 100%;
 
     .filterContainer {
       position: absolute;
-      width: 100%;
-      height: 100%;
-      top: 0;
-      left: 0;
-      margin: 0;
+      right: 0;
+      background-color: transparent;
     }
 
     .tableAndNewsContainer {

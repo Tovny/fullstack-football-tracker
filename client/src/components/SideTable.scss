@@ -48,25 +48,32 @@
     }
 
     tbody {
-      td {
-        padding-right: 0.3rem;
-        padding-bottom: 0.1rem;
-        text-align: center;
+      tr {
         border-bottom: 1px solid variables.$accent-colour;
+
+        td {
+          padding-right: 0.3rem;
+          padding-bottom: 0.1rem;
+          text-align: center;
+        }
+
+        #position {
+          text-align: right;
+          font-weight: bold;
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+        }
+
+        #club {
+          text-transform: capitalize;
+          text-align: left;
+          padding-right: 1rem;
+          width: 13rem;
+        }
       }
 
-      #position {
-        text-align: right;
-        font-weight: bold;
-        padding-left: 0.5rem;
-        padding-right: 0.5rem;
-      }
-
-      #club {
-        text-transform: capitalize;
-        text-align: left;
-        padding-right: 1rem;
-        width: 13rem;
+      tr:last-child {
+        border: none;
       }
     }
   }

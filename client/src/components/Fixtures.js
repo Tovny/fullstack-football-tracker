@@ -27,7 +27,7 @@ const Fixtures = () => {
   const [causeRerender, setCauseRerender] = useState(false);
   const [xPos, setXPos] = useState(0);
   const selectedDate = document.getElementById("selectedDate");
-  const fixturesContainer = useRef(null);
+  const fixturesContainerRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -42,6 +42,9 @@ const Fixtures = () => {
         setDirection("fixturesTransitionOpacity");
         setFixtureElements(null);
         setCauseRerender(!causeRerender);
+        await new Promise((resolve) => {
+          setTimeout(resolve, 250);
+        });
       }
 
       if (dateString) filterString = filterString + `&date=${dateString}`;
@@ -131,8 +134,8 @@ const Fixtures = () => {
         element.ontouchend = null;
 
         let eltRect;
-        if (fixturesContainer.current)
-          eltRect = fixturesContainer.current.getBoundingClientRect();
+        if (fixturesContainerRef.current)
+          eltRect = fixturesContainerRef.current.getBoundingClientRect();
 
         if (finalPos === 0 || !finalPos) {
           return;
@@ -196,7 +199,7 @@ const Fixtures = () => {
                 <div className="loadingIcon"></div>
               </div>
             ) : null}
-            <div className="leagueFixturesContainer" ref={fixturesContainer}>
+            <div className="leagueFixturesContainer" ref={fixturesContainerRef}>
               {fixtureElements ? (
                 fixtureElements
               ) : (

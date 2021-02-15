@@ -84,14 +84,14 @@
   z-index: 15;
   position: absolute;
   width: 100%;
-  height: 100%;
+  min-height: 100%;
   right: 0;
   top: 0;
   background-color: variables.$modal-bg-colour;
 
   .calendar {
     display: flex;
-    width: 35%;
+    width: 500px;
     position: relative;
     left: 50%;
     top: 15%;
@@ -145,14 +145,17 @@
       overflow-x: scroll;
     }
   }
+
+  .calendarModal {
+    z-index: 30;
+  }
 }
 
 @media screen and (max-width: 600px) {
   .datePickerContainer {
+    position: fixed;
     display: grid;
     grid-template-rows: auto auto;
-    position: fixed;
-    z-index: 25;
 
     #sliderLeft,
     #sliderRight {
@@ -191,7 +194,6 @@
     overflow: hidden !important;
     display: flex;
     align-items: center;
-    z-index: 30;
 
     .calendar {
       width: 90%;

@@ -2,8 +2,8 @@
 
 .fixturesContainer {
   display: flex;
-  overflow: hidden;
   flex-flow: column;
+  overflow: hidden;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 
@@ -62,10 +62,12 @@
 
     .leagueFixturesContainer {
       width: 100%;
+      padding-left: 0.5rem;
+      padding-right: 0.5rem;
 
       .leagueFixtures {
-        overflow: hidden;
         position: relative;
+        overflow-y: hidden;
         transition: all 250ms ease-in;
 
         .fixturesHeading {
@@ -107,7 +109,7 @@
               .fixturesDate {
                 background-color: variables.$body-bg-colour;
                 text-align: center;
-                font-size: 1rem;
+                font-size: 0.8rem;
                 font-weight: bold;
                 color: white;
                 padding: 0.5rem 0 0.5rem 0;
@@ -299,70 +301,71 @@
 @media screen and (max-width: 992px) {
   .fixturesContainer {
     margin-top: 0;
+    margin-bottom: 0;
+    background-color: variables.$heading-bg-colour;
 
     .fixtures {
       margin-top: 2rem;
+      height: 100%;
     }
   }
 }
 
 @media screen and (max-width: 600px) {
   .fixturesContainer {
-    position: absolute;
-    overflow-y: auto;
-    margin-top: 0;
     height: 100%;
-    width: 100%;
+    overflow-y: auto;
 
     .fixtures {
-      position: absolute;
-      top: 6.1rem;
-      margin-top: 0;
-      width: 100%;
-      height: calc(100% - 6.1rem);
+      margin-top: 6.1rem;
 
-      .fixturesHeading {
-        .leagueLogoContainer {
-          width: 2.5rem !important;
-          height: 2.5rem !important;
-          display: flex;
-          margin-left: 0.3rem !important;
-          margin-right: 0.3rem !important;
+      .leagueFixturesContainer {
+        padding-left: 0;
+        padding-right: 0;
 
-          #leagueLogo {
-            height: 95% !important;
-            width: auto;
-            margin: auto;
+        .fixturesHeading {
+          .leagueLogoContainer {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            margin-left: 0.3rem;
+            margin-right: 0.3rem;
+
+            #leagueLogo {
+              height: 95%;
+              width: auto;
+              margin: auto;
+            }
+          }
+          h3 {
+            font-size: 0.8rem;
           }
         }
-        h3 {
-          font-size: 0.8rem;
-        }
-      }
 
-      .fixtureBodies {
-        .fixtureBody {
-          #home,
-          #away {
-            font-size: 0.75rem;
-          }
-          #kickOff {
-            font-size: 0.75rem;
-          }
+        .fixtureBodies {
+          .fixtureBody {
+            #home,
+            #away {
+              font-size: 0.75rem;
+            }
+            #kickOff {
+              font-size: 0.75rem;
+            }
 
-          #score {
-            font-size: 1rem !important;
-            padding-left: 0.35rem !important;
-            padding-right: 0.35rem !important;
-          }
+            #score {
+              font-size: 1rem;
+              padding-left: 0.35rem;
+              padding-right: 0.35rem;
+            }
 
-          #crest {
-            height: 1.35rem !important;
-            width: 1.35rem !important;
-          }
+            #crest {
+              height: 1.35rem;
+              width: 1.35rem;
+            }
 
-          #date {
-            font-size: 0.7rem !important;
+            #date {
+              font-size: 0.7rem;
+            }
           }
         }
       }
