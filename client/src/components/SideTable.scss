@@ -5,19 +5,16 @@
   width: 100%;
 
   table {
-    background-color: variables.$body-bg-colour;
     letter-spacing: 0.01rem;
     border-collapse: collapse;
 
     thead {
       background: variables.$heading-bg-colour;
-      padding: 0;
-      margin: 0;
+      color: variables.$heading-text-colour;
 
       th {
-        padding: 0.3rem;
-        padding-top: 0.4rem;
-        padding-bottom: 0.4rem;
+        padding: 0.5rem;
+        border: 2px solid variables.$heading-bg-colour;
 
         #leagueHeading {
           display: grid;
@@ -49,7 +46,8 @@
 
     tbody {
       tr {
-        border-bottom: 1px solid variables.$accent-colour;
+        border: 2px solid variables.$heading-bg-colour;
+        border-top: none;
 
         td {
           padding-right: 0.3rem;
@@ -71,40 +69,52 @@
           width: 13rem;
         }
       }
-
-      tr:last-child {
-        border: none;
-      }
     }
   }
 }
 
 .tableTransitionRight-enter {
   transform: translate(110%);
+  -webkit-transform: translate(110%);
+  -moz-transform: translate(110%);
 }
 .tableTransitionRight-enter-active {
   transform: translate(0);
+  -webkit-transform: translate(0);
+  -moz-transform: translate(0);
   transition: transform 250ms ease-in;
 }
 .tableTransitionRight-exit {
   transform: translate(0);
+  -webkit-transform: translate(0);
+  -moz-transform: translate(0);
 }
 .tableTransitionRight-exit-active {
   transform: translate(-110%);
+  -webkit-transform: translate(-110%);
+  -moz-transform: translate(-110%);
   transition: transform 250ms ease-in;
 }
 
 .tableTransitionLeft-enter {
   transform: translate(-110%);
+  -webkit-transform: translate(-110%);
+  -moz-transform: translate(-110%);
 }
 .tableTransitionLeft-enter-active {
   transform: translate(0);
+  -webkit-transform: translate(0);
+  -moz-transform: translate(0);
   transition: transform 250ms ease-in;
 }
 .tableTransitionLeft-exit {
   transform: translate(0);
+  -webkit-transform: translate(0);
+  -moz-transform: translate(0);
 }
 .tableTransitionLeft-exit-active {
   transform: translate(110%);
+  -webkit-transform: translate(110%);
+  -moz-transform: translate(110%);
   transition: transform 250ms ease-in;
 }

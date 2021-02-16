@@ -8,51 +8,43 @@
 
 html,
 body {
-  background-image: radial-gradient(
-      circle,
-      rgb(5, 66, 197, 0.9) 0%,
-      rgba(7, 70, 165, 0.9) 60%,
-      rgba(7, 6, 6, 0.788) 100%
-    ),
-    url("/assets/crowd-background.jpg");
-  background-size: cover;
-  height: 100%;
-  width: 100%;
-  overflow-y: hidden;
-  position: relative;
+  background: variables.$bg-colour;
+  background-blend-mode: multiply;
+  background-repeat: no-repeat;
   font-family: "Montserrat", sans-serif;
   font-family: "Open Sans", sans-serif;
   font-size: 0.85rem;
+  font-weight: bold;
   letter-spacing: 0.1rem;
+  color: variables.$heading-bg-colour;
 
   body {
-    overflow-y: auto;
-
     .container {
       display: grid;
       grid-template-columns: auto minmax(auto, 1100px) auto;
-      margin-top: 2.5rem;
 
       .headerContainer {
         grid-column-start: 2;
         width: 100%;
-        background-color: variables.$heading-bg-colour;
       }
 
       .contentContainer {
         grid-column-start: 2;
-        background-color: variables.$heading-bg-colour;
       }
     }
   }
+}
+
+.noScroll {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
 }
 
 @media screen and (max-width: 992px) {
   html,
   body {
     #root {
-      height: 100%;
-
       .container {
         display: flex;
         flex-flow: column;
@@ -83,7 +75,6 @@ body {
     }
 
     .contentContainer {
-      position: absolute;
       top: 0;
       padding-top: 0 !important;
       min-height: 100% !important;

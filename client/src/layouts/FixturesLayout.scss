@@ -3,20 +3,21 @@
 .fixturesLayout {
   display: grid;
   grid-template-columns: auto minmax(350px, auto) 300px;
+  border-top: 10px solid variables.$heading-bg-colour;
 
   .filterContainer {
     display: flex;
     flex-flow: column;
     align-items: flex-end;
     padding: 0.5rem;
-    background-color: variables.$body-bg-dark;
+    border-right: 5px solid variables.$heading-bg-colour;
   }
 
   .tableAndNewsContainer {
     display: flex;
     flex-flow: column;
     padding: 0.5rem;
-    background-color: variables.$body-bg-dark;
+    border-left: 5px solid variables.$heading-bg-colour;
   }
 }
 
@@ -50,7 +51,9 @@
 
     .filterContainer {
       position: absolute;
-      right: 0;
+      right: 3.5rem;
+      width: auto;
+      height: auto;
       background-color: transparent;
     }
 

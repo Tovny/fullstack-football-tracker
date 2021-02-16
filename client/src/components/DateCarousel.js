@@ -36,8 +36,6 @@ const DateCarousel = (props) => {
   const [currentSelectedI, setCurrentSelectedI] = useState(0);
   const sliderULref = useRef(null);
   const calendarIconRef = useRef(null);
-  const [calendarY, setCalendarY] = useState();
-  const isMobile = window.matchMedia("screen and (max-width: 600px)");
   const selectedDate = document.getElementById("selectedDate");
 
   useEffect(() => {
@@ -180,13 +178,15 @@ const DateCarousel = (props) => {
   };
 
   useEffect(() => {
-    if (calendarIconRef.current) {
-      const yPos =
-        calendarIconRef.current.getBoundingClientRect().y +
-        (isMobile.matches ? 56 : 48);
-      setCalendarY(yPos);
+    if (openCalendar) {
+      document.getElementsByTagName("html")[0].scrollTop = 0;
+      document.getElementsByTagName("html")[0].className = "noScroll";
+      document.getElementsByTagName("body")[0].className = "noScroll";
+    } else {
+      document.getElementsByTagName("html")[0].classList.remove("noScroll");
+      document.getElementsByTagName("body")[0].classList.remove("noScroll");
     }
-  }, [isMobile]);
+  }, [openCalendar]);
 
   return (
     <div className="datePickerContainer">
@@ -237,7 +237,6 @@ const DateCarousel = (props) => {
           <div className="calendarModal">
             <div
               className="calendar"
-              style={{ top: calendarY }}
               onClick={(event) => {
                 event.stopPropagation();
                 event.nativeEvent.stopImmediatePropagation();

@@ -38,7 +38,10 @@ const Fixtures = () => {
 
       let filterString = "?";
 
-      if (dateString === "all") {
+      if (
+        dateString === "all" ||
+        document.getElementsByClassName("fixturesDate")[0]
+      ) {
         setDirection("fixturesTransitionOpacity");
         setFixtureElements(null);
         setCauseRerender(!causeRerender);

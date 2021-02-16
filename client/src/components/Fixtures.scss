@@ -4,8 +4,9 @@
   display: flex;
   flex-flow: column;
   overflow: hidden;
-  margin-top: 0.5rem;
-  margin-bottom: 0.5rem;
+  margin-top: -0.1rem;
+  border-top: 0.6rem solid variables.$heading-bg-colour;
+  background-color: variables.$heading-bg-colour;
 
   .loadingIcon {
     width: 1.5rem;
@@ -62,19 +63,19 @@
 
     .leagueFixturesContainer {
       width: 100%;
-      padding-left: 0.5rem;
-      padding-right: 0.5rem;
+      border-top: 5px solid variables.$heading-bg-colour;
 
       .leagueFixtures {
         position: relative;
         overflow-y: hidden;
         transition: all 250ms ease-in;
+        margin-bottom: 5px;
 
         .fixturesHeading {
           display: flex;
           align-items: center;
-          background: variables.$heading-bg-colour;
-          color: variables.$heading-text-colour;
+          background: variables.$heading-text-colour;
+          color: variables.$heading-bg-colour;
           position: relative;
           z-index: 5;
           font-size: 0.75rem;
@@ -105,27 +106,26 @@
 
             li {
               list-style: none;
+              color: variables.$heading-text-colour;
+              background-color: variables.$fixture-body-bg;
 
               .fixturesDate {
-                background-color: variables.$body-bg-colour;
                 text-align: center;
                 font-size: 0.8rem;
                 font-weight: bold;
-                color: white;
+                background-color: variables.$heading-bg-colour;
+                color: variables.$heading-text-colour;
                 padding: 0.5rem 0 0.5rem 0;
-                filter: brightness(90%);
               }
 
               .fixtureBody {
-                background: variables.$body-bg-colour;
                 display: grid;
                 grid-template-rows: auto auto;
                 grid-template-columns: 5fr 1fr 5fr;
                 align-items: center;
                 font-weight: 630;
                 letter-spacing: 0.05rem;
-                border-top: 1px solid variables.$accent-colour;
-                transition: filter 0.1s ease-in;
+                transition: color 150ms ease-in, background-color 150ms ease-in;
 
                 #home,
                 #away {
@@ -155,8 +155,8 @@
                   justify-content: center;
 
                   #score {
-                    background: variables.$accent-important-colour;
-                    color: white;
+                    background: variables.$heading-bg-colour;
+                    color: variables.$heading-text-colour;
                     margin: 0.05rem;
                     font-weight: bold;
                     font-size: 1rem;
@@ -186,16 +186,9 @@
                 color: variables.$heading-text-colour;
               }
 
-              .fixtureBody:first-child {
-                border-top: none;
-              }
-
-              .fixtureBody:last-child {
-                margin-bottom: -1px;
-              }
-
               .fixtureBody:hover {
-                filter: brightness(90%);
+                background-color: variables.$fixture-body-bg-light;
+                color: variables.$heading-bg-colour;
                 cursor: pointer;
               }
             }
@@ -204,30 +197,34 @@
 
         .innerFixturesTransition-enter {
           transform: translateY(-100%);
+          -webkit-transform: translateY(-100%);
+          -moz-transform: translateY(-100%);
           position: relative;
           z-index: 1;
         }
         .innerFixturesTransition-enter-active {
           transform: translateY(0);
+          -webkit-transform: translateY(0);
+          -moz-transform: translateY(0);
           transition: transform 250ms ease-in;
           position: relative;
           z-index: 1;
         }
         .innerFixturesTransition-exit {
           transform: translateY(0);
+          -webkit-transform: translateY(0);
+          -moz-transform: translateY(0);
           position: relative;
           z-index: 1;
         }
         .innerFixturesTransition-exit-active {
           transform: translateY(-100%);
+          -webkit-transform: translateY(-100%);
+          -moz-transform: translateY(-100%);
           transition: transform 250ms ease-in;
           position: relative;
           z-index: 1;
         }
-      }
-
-      .leagueFixtures:last-child {
-        border-bottom: none;
       }
 
       .noFixtures {
@@ -237,11 +234,10 @@
 
         img {
           width: 40%;
-          opacity: 40%;
         }
 
         h3 {
-          color: rgba(0, 0, 0, 0.6);
+          color: rgba(0, 0, 0, 1);
           font-size: 1.2rem;
           letter-spacing: 0.2rem;
           margin: 0;
@@ -252,31 +248,47 @@
 
   .fixturesTransitionRight-enter {
     transform: translate(100%);
+    -webkit-transform: translate(100%);
+    -moz-transform: translate(100%);
   }
   .fixturesTransitionRight-enter-active {
     transform: translate(0);
+    -webkit-transform: translate(0);
+    -moz-transform: translate(0);
     transition: transform 200ms ease-in;
   }
   .fixturesTransitionRight-exit {
     transform: translate(0);
+    -webkit-transform: translate(0);
+    -moz-transform: translate(0);
   }
   .fixturesTransitionRight-exit-active {
     transform: translate(-110%);
+    -webkit-transform: translate(-110%);
+    -moz-transform: translate(-110%);
     transition: transform 200ms ease-in;
   }
 
   .fixturesTransitionLeft-enter {
     transform: translate(-100%);
+    -webkit-transform: translate(-100%);
+    -moz-transform: translate(-100%);
   }
   .fixturesTransitionLeft-enter-active {
     transform: translate(0);
+    -webkit-transform: translate(0);
+    -moz-transform: translate(0);
     transition: transform 200ms ease-in;
   }
   .fixturesTransitionLeft-exit {
     transform: translate(0);
+    -webkit-transform: translate(0);
+    -moz-transform: translate(0);
   }
   .fixturesTransitionLeft-exit-active {
     transform: translate(110%);
+    -webkit-transform: translate(110%);
+    -moz-transform: translate(110%);
     transition: transform 200ms ease-in;
   }
 
@@ -303,6 +315,7 @@
     margin-top: 0;
     margin-bottom: 0;
     background-color: variables.$heading-bg-colour;
+    border-top: none;
 
     .fixtures {
       margin-top: 2rem;

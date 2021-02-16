@@ -6,18 +6,27 @@ import TableChartIcon from "@material-ui/icons/TableChart";
 const Header = () => {
   return (
     <div className="header">
-      <a href="news">
-        <AnnouncementIcon />
-        <span>News</span>
-      </a>
-      <a id="activePage" href="fixtures">
-        <SportsSoccerIcon />
-        <span>Fixtures</span>
-      </a>
-      <a href="tables">
-        <TableChartIcon />
-        <span>Tables</span>
-      </a>
+      <ul>
+        <li>
+          <a href="news">
+            <AnnouncementIcon />
+            <span>NEWS</span>
+          </a>
+        </li>
+
+        <li id="activePage">
+          <a href="fixtures">
+            <SportsSoccerIcon />
+            <span>FIXTURES</span>
+          </a>
+        </li>
+        <li>
+          <a href="tables">
+            <TableChartIcon />
+            <span>TABLES</span>
+          </a>
+        </li>
+      </ul>
     </div>
   );
 };
