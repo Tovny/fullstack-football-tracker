@@ -37,15 +37,14 @@ const DateCarousel = (props) => {
   const sliderULref = useRef(null);
   const calendarIconRef = useRef(null);
   const selectedDate = document.getElementById("selectedDate");
+  const [calendarStyle, setCalendarStyle] = useState();
 
   useEffect(() => {
     if (date === "all") {
       if (selectedDateRef.current) {
         selectedDateRef.current.removeAttribute("id");
       }
-    }
-
-    if (isToday(date) && !selectorDates.includes(date))
+    } else if (isToday(date) && !selectorDates.includes(date))
       setCarouselDate(new Date(date));
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
@@ -186,6 +185,17 @@ const DateCarousel = (props) => {
       document.getElementsByTagName("html")[0].classList.remove("noScroll");
       document.getElementsByTagName("body")[0].classList.remove("noScroll");
     }
+    if (window.innerWidth >= 992) {
+      const eltRect = document
+        .getElementsByClassName("datePickerContainer")[0]
+        .getBoundingClientRect();
+      const left = eltRect.left;
+      const width = eltRect.width;
+      const top = eltRect.top + 32;
+      setCalendarStyle({ left, top, width });
+    } else if (window.innerWidth < 992) {
+      setCalendarStyle(null);
+    }
   }, [openCalendar]);
 
   return (
@@ -237,6 +247,7 @@ const DateCarousel = (props) => {
           <div className="calendarModal">
             <div
               className="calendar"
+              style={calendarStyle}
               onClick={(event) => {
                 event.stopPropagation();
                 event.nativeEvent.stopImmediatePropagation();

@@ -21,10 +21,7 @@
       text-decoration: none;
       font-size: 0.8rem;
       color: black;
-    }
-
-    a:hover {
-      font-size: bold;
+      transition: color 150ms ease-in;
     }
   }
 
@@ -34,7 +31,6 @@
     border: 2px solid variables.$heading-bg-colour;
     margin-bottom: 0.2rem;
     margin-top: 0.2rem;
-    cursor: pointer;
     transition: background-color 200ms ease-in, color 200ms ease-in;
 
     h5 {
@@ -63,8 +59,18 @@
     }
   }
 
-  .article:hover {
-    background-color: variables.$heading-bg-colour;
-    color: variables.$heading-text-colour;
+  @media (hover: hover) {
+    a:hover {
+      color: variables.$heading-text-colour;
+    }
+
+    .article {
+      cursor: pointer;
+    }
+
+    .article:hover {
+      background-color: variables.$heading-bg-colour;
+      color: variables.$heading-text-colour;
+    }
   }
 }

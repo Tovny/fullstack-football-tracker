@@ -11,13 +11,18 @@
     padding-left: 0.3rem;
     padding-right: 0.3rem;
     height: 100%;
-    cursor: pointer;
     color: variables.$heading-bg-colour;
     transition: 200ms color;
   }
 
-  svg:hover {
-    color: variables.$heading-text-colour;
+  @media (hover: hover) {
+    svg:hover {
+      color: variables.$heading-text-colour;
+    }
+  }
+
+  @media (pointer: fine) {
+    cursor: pointer;
   }
 
   .dateCarousel {
@@ -45,17 +50,24 @@
 
         span {
           display: inline-block;
-          cursor: pointer;
-          transition: transform 0.1s ease-in;
+
+          transition: transform 25ms ease-in;
         }
 
-        span:hover {
-          transform: translateY(-15%);
+        @media (hover: hover) {
+          span:hover {
+            transform: translateY(-15%);
+          }
+        }
+
+        @media (pointer: fine) {
+          cursor: pointer;
         }
       }
 
       #selectedDate {
         color: variables.$heading-text-colour;
+        border-bottom: 0.15rem solid variables.$heading-bg-colour;
       }
 
       #selectedDate::after {
@@ -66,7 +78,7 @@
         width: 0.75rem;
         right: 50%;
         transform: translate(50%, 35%) rotate(45deg);
-        background-color: variables.$heading-text-colour;
+        background-color: variables.$heading-bg-colour;
       }
     }
   }
@@ -84,29 +96,38 @@
 .calendarModal {
   z-index: 15;
   position: absolute;
+  overflow-y: auto;
   width: 100%;
-  height: 100vh !important;
+  height: 100%;
   right: 0;
   top: 0;
   background-color: variables.$modal-bg-colour;
 
   .calendar {
-    display: flex;
-    width: 500px;
-    position: relative;
-    left: 50%;
-    top: 15%;
-    transform: translateX(-50%);
-    -webkit-transform: translateX(-50%);
-    -moz-transform: translateX(-50%);
-    flex-flow: column;
-    background-color: rgb(255, 255, 255);
-    border: 2px solid variables.$heading-bg-colour;
+    position: absolute;
+    background-color: variables.$heading-text-colour;
+    color: variables.$heading-bg-colour;
+
+    .-today::before,
+    .-selected::before {
+      background-color: variables.$body-bg-dark;
+    }
 
     #calendarToday {
-      font-size: 1rem;
+      position: relative;
+      font-size: 16px;
       margin-right: 4rem;
       margin-left: 2rem;
+      transition: color 50ms ease-in-out;
+    }
+
+    @media (hover: hover) {
+      #calendarToday:hover {
+        color: black;
+      }
+    }
+
+    @media (pointer: fine) {
       cursor: pointer;
     }
   }
@@ -151,6 +172,14 @@
 
   .calendarModal {
     z-index: 30;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    .calendar {
+      top: 5rem;
+      width: 550px;
+    }
   }
 }
 
@@ -159,6 +188,7 @@
     position: fixed;
     display: grid;
     grid-template-rows: auto auto;
+    background-color: variables.$bg-colour;
 
     #sliderLeft,
     #sliderRight {
@@ -182,29 +212,17 @@
 
     .dateCarousel {
       overflow-x: scroll !important;
+      border-top: 3px solid variables.$heading-bg-colour;
 
       span {
         font-size: 0.65rem !important;
-      }
-
-      span:hover {
-        transform: none !important;
-        -webkit-transform: none !important;
-        -moz-transform: none !important;
       }
     }
   }
 
   .calendarModal {
-    overflow: hidden !important;
-    display: flex;
-    align-items: center;
-
     .calendar {
       width: 90%;
-      transform: translate(-50%, -25%);
-      -webkit-transform: translate(-50%, -25%);
-      -moz-transform: translate(-50%, -25%);
     }
   }
 }

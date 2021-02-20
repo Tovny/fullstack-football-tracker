@@ -1,0 +1,108 @@
+@use "../assets/variables";
+
+.mainTableContainer {
+  display: flex;
+  flex-flow: column;
+  border-top: 10px solid variables.$heading-bg-colour;
+  background-color: variables.$heading-bg-colour;
+
+  form {
+    display: flex;
+    flex-flow: row;
+    align-items: center;
+    align-self: center;
+    padding-bottom: 1rem;
+
+    select {
+      min-width: 13rem;
+      height: 2rem;
+      font-size: 0.8rem;
+      background-color: variables.$body-bg-dark;
+      color: variables.$heading-text-colour;
+      border: none;
+    }
+  }
+
+  table {
+    background-color: variables.$heading-bg-colour;
+    color: variables.$heading-text-colour;
+    border-collapse: collapse;
+    text-align: center;
+    margin: 0.5rem;
+
+    img {
+      height: 2rem;
+      margin: 0.5rem;
+    }
+
+    thead {
+      background-color: variables.$heading-text-colour;
+      color: variables.$heading-bg-colour;
+      font-size: 1.2rem;
+
+      th {
+        padding-top: 0.75rem;
+        padding-bottom: 0.75rem;
+      }
+    }
+
+    tbody {
+      font-size: 0.75rem;
+
+      tr {
+        background-color: variables.$fixture-body-bg;
+        border-top: 3px solid variables.$heading-bg-colour;
+        vertical-align: middle;
+
+        #club {
+          display: flex;
+          flex-flow: row;
+          text-transform: capitalize;
+          align-items: center;
+        }
+
+        #form {
+          ul {
+            display: flex;
+            justify-content: center;
+            list-style: none;
+            padding: 0;
+
+            #result {
+              display: flex;
+              align-items: center;
+              justify-content: center;
+              height: 2rem;
+              width: 2rem;
+              border-radius: 50%;
+              margin-left: 0.25rem;
+              margin-right: 0.25rem;
+              filter: brightness(1.25);
+            }
+          }
+        }
+      }
+
+      tr:first-child {
+        border-top: none;
+      }
+    }
+  }
+
+  .tableTransition-enter {
+    opacity: 0%;
+    transition: left 0ms linear;
+  }
+  .tableTransition-enter-active {
+    opacity: 100%;
+    transition: opacity 250ms ease-in, left 0ms linear;
+  }
+  .tableTransition-exit {
+    opacity: 100%;
+    transition: left 0ms linear;
+  }
+  .tableTransition-exit-active {
+    opacity: 0%;
+    transition: opacity 250ms ease-in, left 0ms linear;
+  }
+}

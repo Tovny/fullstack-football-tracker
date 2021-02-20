@@ -63,7 +63,7 @@
 
     .leagueFixturesContainer {
       width: 100%;
-      border-top: 5px solid variables.$heading-bg-colour;
+      margin-top: 5px;
 
       .leagueFixtures {
         position: relative;
@@ -186,10 +186,12 @@
                 color: variables.$heading-text-colour;
               }
 
-              .fixtureBody:hover {
-                background-color: variables.$fixture-body-bg-light;
-                color: variables.$heading-bg-colour;
-                cursor: pointer;
+              @media (hover: hover) {
+                .fixtureBody:hover {
+                  background-color: variables.$fixture-body-bg-light;
+                  color: variables.$heading-bg-colour;
+                  cursor: pointer;
+                }
               }
             }
           }
@@ -320,6 +322,10 @@
     .fixtures {
       margin-top: 2rem;
       height: 100%;
+
+      .leagueFixturesContainer {
+        padding-right: 5px;
+      }
     }
   }
 }
@@ -330,7 +336,7 @@
     overflow-y: auto;
 
     .fixtures {
-      margin-top: 6.1rem;
+      margin-top: calc(6.1rem + 3px);
 
       .leagueFixturesContainer {
         padding-left: 0;

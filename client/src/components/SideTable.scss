@@ -26,7 +26,6 @@
           width: 1rem;
           padding-left: 0.5rem;
           align-self: center;
-          cursor: pointer;
         }
 
         #arrowForward {
@@ -35,7 +34,6 @@
           padding-right: 0.5rem;
           justify-self: end;
           align-self: center;
-          cursor: pointer;
         }
       }
 
@@ -69,6 +67,17 @@
           width: 13rem;
         }
       }
+    }
+  }
+
+  @media (hover: hover) {
+    svg {
+      cursor: pointer;
+      transition: filter 150ms ease-in;
+    }
+
+    svg:hover {
+      filter: brightness(0.8);
     }
   }
 }

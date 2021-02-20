@@ -20,7 +20,7 @@ form {
     color: variables.$heading-text-colour;
     padding: 0.5rem;
     margin: 0;
-    margin-top: 0.75rem;
+    margin-top: 0.3rem;
     margin-bottom: 0.3rem;
     text-align: right;
   }
@@ -32,7 +32,6 @@ form {
   .selectContainer {
     display: grid;
     grid-template-columns: auto 0.5rem;
-    height: 1.5rem;
     justify-content: right;
 
     select {
@@ -50,14 +49,15 @@ form {
     display: grid;
     grid-template-columns: auto 0.5rem;
     grid-template-rows: auto auto;
-    height: 1.5rem;
 
     .slider {
-      grid-row-start: 2;
+      grid-row-start: 1;
       -webkit-appearance: none;
       appearance: none;
       background: #000000;
       height: 1px;
+      margin-top: 0.5rem;
+      margin-bottom: 0.5rem;
       outline: 0 none !important;
       align-self: center;
     }
@@ -68,12 +68,12 @@ form {
     }
 
     #sliderValue {
-      grid-row-start: 1;
+      grid-row-start: 2;
       font-weight: bold;
     }
 
     #clearFilterBtn {
-      grid-row-start: 2;
+      grid-row-start: 1;
     }
 
     .slider::-webkit-slider-thumb {
@@ -83,7 +83,6 @@ form {
       width: 0.6rem;
       border-radius: 50%;
       background: variables.$heading-bg-colour;
-      cursor: pointer;
     }
 
     .slider::-moz-range-thumb {
@@ -93,7 +92,6 @@ form {
       border-radius: 50%;
       border: none;
       background: variables.$heading-bg-colour;
-      cursor: pointer;
     }
 
     .slider:disabled {
@@ -150,6 +148,25 @@ form {
     height: 1rem;
     align-self: center;
   }
+
+  @media (pointer: fine) {
+    input,
+    svg {
+      cursor: pointer;
+    }
+
+    .slider::-webkit-slider-thumb {
+      cursor: pointer;
+    }
+
+    .slider::-moz-range-thumb {
+      cursor: pointer;
+    }
+
+    input:disabled {
+      cursor: auto;
+    }
+  }
 }
 
 @media screen and (max-width: 992px) {
@@ -205,14 +222,15 @@ form {
   .filtersModal {
     display: flex;
     position: absolute;
+    overflow-y: auto;
     height: 100%;
     width: 100%;
     top: 0;
-    background-color: rgba(0, 0, 0, 0.637);
+    background-color: variables.$modal-bg-colour;
     z-index: 30;
 
     form {
-      background-color: variables.$heading-bg-colour;
+      background-color: variables.$bg-colour;
       width: 190px;
       padding: 1.5rem;
       margin: auto;

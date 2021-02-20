@@ -10,6 +10,8 @@ leagues.push(PremierLeague);
 
 (async () => {
   try {
+    process.setMaxListeners(0);
+
     await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
