@@ -25,70 +25,54 @@ const Table = () => {
     }
   }, [dispatch, tables]);
 
-  const createFormDiv = (formObj, i) => {
-    const styleObj = {};
-
-    if (formObj.result === "W") {
-      styleObj.background = "green";
-    } else if (formObj.result === "L") {
-      styleObj.background = "red";
-    } else {
-      styleObj.background = "grey";
-    }
-
-    return (
-      <li id="result" style={styleObj} key={i}>
-        {formObj.result}
-      </li>
-    );
-  };
-
   return (
     <div className="mainTableContainer">
-      <form>
-        <h4>Filter by League</h4>
-        <select
-          onChange={(event) => {
-            setSelectedTable(event.target.value);
-            setSelectedMatches("total");
-          }}
-        >
-          {tables
-            ? tables.map((table, i) => {
-                return (
-                  <option
-                    selected={i === selectedTable ? true : false}
-                    value={i}
-                  >{`${table.country} - ${table.league}`}</option>
-                );
-              })
-            : null}
-        </select>
-        <h4>Filter by Matches</h4>
-        <select onChange={(event) => setSelectedMatches(event.target.value)}>
-          <option
-            value="total"
-            selected={selectedMatches === "total" ? true : false}
+      {tables ? (
+        <form>
+          <h4>Filter by League</h4>
+          <select
+            defaultValue={`${tables[0].country} - ${tables[0].league}`}
+            onChange={(event) => {
+              setSelectedTable(event.target.value);
+              setSelectedMatches("total");
+            }}
           >
-            All Matches
-          </option>
-          <option
-            value="home"
-            selected={selectedMatches === "home" ? true : false}
-          >
-            Home Matches
-          </option>
-          <option
-            value="away"
-            selected={selectedMatches === "away" ? true : false}
-          >
-            Away Matches
-          </option>
-        </select>
-      </form>
+            {tables.map((table, i) => {
+              return (
+                <option
+                  value={i}
+                  key={i}
+                >{`${table.country} - ${table.league}`}</option>
+              );
+            })}
+          </select>
+          <h4>Filter by Matches</h4>
+          <select onChange={(event) => setSelectedMatches(event.target.value)}>
+            <option
+              value="total"
+              selected={selectedMatches === "total" ? true : false}
+            >
+              All Matches
+            </option>
+            <option
+              value="home"
+              selected={selectedMatches === "home" ? true : false}
+            >
+              Home Matches
+            </option>
+            <option
+              value="away"
+              selected={selectedMatches === "away" ? true : false}
+            >
+              Away Matches
+            </option>
+          </select>
+        </form>
+      ) : null}
       {tables ? (
         <SwitchTransition>
           <CSSTransition
+            timeout={200}
             key={[selectedTable, selectedMatches]}
             addEndListener={(node, done) =>
               node.addEventListener("transitionend", done, false)
@@ -138,23 +122,13 @@ const Table = () => {
                       <td>{row.points}</td>
                       <td id="form">
                         <ul>
-                          {row.form.map((fix, i) => createFormDiv(fix, i))}
+                          {row.form.map((fix, i) => (
+                            <FormMatch formObj={fix} key={i} />
+                          ))}
                         </ul>
                       </td>
-                      <td>
-                        {row.next.homeCrest === row.crest ? (
-                          <img
-                            id="crest"
-                            src={row.next.awayCrest}
-                            alt={`${row.team} next Opponent`}
-                          ></img>
-                        ) : (
-                          <img
-                            id="crest"
-                            src={row.next.homeCrest}
-                            alt={`${row.team} next Opponent`}
-                          ></img>
-                        )}
+                      <td className="next">
+                        <NextMatch row={row} />
                       </td>
                     </tr>
                   );
@@ -165,6 +139,133 @@ const Table = () => {
         </SwitchTransition>
       ) : null}
     </div>
+  );
+};
+
+const NextMatch = ({ row }) => {
+  const [openNext, setOpenNext] = useState(false);
+  const date = new Date(`${row.next.date} ${row.next.kickOff}`);
+
+  return (
+    <div
+      onMouseEnter={() => setOpenNext(true)}
+      onMouseLeave={() => setOpenNext(false)}
+    >
+      {row.next.homeCrest === row.crest ? (
+        <img
+          id="crest"
+          src={row.next.awayCrest}
+          alt={`${row.team} next Opponent`}
+        ></img>
+      ) : (
+        <img
+          id="crest"
+          src={row.next.homeCrest}
+          alt={`${row.team} next Opponent`}
+        ></img>
+      )}
+      <CSSTransition
+        in={openNext}
+        mountOnEnter
+        unmountOnExit
+        timeout={150}
+        classNames="matchPopup"
+      >
+        <div className="nextContainer">
+          <div className="nextOpponent">
+            <time>
+              {date.toDateString() !== "Invalid Date"
+                ? date.toDateString()
+                : "Date To be Confirmed"}
+            </time>
+            <div className="nextMatchInfo">
+              <div className="nextHome">
+                <h4>{row.next.homeTeam}</h4>
+                <img
+                  src={row.next.homeCrest}
+                  alt={`Next Match Home Crest`}
+                ></img>
+              </div>
+              <h4>{row.next.kickOff}</h4>
+              <div className="nextAway">
+                <img
+                  src={row.next.awayCrest}
+                  alt={`Next Match Away Crest`}
+                ></img>
+                <h4>{row.next.awayTeam}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </CSSTransition>
+    </div>
+  );
+};
+
+const FormMatch = ({ formObj }) => {
+  const [openNext, setOpenNext] = useState(false);
+  const date = new Date(`${formObj.date} ${formObj.kickOff}`);
+  const [styleObj, setStyleObj] = useState({});
+
+  useEffect(() => {
+    if (formObj.result === "W") {
+      setStyleObj({ background: "green" });
+    } else if (formObj.result === "L") {
+      setStyleObj({ background: "red" });
+    } else {
+      setStyleObj({ background: "grey" });
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  return (
+    <li
+      id="result"
+      style={styleObj}
+      onMouseEnter={() => setOpenNext(true)}
+      onMouseLeave={() => setOpenNext(false)}
+      onClick={() => window.open(formObj.url)}
+    >
+      {formObj.result}
+
+      <CSSTransition
+        in={openNext}
+        mountOnEnter
+        unmountOnExit
+        timeout={150}
+        classNames="matchPopup"
+      >
+        <div className="formContainer">
+          <div className="formOpponent">
+            <time>
+              {date.toDateString() !== "Invalid Date"
+                ? date.toDateString()
+                : "Date To be Confirmed"}
+            </time>
+            <div className="formMatchInfo">
+              <div className="formHome">
+                <h4>{formObj.homeTeam}</h4>
+                <img
+                  src={formObj.homeCrest}
+                  alt={`Form Match Home Crest`}
+                ></img>
+              </div>
+              <div id="scoreContainer">
+                <div id="score">{formObj.homeScore}</div>
+                <div id="score">{formObj.awayScore}</div>
+              </div>
+              <div className="formAway">
+                <img
+                  src={formObj.awayCrest}
+                  alt={`Form Match Away Crest`}
+                ></img>
+                <h4>{formObj.awayTeam}</h4>
+              </div>
+            </div>
+          </div>
+        </div>
+      </CSSTransition>
+    </li>
   );
 };
 

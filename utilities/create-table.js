@@ -1,4 +1,4 @@
-const createTable = async (model, sort, penalty = []) => {
+const createTable = async (model, sort, penalty = [], status = []) => {
   try {
     const res = await model.find({ "info.status": { $ne: "Scheduled" } });
     const scheduled = await model.find({ "info.status": "Scheduled" });
@@ -16,6 +16,7 @@ const createTable = async (model, sort, penalty = []) => {
       fixture.awayScore = fix.result.away.score;
       fixture.date = fix.info.date;
       fixture.kickOff = fix.info.kickOff;
+      fixture.url = fix.info.url;
 
       if (fix.result.winner == "draw") {
         fixture.result = "D";
@@ -263,33 +264,27 @@ const createTable = async (model, sort, penalty = []) => {
 
               if (!match1 || !match2) bothMatchesPlayed = false;
 
-              [match1, match2].forEach((match) => {
-                let home = match.result.home;
-                let away = match.result.away;
+              if (!bothMatchesPlayed) {
+                return;
+              } else {
+                const aboveTeamGoals =
+                  parseInt(match1.result.home.score) +
+                  parseInt(match2.result.away.score);
+                const belowTeamGoals =
+                  parseInt(match2.result.home.score) +
+                  parseInt(match1.result.away.score);
 
-                if (!bothMatchesPlayed) {
-                  return;
-                } else {
-                  home.score = parseInt(home.score);
-                  away.score = parseInt(away.score);
+                if (aboveTeamGoals > belowTeamGoals) {
+                  swapTeams();
+                } else if (aboveTeamGoals == belowTeamGoals) {
+                  const aboveTeamAwayGoals = match2.result.away.score;
+                  const belowTeamAwayGoals = match1.result.away.score;
 
-                  const aboveTeamGoals =
-                    match1.result.home.score + match2.result.away.score;
-                  const belowTeamGoals =
-                    match2.result.home.score + match1.result.away.score;
-
-                  if (aboveTeamGoals > belowTeamGoals) {
+                  if (aboveTeamAwayGoals > belowTeamAwayGoals) {
                     swapTeams();
-                  } else if (aboveTeamGoals == belowTeamGoals) {
-                    const aboveTeamAwayGoals = match2.result.away.score;
-                    const belowTeamAwayGoals = match1.result.away.score;
-
-                    if (aboveTeamAwayGoals > belowTeamAwayGoals) {
-                      swapTeams();
-                    }
                   }
                 }
-              });
+              }
             }
           }
         }
@@ -376,6 +371,10 @@ const createTable = async (model, sort, penalty = []) => {
       table.forEach((row, i) => {
         row["#"] = i + 1;
       });
+    });
+
+    status.forEach((stat) => {
+      total[stat[0]].status = stat[1];
     });
 
     return tables;

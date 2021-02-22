@@ -83,8 +83,26 @@ const SerieA = {
         country: "Italy",
         league: "Serie A",
       });
+
       const deductions = league[0].deductions;
-      const tables = await createTable(SerieAMatch, "h2h", deductions);
+
+      const specialStatus = [
+        [0, "Champions League"],
+        [1, "Champions League"],
+        [2, "Champions League"],
+        [3, "Champions League"],
+        [4, "Europa League"],
+        [17, "Relegation"],
+        [18, "Relegation"],
+        [19, "Relegation"],
+      ];
+
+      const tables = await createTable(
+        SerieAMatch,
+        "h2h",
+        deductions,
+        specialStatus
+      );
 
       if (
         tables.hasOwnProperty("total") &&

@@ -85,8 +85,26 @@ const PremierLeague = {
         country: "England",
         league: "Premier League",
       });
+
       const deductions = league[0].deductions;
-      const tables = await createTable(EPLMatch, "gd", deductions);
+
+      const specialStatus = [
+        [0, "Champions League"],
+        [1, "Champions League"],
+        [2, "Champions League"],
+        [3, "Champions League"],
+        [4, "Europa League"],
+        [17, "Relegation"],
+        [18, "Relegation"],
+        [19, "Relegation"],
+      ];
+
+      const tables = await createTable(
+        EPLMatch,
+        "gd",
+        deductions,
+        specialStatus
+      );
 
       if (
         tables.hasOwnProperty("total") &&
