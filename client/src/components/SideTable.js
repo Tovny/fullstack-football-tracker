@@ -84,8 +84,8 @@ const SideTable = () => {
                 {tables[selectedTable].tables.total.map((row) => {
                   return (
                     <tr key={row["#"]}>
-                      <td id="position">{row["#"]}</td>
-                      <td id="club">{row.team}</td>
+                      <td className="position">{row["#"]}</td>
+                      <td className="club">{row.team}</td>
                       <td>{row.played}</td>
                       <td>{row.gd}</td>
                       <td>{row.points}</td>

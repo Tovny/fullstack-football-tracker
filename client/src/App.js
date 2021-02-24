@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import FixturesLayout from "./layouts/FixturesLayout";
 import Header from "./components/Header";
 import Table from "./components/Tables";
+import News from "./components/News";
 
 function App() {
   return (
@@ -20,7 +21,7 @@ function App() {
               <FixturesLayout />
             </Route>
             <Route exact path="/news">
-              <div>news</div>
+              <News />
             </Route>
           </Switch>
         </div>

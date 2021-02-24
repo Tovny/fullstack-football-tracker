@@ -160,7 +160,7 @@ const Filters = () => {
           </select>
           {selectedFilters.league ? (
             <ClearIcon
-              id="clearFilterBtn"
+              className="clearFilterBtn"
               style={{ color: "red" }}
               onClick={() => {
                 setSelectedLeague(0);
@@ -205,7 +205,7 @@ const Filters = () => {
           </select>
           {selectedFilters.team ? (
             <ClearIcon
-              id="clearFilterBtn"
+              className="clearFilterBtn"
               onClick={() => handleClick("team")}
             />
           ) : null}
@@ -234,7 +234,7 @@ const Filters = () => {
           </select>
           {selectedFilters.hometeam ? (
             <ClearIcon
-              id="clearFilterBtn"
+              className="clearFilterBtn"
               onClick={() => handleClick("hometeam")}
             />
           ) : null}
@@ -263,7 +263,7 @@ const Filters = () => {
           </select>
           {selectedFilters.awayteam ? (
             <ClearIcon
-              id="clearFilterBtn"
+              className="clearFilterBtn"
               onClick={() => handleClick("awayteam")}
             />
           ) : null}
@@ -288,7 +288,7 @@ const Filters = () => {
           ) : null}
           {selectedFilters.matchday ? (
             <ClearIcon
-              id="clearFilterBtn"
+              className="clearFilterBtn"
               onClick={() => handleClick("matchday")}
             />
           ) : null}
@@ -325,7 +325,7 @@ const Filters = () => {
           <label htmlFor="full-time">Full Time</label>
           {selectedFilters.status ? (
             <ClearIcon
-              id="clearFilterBtn"
+              className="clearFilterBtn"
               onClick={() => handleClick("status")}
             />
           ) : null}

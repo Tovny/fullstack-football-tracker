@@ -1,15 +1,20 @@
 import "./Tables.scss";
-import { useState, useEffect } from "react";
+import { useState, useEffect, Fragment } from "react";
 import x_auth from "../config/default";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
 import getTables from "../redux/actions/table-actions";
+import { format } from "date-fns";
+import LoadingIcon from "./LoadingIcon";
+import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 
 const Table = () => {
   const dispatch = useDispatch();
   const tables = useSelector((state) => state.tables);
   const [selectedTable, setSelectedTable] = useState(0);
   const [selectedMatches, setSelectedMatches] = useState("total");
+  const [openLeagueSelect, setOpenLeagueSelect] = useState(false);
+  const [openMatchSelect, setOpenMatchSelect] = useState(false);
 
   useEffect(() => {
     if (!tables) {
@@ -25,119 +30,207 @@ const Table = () => {
     }
   }, [dispatch, tables]);
 
+  useEffect(() => {
+    window.addEventListener("click", () => {
+      setOpenLeagueSelect(false);
+      setOpenMatchSelect(false);
+    });
+  }, []);
+
   return (
     <div className="mainTableContainer">
       {tables ? (
-        <form>
-          <h4>Filter by League</h4>
-          <select
-            defaultValue={`${tables[0].country} - ${tables[0].league}`}
-            onChange={(event) => {
-              setSelectedTable(event.target.value);
-              setSelectedMatches("total");
-            }}
-          >
-            {tables.map((table, i) => {
-              return (
-                <option
-                  value={i}
-                  key={i}
-                >{`${table.country} - ${table.league}`}</option>
-              );
-            })}
-          </select>
-          <h4>Filter by Matches</h4>
-          <select onChange={(event) => setSelectedMatches(event.target.value)}>
-            <option
-              value="total"
-              selected={selectedMatches === "total" ? true : false}
-            >
-              All Matches
-            </option>
-            <option
-              value="home"
-              selected={selectedMatches === "home" ? true : false}
-            >
-              Home Matches
-            </option>
-            <option
-              value="away"
-              selected={selectedMatches === "away" ? true : false}
-            >
-              Away Matches
-            </option>
-          </select>
-        </form>
-      ) : null}
-      {tables ? (
-        <SwitchTransition>
-          <CSSTransition
-            timeout={200}
-            key={[selectedTable, selectedMatches]}
-            addEndListener={(node, done) =>
-              node.addEventListener("transitionend", done, false)
-            }
-            classNames="tableTransition"
-          >
-            <table>
-              <thead>
-                <tr>
-                  <th>#</th>
-                  <th>Club</th>
-                  <th>Played</th>
-                  <th>Won</th>
-                  <th>Drawn</th>
-                  <th>Lost</th>
-                  <th>GF</th>
-                  <th>GA</th>
-                  <th>GD</th>
-                  <th>Points</th>
-                  <th>Form</th>
-                  <th>Next</th>
-                </tr>
-              </thead>
+        <Fragment>
+          <div className="tableFilters">
+            <div className="selectTable">
+              <img src={tables[selectedTable].logo} alt="leagueLogo"></img>
+              <h3>
+                {`${tables[selectedTable].country} - 
+                ${tables[selectedTable].league}`}
+              </h3>
+              <ArrowDropDownIcon
+                onClick={(event) => {
+                  setOpenLeagueSelect(!openLeagueSelect);
+                  setOpenMatchSelect(false);
+                  event.stopPropagation();
+                  event.nativeEvent.stopImmediatePropagation();
+                }}
+              />
 
-              <tbody>
-                {tables[selectedTable].tables[selectedMatches].map((row) => {
-                  return (
-                    <tr key={row["#"]}>
-                      <td>{row["#"]}</td>
-                      <td>
-                        <div id="club">
-                          <img
-                            id="crest"
-                            src={row.crest}
-                            alt={`${row.team} Crest`}
-                          ></img>
-                          <h3>{row.team}</h3>
-                        </div>
-                      </td>
-                      <td>{row.played}</td>
-                      <td>{row.won}</td>
-                      <td>{row.drawn}</td>
-                      <td>{row.lost}</td>
-                      <td>{row.gf}</td>
-                      <td>{row.ga}</td>
-                      <td>{row.gd}</td>
-                      <td>{row.points}</td>
-                      <td id="form">
-                        <ul>
-                          {row.form.map((fix, i) => (
-                            <FormMatch formObj={fix} key={i} />
-                          ))}
-                        </ul>
-                      </td>
-                      <td className="next">
-                        <NextMatch row={row} />
-                      </td>
-                    </tr>
-                  );
-                })}
-              </tbody>
-            </table>
-          </CSSTransition>
-        </SwitchTransition>
-      ) : null}
+              <CSSTransition
+                in={openLeagueSelect}
+                mountOnEnter
+                unmountOnExit
+                timeout={250}
+                classNames="tableTransition"
+              >
+                <div className="selectors">
+                  {tables.map((table, i) => {
+                    return (
+                      <h4
+                        className="leagueSelect"
+                        onClick={() => {
+                          setSelectedTable(i);
+                          setSelectedMatches("total");
+                          setOpenLeagueSelect(false);
+                        }}
+                        key={i}
+                      >
+                        {`${table.country} - ${table.league}`}
+                      </h4>
+                    );
+                  })}
+                </div>
+              </CSSTransition>
+            </div>
+            <div className="selectMatch">
+              <ArrowDropDownIcon
+                onClick={(event) => {
+                  setOpenMatchSelect(!openMatchSelect);
+                  setOpenLeagueSelect(false);
+                  event.stopPropagation();
+                  event.nativeEvent.stopImmediatePropagation();
+                }}
+              />
+              <h3>
+                {selectedMatches === "total"
+                  ? "All Matches"
+                  : selectedMatches === "home"
+                  ? "Home Matches"
+                  : "Away Matches"}
+              </h3>
+              <CSSTransition
+                in={openMatchSelect}
+                mountOnEnter
+                unmountOnExit
+                timeout={250}
+                classNames="tableTransition"
+              >
+                <div className="selectors" id="matchesSelector">
+                  <h4
+                    className="leagueSelect"
+                    onClick={() => {
+                      setSelectedMatches("total");
+                      setOpenMatchSelect(false);
+                    }}
+                  >
+                    All Matches
+                  </h4>
+                  <h4
+                    className="leagueSelect"
+                    onClick={() => {
+                      setSelectedMatches("home");
+                      setOpenMatchSelect(false);
+                    }}
+                  >
+                    Home Matches
+                  </h4>
+                  <h4
+                    className="leagueSelect"
+                    onClick={() => {
+                      setSelectedMatches("away");
+                      setOpenMatchSelect(false);
+                    }}
+                  >
+                    Away Matches
+                  </h4>
+                </div>
+              </CSSTransition>
+            </div>
+          </div>
+          <SwitchTransition>
+            <CSSTransition
+              timeout={200}
+              key={[selectedTable, selectedMatches]}
+              addEndListener={(node, done) =>
+                node.addEventListener("transitionend", done, false)
+              }
+              classNames="tableTransition"
+            >
+              <table>
+                <thead>
+                  <tr>
+                    <th>#</th>
+                    <th>Club</th>
+                    <th>Played</th>
+                    <th>Won</th>
+                    <th>Drawn</th>
+                    <th>Lost</th>
+                    <th>GF</th>
+                    <th>GA</th>
+                    <th>GD</th>
+                    <th>Points</th>
+                    <th>Form</th>
+                    <th>Next</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  {tables[selectedTable].tables[selectedMatches].map((row) => {
+                    return (
+                      <tr key={row["#"]}>
+                        <td
+                          style={
+                            row.status === "Relegation"
+                              ? {
+                                  boxShadow: "inset 5px 0px 0px 0px #d81920",
+                                }
+                              : row.status === "Champions League"
+                              ? {
+                                  boxShadow: "inset 5px 0px 0px 0px #13cf00",
+                                }
+                              : row.status === "Europa League"
+                              ? {
+                                  boxShadow: "inset 5px 0px 0px 0px #AA9944",
+                                }
+                              : null
+                          }
+                        >
+                          {row["#"]}
+                        </td>
+                        <td>
+                          <div className="club">
+                            <img
+                              className="crest"
+                              src={row.crest}
+                              alt={`${row.team} Crest`}
+                            ></img>
+                            <h3>{row.team}</h3>
+                          </div>
+                        </td>
+                        <td>{row.played}</td>
+                        <td>{row.won}</td>
+                        <td>{row.drawn}</td>
+                        <td>{row.lost}</td>
+                        <td>{row.gf}</td>
+                        <td>{row.ga}</td>
+                        <td>{row.gd}</td>
+                        <td>{row.points}</td>
+                        <td className="form">
+                          <ul>
+                            {row.form.map((fix, i) => (
+                              <FormMatch formObj={fix} key={i} />
+                            ))}
+                          </ul>
+                        </td>
+                        <td className="next">
+                          <NextMatch row={row} />
+                        </td>
+                      </tr>
+                    );
+                  })}
+                </tbody>
+              </table>
+            </CSSTransition>
+          </SwitchTransition>
+          <div id="tableLegend">
+            <div id="championsLeague">Champions League</div>
+            <div id="europaLeague">Europa League</div>
+            <div id="relegation">Relegation</div>
+          </div>
+        </Fragment>
+      ) : (
+        <LoadingIcon />
+      )}
     </div>
   );
 };
@@ -153,13 +246,13 @@ const NextMatch = ({ row }) => {
     >
       {row.next.homeCrest === row.crest ? (
         <img
-          id="crest"
+          className="crest"
           src={row.next.awayCrest}
           alt={`${row.team} next Opponent`}
         ></img>
       ) : (
         <img
-          id="crest"
+          className="crest"
           src={row.next.homeCrest}
           alt={`${row.team} next Opponent`}
         ></img>
@@ -175,7 +268,7 @@ const NextMatch = ({ row }) => {
           <div className="nextOpponent">
             <time>
               {date.toDateString() !== "Invalid Date"
-                ? date.toDateString()
+                ? format(date, "iiii, LLL do")
                 : "Date To be Confirmed"}
             </time>
             <div className="nextMatchInfo">
@@ -209,22 +302,21 @@ const FormMatch = ({ formObj }) => {
 
   useEffect(() => {
     if (formObj.result === "W") {
-      setStyleObj({ background: "green" });
+      setStyleObj({ background: "#13cf00" });
     } else if (formObj.result === "L") {
-      setStyleObj({ background: "red" });
+      setStyleObj({ background: "#d81920" });
     } else {
-      setStyleObj({ background: "grey" });
+      setStyleObj({ background: "#76766f" });
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <li
-      id="result"
+      className="result"
       style={styleObj}
       onMouseEnter={() => setOpenNext(true)}
       onMouseLeave={() => setOpenNext(false)}
-      onClick={() => window.open(formObj.url)}
     >
       {formObj.result}
 
@@ -236,10 +328,13 @@ const FormMatch = ({ formObj }) => {
         classNames="matchPopup"
       >
         <div className="formContainer">
-          <div className="formOpponent">
+          <div
+            className="formOpponent"
+            onClick={() => window.open(formObj.url)}
+          >
             <time>
               {date.toDateString() !== "Invalid Date"
-                ? date.toDateString()
+                ? format(date, "iiii, LLL do")
                 : "Date To be Confirmed"}
             </time>
             <div className="formMatchInfo">
@@ -250,9 +345,9 @@ const FormMatch = ({ formObj }) => {
                   alt={`Form Match Home Crest`}
                 ></img>
               </div>
-              <div id="scoreContainer">
-                <div id="score">{formObj.homeScore}</div>
-                <div id="score">{formObj.awayScore}</div>
+              <div className="scoreContainer">
+                <div className="score">{formObj.homeScore}</div>
+                <div className="score">{formObj.awayScore}</div>
               </div>
               <div className="formAway">
                 <img

@@ -1,5 +1,5 @@
 import "./Fixtures.scss";
-import { useState, useEffect, useRef } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import x_auth from "../config/default";
 import DateCarousel from "./DateCarousel";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
@@ -9,6 +9,7 @@ import setFixtures from "../redux/actions/fixture-actions";
 import { setFilters } from "../redux/actions/filter-actions";
 import { format } from "date-fns";
 import stadium from "../assets/stadium.png";
+import LoadingIcon from "./LoadingIcon";
 
 const Fixtures = () => {
   const dispatch = useDispatch();
@@ -183,40 +184,48 @@ const Fixtures = () => {
   };
 
   return (
-    <div className="fixturesContainer">
-      <DateCarousel setDirection={setDirection} />
-      <SwitchTransition>
-        <CSSTransition
-          key={causeRerender}
-          addEndListener={(node, done) =>
-            node.addEventListener("transitionend", done, false)
-          }
-          classNames={direction}
-          mountOnEnter
-          unmountOnExit
-          style={{ left: xPos }}
-        >
-          <div className="fixtures" onTouchStart={handleTouchMove}>
-            {fixtureElements ? (
-              <div id="loadingIconLeft">
-                <div className="loadingIcon"></div>
+    <div
+      className="fixturesContainer"
+      style={
+        !fixtures ? { backgroundColor: "transparent", border: "none" } : null
+      }
+    >
+      {fixtures ? (
+        <Fragment>
+          <DateCarousel setDirection={setDirection} />
+          <SwitchTransition>
+            <CSSTransition
+              key={causeRerender}
+              addEndListener={(node, done) =>
+                node.addEventListener("transitionend", done, false)
+              }
+              classNames={direction}
+              mountOnEnter
+              unmountOnExit
+              style={{ left: xPos }}
+            >
+              <div className="fixtures" onTouchStart={handleTouchMove}>
+                <div id="loadingIconLeft">
+                  <LoadingIcon />
+                </div>
+
+                <div
+                  className="leagueFixturesContainer"
+                  ref={fixturesContainerRef}
+                >
+                  {fixtureElements ? fixtureElements : <LoadingIcon />}
+                </div>
+
+                <div id="loadingIconRight">
+                  <LoadingIcon />
+                </div>
               </div>
-            ) : null}
-            <div className="leagueFixturesContainer" ref={fixturesContainerRef}>
-              {fixtureElements ? (
-                fixtureElements
-              ) : (
-                <div className="loadingIcon"></div>
-              )}
-            </div>
-            {fixtureElements ? (
-              <div id="loadingIconRight">
-                <div className="loadingIcon"></div>
-              </div>
-            ) : null}
-          </div>
-        </CSSTransition>
-      </SwitchTransition>
+            </CSSTransition>
+          </SwitchTransition>
+        </Fragment>
+      ) : (
+        <LoadingIcon />
+      )}
     </div>
   );
 };
@@ -253,13 +262,13 @@ const LeagueFixtures = (props) => {
             : null
         }
       >
-        <div id="home">
+        <div className="home">
           {match.teams.home.shortName
             ? match.teams.home.shortName
             : match.teams.home.name}
           <span>
             <img
-              id="crest"
+              className="crest"
               src={match.teams.home.crest}
               alt={`${match.teams.home.name} logo`}
             ></img>
@@ -267,12 +276,12 @@ const LeagueFixtures = (props) => {
         </div>
 
         {typeof match.result.home.score == "number" ? (
-          <div id="scoreContainer">
-            <div id="score">{match.result.home.score}</div>
-            <div id="score">{match.result.away.score}</div>
+          <div className="scoreContainer">
+            <div className="score">{match.result.home.score}</div>
+            <div className="score">{match.result.away.score}</div>
           </div>
         ) : (
-          <div id="kickOff">
+          <div className="kickOff">
             {date.toString() !== "Invalid Date"
               ? `${date.getHours()}:${
                   date.getMinutes() === 0 ? "00" : date.getMinutes()
@@ -281,10 +290,10 @@ const LeagueFixtures = (props) => {
           </div>
         )}
 
-        <div id="away">
+        <div className="away">
           <span>
             <img
-              id="crest"
+              className="crest"
               src={match.teams.away.crest}
               alt={`${match.teams.away.crest} logo`}
             ></img>
@@ -345,7 +354,7 @@ const LeagueFixtures = (props) => {
       <div className="fixturesHeading">
         <div className="leagueLogoContainer">
           <img
-            id="leagueLogo"
+            className="leagueLogo"
             src={props.league.logo}
             alt={`${props.league.league} logo`}
           ></img>

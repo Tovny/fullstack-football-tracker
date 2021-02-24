@@ -7,40 +7,8 @@
   margin-top: -0.1rem;
   border-top: 0.6rem solid variables.$heading-bg-colour;
   background-color: variables.$heading-bg-colour;
-
-  .loadingIcon {
-    width: 1.5rem;
-    height: 1.5rem;
-    border-radius: 50%;
-    border: 6px solid rgba(0, 0, 0, 0.4);
-    border-top: 6px solid transparent;
-    margin-right: auto;
-    margin-left: auto;
-    margin-top: 2rem;
-    margin-bottom: 1rem;
-    animation: spin 500ms linear infinite;
-  }
-
-  .loadingIcon::after {
-    content: " ";
-    height: 0.5rem;
-    width: 0.5rem;
-    border-top: 0.25rem solid rgba(0, 0, 0, 0.4);
-    border-right: 0.25rem solid rgba(0, 0, 0, 0.4);
-    position: relative;
-    display: block;
-    left: -25%;
-    top: -10%;
-  }
-
-  @keyframes spin {
-    0% {
-      transform: rotate(0deg);
-    }
-    100% {
-      transform: rotate(360deg);
-    }
-  }
+  border-left: 5px solid variables.$heading-bg-colour;
+  border-right: 5px solid variables.$heading-bg-colour;
 
   .fixtures {
     position: relative;
@@ -87,7 +55,7 @@
             margin-left: 0.5rem;
             margin-right: 0.5rem;
 
-            #leagueLogo {
+            .leagueLogo {
               height: 80%;
               width: auto;
               margin: auto;
@@ -127,34 +95,34 @@
                 letter-spacing: 0.05rem;
                 transition: color 150ms ease-in, background-color 150ms ease-in;
 
-                #home,
-                #away {
+                .home,
+                .away {
                   display: flex;
                   flex-direction: row;
                   align-items: center;
                   text-transform: capitalize;
                 }
 
-                #home {
+                .home {
                   justify-content: flex-end;
                 }
 
-                #away {
+                .away {
                   justify-content: flex-start;
                 }
 
-                #crest {
+                .crest {
                   height: 1.5rem;
                   width: 1.5rem;
                   margin: 0.5rem;
                 }
 
-                #scoreContainer {
+                .scoreContainer {
                   display: flex;
                   flex-flow: row;
                   justify-content: center;
 
-                  #score {
+                  .score {
                     background: variables.$heading-bg-colour;
                     color: variables.$heading-text-colour;
                     margin: 0.05rem;
@@ -166,7 +134,7 @@
                   }
                 }
 
-                #kickOff {
+                .kickOff {
                   text-align: center;
                   margin: 0.05rem;
                   font-size: 0.9rem;
@@ -175,7 +143,7 @@
                 }
               }
 
-              #date {
+              .date {
                 grid-column: span 3;
                 text-align: center;
                 font-size: 0.9rem;
@@ -322,10 +290,6 @@
     .fixtures {
       margin-top: 2rem;
       height: 100%;
-
-      .leagueFixturesContainer {
-        padding-right: 5px;
-      }
     }
   }
 }
@@ -334,6 +298,8 @@
   .fixturesContainer {
     height: 100%;
     overflow-y: auto;
+    border-left: none;
+    border-right: none;
 
     .fixtures {
       margin-top: calc(6.1rem + 3px);
@@ -350,7 +316,7 @@
             margin-left: 0.3rem;
             margin-right: 0.3rem;
 
-            #leagueLogo {
+            .leagueLogo {
               height: 95%;
               width: auto;
               margin: auto;
@@ -363,26 +329,26 @@
 
         .fixtureBodies {
           .fixtureBody {
-            #home,
-            #away {
+            .home,
+            .away {
               font-size: 0.75rem;
             }
-            #kickOff {
+            .kickOff {
               font-size: 0.75rem;
             }
 
-            #score {
+            .score {
               font-size: 1rem;
               padding-left: 0.35rem;
               padding-right: 0.35rem;
             }
 
-            #crest {
+            .crest {
               height: 1.35rem;
               width: 1.35rem;
             }
 
-            #date {
+            .date {
               font-size: 0.7rem;
             }
           }

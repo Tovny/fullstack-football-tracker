@@ -1,7 +1,9 @@
 const createTable = async (model, sort, penalty = [], status = []) => {
   try {
     const res = await model.find({ "info.status": { $ne: "Scheduled" } });
-    const scheduled = await model.find({ "info.status": "Scheduled" });
+    const scheduled = await model
+      .find({ "info.status": "Scheduled" })
+      .sort({ "info.date": 1 });
 
     const fixtures = new Object();
 
