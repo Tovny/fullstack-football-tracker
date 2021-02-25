@@ -1,5 +1,6 @@
 import "./Tables.scss";
 import { useState, useEffect, Fragment } from "react";
+import { useParams } from "react-router-dom";
 import x_auth from "../config/default";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
@@ -11,7 +12,10 @@ import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
 const Table = () => {
   const dispatch = useDispatch();
   const tables = useSelector((state) => state.tables);
-  const [selectedTable, setSelectedTable] = useState(0);
+  const { table } = useParams();
+  const [selectedTable, setSelectedTable] = useState(
+    table ? parseInt(table) : 0
+  );
   const [selectedMatches, setSelectedMatches] = useState("total");
   const [openLeagueSelect, setOpenLeagueSelect] = useState(false);
   const [openMatchSelect, setOpenMatchSelect] = useState(false);

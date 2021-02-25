@@ -3,7 +3,6 @@
 .mainTableContainer {
   display: flex;
   flex-flow: column;
-  border-top: 10px solid variables.$heading-bg-colour;
 
   .tableFilters {
     display: flex;
@@ -21,7 +20,7 @@
       margin-left: 1rem;
 
       img {
-        height: 3rem;
+        height: 2.5rem;
       }
     }
 
@@ -32,14 +31,10 @@
       align-items: center;
       margin: 0.5rem;
       margin-right: 1rem;
-
-      img {
-        height: 3rem;
-      }
     }
 
     h3 {
-      font-size: 1.5rem;
+      font-size: 1.25rem;
       margin: 0 0.5rem 0 0.5rem;
       letter-spacing: 0.2rem;
     }
@@ -267,6 +262,8 @@
               width: 1rem;
               background-color: variables.$heading-text-colour;
               transform: rotate(45deg);
+              -webkit-transform: rotate(45deg);
+              -moz-transform: rotate(45deg);
               transition: background-color 150ms ease-in, color 150ms ease-in;
             }
           }
@@ -358,6 +355,7 @@
 
 @media screen and (max-width: 992px) {
   .mainTableContainer {
+    margin-top: 5px;
     .tableFilters {
       h3 {
         font-size: 1rem;
@@ -379,8 +377,7 @@
 
 @media screen and (max-width: 600px) {
   .mainTableContainer {
-    margin-top: 4rem;
-    border-top: 3px solid variables.$heading-bg-colour;
+    margin-top: 4.2rem;
 
     .tableFilters {
       h3 {

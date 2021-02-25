@@ -34,11 +34,7 @@ const Articles = () => {
         const date = new Date(`${news[i].date} ${news[i].time}`);
 
         temp.push(
-          <div
-            onClick={() => window.open(news[i].url)}
-            className="article"
-            key={i}
-          >
+          <a href={news[i].url} className="article" key={i}>
             <div className="articleImage">
               <img alt={news[i].title} src={news[i].image}></img>
             </div>
@@ -48,7 +44,7 @@ const Articles = () => {
               <h3>{news[i].league}</h3>
               <p>{news[i].description}</p>
             </div>
-          </div>
+          </a>
         );
       }
 
@@ -63,7 +59,7 @@ const Articles = () => {
 
       const onIntersection = (entries) => {
         entries.forEach((entry) => {
-          if (entry.intersectionRatio > 0) {
+          if (entry.intersectionRatio === 1) {
             const temp = [];
             for (let i = articles.length - 1; i < articles.length + 9; i++) {
               const date = new Date(`${news[i].date} ${news[i].time}`);

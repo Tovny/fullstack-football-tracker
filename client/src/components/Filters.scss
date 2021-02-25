@@ -6,7 +6,8 @@
   display: flex;
   flex-flow: column;
 
-  #filtersIcon {
+  #filtersIcon,
+  #calendarIcon {
     display: none;
   }
 }
@@ -206,11 +207,18 @@ form {
 @media screen and (max-width: 600px) {
   .filters {
     position: relative;
+    display: flex;
+    flex-flow: row;
     top: -1rem;
 
     #filtersIcon {
       display: block;
-      position: relative;
+      z-index: 30;
+    }
+
+    #calendarIcon {
+      display: block;
+      margin-left: 0.75rem;
       z-index: 30;
     }
 

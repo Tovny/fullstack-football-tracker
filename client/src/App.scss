@@ -31,6 +31,23 @@ body {
       .contentContainer {
         grid-column-start: 2;
       }
+
+      .pageTransition-enter {
+        opacity: 0%;
+        transition: left 0ms linear;
+      }
+      .pageTransition-enter-active {
+        opacity: 100%;
+        transition: opacity 200ms ease-in, left 0ms linear;
+      }
+      .pageTransition-exit {
+        opacity: 100%;
+        transition: left 0ms linear;
+      }
+      .pageTransition-exit-active {
+        opacity: 0%;
+        transition: opacity 200ms ease-in, left 0ms linear;
+      }
     }
   }
 }
@@ -68,7 +85,6 @@ body {
 @media screen and (max-width: 600px) {
   .container {
     .headerContainer {
-      width: min-content !important;
       top: 0.25rem;
       left: 0.5rem;
       z-index: 30;

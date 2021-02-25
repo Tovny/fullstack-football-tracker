@@ -1,6 +1,6 @@
 import "./Filters.scss";
 import { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
+import { createPortal } from "react-dom";
 import x_auth from "../config/default";
 import { useSelector, useDispatch } from "react-redux";
 import getLeagues from "../redux/actions/league-actions";
@@ -346,7 +346,7 @@ const Filters = () => {
         onClick={() => setOpenFilters(!openFilters)}
       />
       {filtersForm()}
-      {ReactDOM.createPortal(
+      {createPortal(
         <CSSTransition
           classNames="filtersModal"
           in={openFilters}

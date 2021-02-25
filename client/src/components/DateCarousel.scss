@@ -154,6 +154,7 @@
     z-index: 25;
     width: 100%;
     left: 0;
+    margin-top: 0;
 
     #sliderLeft,
     #sliderRight {
@@ -189,6 +190,7 @@
     display: grid;
     grid-template-rows: auto auto;
     background-color: variables.$bg-colour;
+    padding-top: 4rem;
 
     #sliderLeft,
     #sliderRight {
@@ -196,23 +198,10 @@
     }
 
     #calendarIcon {
-      margin-right: 1rem;
-      margin-bottom: 1.5rem;
-      margin-top: 1rem;
-      padding: 0;
-      grid-row-start: 1;
-      justify-self: end;
-      background-color: transparent;
-      cursor: none;
-    }
-
-    .sliderButton {
       display: none;
     }
-
     .dateCarousel {
       overflow-x: scroll !important;
-      border-top: 3px solid variables.$heading-bg-colour;
 
       span {
         font-size: 0.65rem !important;

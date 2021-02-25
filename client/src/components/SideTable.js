@@ -1,5 +1,6 @@
 import "./SideTable.scss";
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import x_auth from "../config/default";
 import ArrowBack from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForward from "@material-ui/icons/ArrowForwardIosOutlined";
@@ -61,7 +62,11 @@ const SideTable = () => {
                           changeTable(-1);
                         }}
                       />
-                      {tables[selectedTable].league}
+                      {
+                        <Link to={`/tables/${selectedTable}`}>
+                          {tables[selectedTable].league}
+                        </Link>
+                      }
                       <ArrowForward
                         id="arrowForward"
                         onClick={async () => {

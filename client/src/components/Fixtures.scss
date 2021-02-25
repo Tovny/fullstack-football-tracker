@@ -216,6 +216,12 @@
     }
   }
 
+  #loadingIconContainer {
+    position: absolute;
+    width: 100%;
+    left: 0;
+  }
+
   .fixturesTransitionRight-enter {
     transform: translate(100%);
     -webkit-transform: translate(100%);
@@ -288,7 +294,7 @@
     border-top: none;
 
     .fixtures {
-      margin-top: 2rem;
+      margin-top: 2.3rem;
       height: 100%;
     }
   }
@@ -355,5 +361,10 @@
         }
       }
     }
+  }
+
+  #loadingIconContainer {
+    margin-top: 4rem !important;
+    border-top: 3px solid variables.$heading-bg-colour;
   }
 }

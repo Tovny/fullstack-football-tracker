@@ -1,6 +1,6 @@
 import "./DateCarousel.scss";
 import { useState, useEffect, useRef } from "react";
-import ReactDOM from "react-dom";
+import { createPortal } from "react-dom";
 import ArrowBack from "@material-ui/icons/ArrowBackIosOutlined";
 import ArrowForward from "@material-ui/icons/ArrowForwardIosOutlined";
 import CalendarTodaySharpIcon from "@material-ui/icons/CalendarTodaySharp";
@@ -27,7 +27,9 @@ const formatDate = (date) => {
 const DateCarousel = (props) => {
   const dispatch = useDispatch();
   const { date } = useSelector((state) => state.filters);
-  const [carouselDate, setCarouselDate] = useState(new Date(date));
+  const [carouselDate, setCarouselDate] = useState(
+    date === "all" ? new Date() : new Date(date)
+  );
   const dateSliderRef = useRef(null);
   const selectedDateRef = useRef(null);
   const [openCalendar, setOpenCalendar] = useState(false);
@@ -235,7 +237,19 @@ const DateCarousel = (props) => {
           setOpenCalendar(!openCalendar);
         }}
       />
-      {ReactDOM.createPortal(
+      {document.getElementsByClassName("filters")[0]
+        ? createPortal(
+            <CalendarTodaySharpIcon
+              ref={calendarIconRef}
+              id="calendarIcon"
+              onClick={() => {
+                setOpenCalendar(!openCalendar);
+              }}
+            />,
+            document.getElementsByClassName("filters")[0]
+          )
+        : null}
+      {createPortal(
         <CSSTransition
           in={openCalendar}
           timeout={200}

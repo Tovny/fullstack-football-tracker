@@ -1,5 +1,6 @@
 import "./SideNews.scss";
 import { useEffect } from "react";
+import { Link } from "react-router-dom";
 import x_auth from "../config/default";
 import { useSelector, useDispatch } from "react-redux";
 import getNews from "../redux/actions/news-actions";
@@ -27,7 +28,7 @@ const SideNews = () => {
       <NewsArticle article={news[2]} />
       <NewsArticle article={news[3]} />
       <div className="newsLinkContainer">
-        <a href="#ds">More Football News</a>
+        <Link to="/news">More Football News</Link>
       </div>
     </div>
   ) : null;
@@ -52,12 +53,12 @@ const NewsArticle = ({ article }) => {
     return finalTitle;
   };
   return (
-    <div className="article" onClick={() => window.open(url)}>
+    <a className="article" href={url}>
       <h5>{title.length > 60 ? sliceTitle(title) : title}</h5>
       <div className="articleImage">
         <img alt={title} src={image}></img>
       </div>
-    </div>
+    </a>
   );
 };
 

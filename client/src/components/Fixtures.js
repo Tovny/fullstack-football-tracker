@@ -224,7 +224,9 @@ const Fixtures = () => {
           </SwitchTransition>
         </Fragment>
       ) : (
-        <LoadingIcon />
+        <div id="loadingIconContainer">
+          <LoadingIcon />
+        </div>
       )}
     </div>
   );

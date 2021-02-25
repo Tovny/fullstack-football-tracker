@@ -19,6 +19,11 @@
         #leagueHeading {
           display: grid;
           grid-template-columns: auto auto auto;
+
+          a {
+            color: variables.$heading-text-colour;
+            text-decoration: none;
+          }
         }
 
         #arrowBack {

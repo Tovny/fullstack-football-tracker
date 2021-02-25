@@ -3,7 +3,6 @@
 .fixturesLayout {
   display: grid;
   grid-template-columns: 220px minmax(350px, auto) 300px;
-  border-top: 10px solid variables.$heading-bg-colour;
 
   .filterContainer {
     display: flex;
@@ -25,7 +24,7 @@
     position: absolute;
     grid-template-columns: min-content auto;
     width: 100%;
-    min-height: calc(100% - 3rem - 10px);
+    min-height: calc(100% - 3rem);
 
     .filterContainer {
       margin-top: 0;
@@ -50,7 +49,7 @@
 
     .filterContainer {
       position: absolute;
-      right: 3.5rem;
+      right: 0.5rem;
       width: auto;
       height: auto;
       background-color: transparent;
