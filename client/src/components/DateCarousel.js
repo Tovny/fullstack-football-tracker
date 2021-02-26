@@ -54,7 +54,7 @@ const DateCarousel = (props) => {
 
   useEffect(() => {
     const dateSelectors = [];
-    for (let i = -7; i <= 7; i++) {
+    for (let i = -14; i <= 14; i++) {
       const selectorDate = new Date(carouselDate);
       selectorDate.setDate(selectorDate.getDate() + i);
 
@@ -84,9 +84,9 @@ const DateCarousel = (props) => {
       selectorDates.forEach((selectorDate, i) => {
         if (selectorDate.toDateString() === date.toDateString()) {
           setCurrentSelectedI(i);
-          if (selectorDates.length - i <= 3) {
+          if (selectorDates.length - i <= 6) {
             const newSelectors = [];
-            for (let j = 7 - (selectorDates.length - i - 1); j >= 1; j--) {
+            for (let j = 14 - (selectorDates.length - i - 1); j >= 1; j--) {
               const newDateSelector = new Date(
                 selectorDates[selectorDates.length - 1]
               );
@@ -94,9 +94,9 @@ const DateCarousel = (props) => {
               newSelectors.unshift(newDateSelector);
             }
             setSelectorDates([...selectorDates, ...newSelectors]);
-          } else if (i < 3) {
+          } else if (i < 6) {
             const newSelectors = [];
-            for (let j = 7 - i; j >= 1; j--) {
+            for (let j = 14 - i; j >= 1; j--) {
               const newDateSelector = new Date(selectorDates[0]);
               newDateSelector.setDate(newDateSelector.getDate() - j);
               newSelectors.push(newDateSelector);
@@ -122,11 +122,6 @@ const DateCarousel = (props) => {
 
         childSpan.addEventListener("click", () => {
           handleCalendarChange(new Date());
-          if (selectedDateRef.current)
-            selectedDateRef.current.scrollIntoView({
-              behavior: "smooth",
-              inline: "center",
-            });
         });
 
         elt.appendChild(childSpan);
@@ -139,7 +134,7 @@ const DateCarousel = (props) => {
   useEffect(() => {
     if (changeScrollX) {
       let scrollXto = 0;
-      for (let i = 0; i < 7 - currentSelectedI; i++) {
+      for (let i = 0; i < 14 - currentSelectedI; i++) {
         if (sliderULref.current) {
           if (sliderULref.current.children[i]) {
             scrollXto =
@@ -148,7 +143,7 @@ const DateCarousel = (props) => {
           }
         }
       }
-
+      dateSliderRef.current.style.scrollBehavior = "auto";
       scrollXto = scrollXto + dateSliderRef.current.scrollLeft;
 
       setChangeScrollX(false);
@@ -158,11 +153,37 @@ const DateCarousel = (props) => {
   }, [selectorDates]);
 
   useEffect(() => {
-    if (selectedDateRef.current)
-      selectedDateRef.current.scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-      });
+    (async () => {
+      await new Promise((resolve) => setTimeout(resolve, 100));
+
+      if (selectedDateRef.current) {
+        let scrollXto = 0;
+        if (sliderULref.current) {
+          dateSliderRef.current.style.scrollBehavior = "smooth";
+          for (let i = 0; i < sliderULref.current.children.length; i++) {
+            if (sliderULref.current.children[i] === selectedDateRef.current) {
+              scrollXto =
+                scrollXto +
+                selectedDateRef.current.getBoundingClientRect().width / 2;
+              break;
+            } else if (sliderULref.current.children[i]) {
+              scrollXto =
+                scrollXto +
+                sliderULref.current.children[i].getBoundingClientRect().width;
+            }
+          }
+        }
+
+        scrollXto =
+          scrollXto -
+          document
+            .getElementsByClassName("dateCarousel")[0]
+            .getBoundingClientRect().width /
+            2;
+
+        dateSliderRef.current.scrollLeft = scrollXto;
+      }
+    })();
   }, [selectedDate]);
 
   const handleScroll = (direction) => {

@@ -19,8 +19,16 @@
       margin: 0.5rem;
       margin-left: 1rem;
 
-      img {
+      #imgContainer {
+        display: flex;
+        justify-content: center;
+        align-items: center;
         height: 2.5rem;
+        width: 2.5rem;
+
+        img {
+          height: 100%;
+        }
       }
     }
 
@@ -361,8 +369,8 @@
         font-size: 1rem;
       }
 
-      img {
-        height: 2.5rem !important;
+      #imgContainer {
+        width: 2rem !important;
       }
     }
 
@@ -381,12 +389,14 @@
 
     .tableFilters {
       h3 {
-        font-size: 0.75rem;
+        font-size: 0.8rem;
         letter-spacing: 0.05rem;
+        margin: 0.25rem;
       }
 
-      img {
-        height: 1.5rem !important;
+      #imgContainer {
+        height: 2rem !important;
+        width: 2rem !important;
       }
 
       .selectMatch,

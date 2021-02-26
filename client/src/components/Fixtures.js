@@ -25,9 +25,8 @@ const Fixtures = () => {
   } = useSelector((state) => state.filters);
   const [direction, setDirection] = useState("fixturesTransitionOpacity");
   const [fixtureElements, setFixtureElements] = useState(null);
-  const [causeRerender, setCauseRerender] = useState(false);
+  const [causeRerender, setCauseRerender] = useState(0);
   const [xPos, setXPos] = useState(0);
-  const selectedDate = document.getElementById("selectedDate");
   const fixturesContainerRef = useRef(null);
 
   useEffect(() => {
@@ -39,13 +38,19 @@ const Fixtures = () => {
 
       let filterString = "?";
 
+      if (fixtures && causeRerender === 0) {
+        setCauseRerender(causeRerender + 1);
+        dispatch(setFilters({ date: new Date() }));
+        return;
+      }
+
       if (
         dateString === "all" ||
         document.getElementsByClassName("fixturesDate")[0]
       ) {
         setDirection("fixturesTransitionOpacity");
         setFixtureElements(null);
-        setCauseRerender(!causeRerender);
+        setCauseRerender(causeRerender + 1);
         await new Promise((resolve) => {
           setTimeout(resolve, 250);
         });
@@ -91,19 +96,11 @@ const Fixtures = () => {
       setFixtureElements(temp);
       setXPos(0);
       setDirection("fixturesTransitionOpacity");
-      setCauseRerender(!causeRerender);
+      setCauseRerender(causeRerender + 1);
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [fixtures]);
-
-  useEffect(() => {
-    if (document.getElementById("selectedDate"))
-      document.getElementById("selectedDate").scrollIntoView({
-        behavior: "smooth",
-        inline: "center",
-      });
-  }, [selectedDate]);
 
   const handleTouchMove = (event) => {
     let scrollPos = event.touches[0].clientY;

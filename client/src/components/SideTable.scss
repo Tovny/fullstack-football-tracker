@@ -23,6 +23,7 @@
           a {
             color: variables.$heading-text-colour;
             text-decoration: none;
+            transition: filter 150ms ease-in;
           }
         }
 
@@ -81,7 +82,8 @@
       transition: filter 150ms ease-in;
     }
 
-    svg:hover {
+    svg:hover,
+    a:hover {
       filter: brightness(0.8);
     }
   }

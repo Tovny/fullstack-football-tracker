@@ -47,7 +47,9 @@ const Table = () => {
         <Fragment>
           <div className="tableFilters">
             <div className="selectTable">
-              <img src={tables[selectedTable].logo} alt="leagueLogo"></img>
+              <div id="imgContainer">
+                <img src={tables[selectedTable].logo} alt="leagueLogo"></img>
+              </div>
               <h3>
                 {`${tables[selectedTable].country} - 
                 ${tables[selectedTable].league}`}
@@ -146,9 +148,8 @@ const Table = () => {
             <CSSTransition
               timeout={200}
               key={[selectedTable, selectedMatches]}
-              addEndListener={(node, done) =>
-                node.addEventListener("transitionend", done, false)
-              }
+              mountOnEnter
+              unmountOnExit
               classNames="tableTransition"
             >
               <table>

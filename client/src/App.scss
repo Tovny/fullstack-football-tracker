@@ -38,7 +38,7 @@ body {
       }
       .pageTransition-enter-active {
         opacity: 100%;
-        transition: opacity 200ms ease-in, left 0ms linear;
+        transition: opacity 100ms ease-in, left 0ms linear;
       }
       .pageTransition-exit {
         opacity: 100%;
@@ -46,7 +46,7 @@ body {
       }
       .pageTransition-exit-active {
         opacity: 0%;
-        transition: opacity 200ms ease-in, left 0ms linear;
+        transition: opacity 100ms ease-in, left 0ms linear;
       }
     }
   }

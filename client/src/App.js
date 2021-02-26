@@ -24,7 +24,7 @@ function App() {
             classNames="pageTransition"
           >
             <Switch location={location}>
-              <Route path="/tables/:table?">
+              <Route path="/tables:table?">
                 <Table />
               </Route>
               <Route exact path="/">

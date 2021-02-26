@@ -42,9 +42,7 @@ const SideTable = () => {
         <SwitchTransition>
           <CSSTransition
             key={selectedTable}
-            addEndListener={(node, done) =>
-              node.addEventListener("transitionend", done, false)
-            }
+            timeout={250}
             classNames={direction}
           >
             <table>
@@ -63,7 +61,7 @@ const SideTable = () => {
                         }}
                       />
                       {
-                        <Link to={`/tables/${selectedTable}`}>
+                        <Link to={`/tables${selectedTable}`}>
                           {tables[selectedTable].league}
                         </Link>
                       }
