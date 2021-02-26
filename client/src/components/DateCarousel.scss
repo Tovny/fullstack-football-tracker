@@ -50,13 +50,12 @@
 
         span {
           display: inline-block;
-
-          transition: transform 25ms ease-in;
+          transition: color 150ms linear;
         }
 
         @media (hover: hover) {
           span:hover {
-            transform: translateY(-15%);
+            color: variables.$heading-text-colour;
           }
         }
 

@@ -262,13 +262,7 @@ const NextMatch = ({ row }) => {
           alt={`${row.team} next Opponent`}
         ></img>
       )}
-      <CSSTransition
-        in={openNext}
-        mountOnEnter
-        unmountOnExit
-        timeout={150}
-        classNames="matchPopup"
-      >
+      <CSSTransition in={openNext} mountOnEnter unmountOnExit timeout={0}>
         <div className="nextContainer">
           <div className="nextOpponent">
             <time>
@@ -325,13 +319,7 @@ const FormMatch = ({ formObj }) => {
     >
       {formObj.result}
 
-      <CSSTransition
-        in={openNext}
-        mountOnEnter
-        unmountOnExit
-        timeout={150}
-        classNames="matchPopup"
-      >
+      <CSSTransition in={openNext} mountOnEnter unmountOnExit timeout={0}>
         <div className="formContainer">
           <div
             className="formOpponent"

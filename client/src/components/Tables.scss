@@ -8,7 +8,6 @@
     display: flex;
     flex-flow: row;
     justify-content: space-between;
-    border-bottom: 0.15rem solid variables.$heading-text-colour;
 
     .selectTable {
       display: flex;
@@ -96,6 +95,8 @@
     border-collapse: collapse;
     text-align: center;
     width: 100%;
+    border-top: 0.15rem solid variables.$heading-text-colour;
+    border-bottom: 0.15rem solid variables.$heading-text-colour;
 
     img {
       height: 1.75rem;
@@ -342,22 +343,6 @@
   .tableTransition-exit-active {
     opacity: 0%;
     transition: opacity 250ms ease-in;
-  }
-
-  .matchPopup-enter {
-    opacity: 0%;
-  }
-  .matchPopup-enter-active {
-    opacity: 100%;
-    transition: opacity 150ms ease-in;
-  }
-  .matchPopup-exit {
-    opacity: 100%;
-    transition: left 0ms linear;
-  }
-  .matchPopup-exit-active {
-    opacity: 0%;
-    transition: opacity 150ms ease-in;
   }
 }
 
