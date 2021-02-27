@@ -31,7 +31,7 @@ const Articles = () => {
     if (news) {
       const temp = [];
       for (let i = 0; i < 10; i++) {
-        const date = new Date(`${news[i].date} ${news[i].time}`);
+        const date = new Date(`${news[i].date} 15:00`);
 
         temp.push(
           <a href={news[i].url} className="article" key={i}>

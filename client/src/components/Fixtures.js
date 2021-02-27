@@ -197,8 +197,6 @@ const Fixtures = () => {
                 node.addEventListener("transitionend", done, false)
               }
               classNames={direction}
-              mountOnEnter
-              unmountOnExit
               style={{ left: xPos }}
             >
               <div className="fixtures" onTouchStart={handleTouchMove}>
@@ -386,7 +384,6 @@ const LeagueFixtures = (props) => {
         timeout={250}
         classNames="innerFixturesTransition"
         unmountOnExit
-        mountOnEnter
         onExit={detractHeight}
         onEnter={addHeight}
       >

@@ -390,7 +390,7 @@
 
         .selectors {
           width: 250px;
-          top: 2rem;
+          top: 2.5rem;
         }
       }
     }
@@ -403,9 +403,16 @@
         display: none;
       }
 
-      th:nth-child(2),
+      th:nth-child(2) {
+        padding-left: 1.5rem !important;
+      }
+
       td:nth-child(2) {
-        padding-left: 1px;
+        padding-left: 0 !important;
+
+        img {
+          margin-left: 0.25rem;
+        }
       }
 
       th,

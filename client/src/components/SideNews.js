@@ -55,9 +55,10 @@ const NewsArticle = ({ article }) => {
   return (
     <a className="article" href={url}>
       <h5>{title.length > 60 ? sliceTitle(title) : title}</h5>
-      <div className="articleImage">
-        <img alt={title} src={image}></img>
-      </div>
+      <div
+        className="articleImage"
+        style={{ backgroundImage: `url(${image})`, backgroundSize: "cover" }}
+      ></div>
     </a>
   );
 };

@@ -147,9 +147,8 @@ const Table = () => {
           <SwitchTransition>
             <CSSTransition
               timeout={200}
-              key={[selectedTable, selectedMatches]}
-              mountOnEnter
               unmountOnExit
+              key={[selectedTable, selectedMatches]}
               classNames="tableTransition"
             >
               <table>

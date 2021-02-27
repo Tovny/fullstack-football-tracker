@@ -54,7 +54,7 @@ const DateCarousel = (props) => {
 
   useEffect(() => {
     const dateSelectors = [];
-    for (let i = -14; i <= 14; i++) {
+    for (let i = -7; i <= 7; i++) {
       const selectorDate = new Date(carouselDate);
       selectorDate.setDate(selectorDate.getDate() + i);
 
@@ -84,9 +84,9 @@ const DateCarousel = (props) => {
       selectorDates.forEach((selectorDate, i) => {
         if (selectorDate.toDateString() === date.toDateString()) {
           setCurrentSelectedI(i);
-          if (selectorDates.length - i <= 6) {
+          if (selectorDates.length - i <= 3) {
             const newSelectors = [];
-            for (let j = 14 - (selectorDates.length - i - 1); j >= 1; j--) {
+            for (let j = 7 - (selectorDates.length - i - 1); j >= 1; j--) {
               const newDateSelector = new Date(
                 selectorDates[selectorDates.length - 1]
               );
@@ -94,9 +94,9 @@ const DateCarousel = (props) => {
               newSelectors.unshift(newDateSelector);
             }
             setSelectorDates([...selectorDates, ...newSelectors]);
-          } else if (i < 6) {
+          } else if (i < 3) {
             const newSelectors = [];
-            for (let j = 14 - i; j >= 1; j--) {
+            for (let j = 7 - i; j >= 1; j--) {
               const newDateSelector = new Date(selectorDates[0]);
               newDateSelector.setDate(newDateSelector.getDate() - j);
               newSelectors.push(newDateSelector);
@@ -134,7 +134,7 @@ const DateCarousel = (props) => {
   useEffect(() => {
     if (changeScrollX) {
       let scrollXto = 0;
-      for (let i = 0; i < 14 - currentSelectedI; i++) {
+      for (let i = 0; i < 7 - currentSelectedI; i++) {
         if (sliderULref.current) {
           if (sliderULref.current.children[i]) {
             scrollXto =
