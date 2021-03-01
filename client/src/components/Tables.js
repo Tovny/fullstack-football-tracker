@@ -1,5 +1,5 @@
 import "./Tables.scss";
-import { useState, useEffect, Fragment } from "react";
+import { useState, useEffect, useRef, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import x_auth from "../config/default";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
@@ -240,13 +240,13 @@ const Table = () => {
 };
 
 const NextMatch = ({ row }) => {
-  const [openNext, setOpenNext] = useState(false);
+  const nextRef = useRef(null);
   const date = new Date(`${row.next.date} ${row.next.kickOff}`);
 
   return (
     <div
-      onMouseEnter={() => setOpenNext(true)}
-      onMouseLeave={() => setOpenNext(false)}
+      onMouseEnter={() => (nextRef.current.style.display = "block")}
+      onMouseLeave={() => (nextRef.current.style.display = "none")}
     >
       {row.next.homeCrest === row.crest ? (
         <img
@@ -261,40 +261,32 @@ const NextMatch = ({ row }) => {
           alt={`${row.team} next Opponent`}
         ></img>
       )}
-      <CSSTransition in={openNext} mountOnEnter unmountOnExit timeout={0}>
-        <div className="nextContainer">
-          <div className="nextOpponent">
-            <time>
-              {date.toDateString() !== "Invalid Date"
-                ? format(date, "iiii, LLL do")
-                : "Date To be Confirmed"}
-            </time>
-            <div className="nextMatchInfo">
-              <div className="nextHome">
-                <h4>{row.next.homeTeam}</h4>
-                <img
-                  src={row.next.homeCrest}
-                  alt={`Next Match Home Crest`}
-                ></img>
-              </div>
-              <h4>{row.next.kickOff}</h4>
-              <div className="nextAway">
-                <img
-                  src={row.next.awayCrest}
-                  alt={`Next Match Away Crest`}
-                ></img>
-                <h4>{row.next.awayTeam}</h4>
-              </div>
+      <div className="nextContainer" ref={nextRef}>
+        <div className="nextOpponent">
+          <time>
+            {date.toDateString() !== "Invalid Date"
+              ? format(date, "iiii, LLL do")
+              : "Date To be Confirmed"}
+          </time>
+          <div className="nextMatchInfo">
+            <div className="nextHome">
+              <h4>{row.next.homeTeam}</h4>
+              <img src={row.next.homeCrest} alt={`Next Match Home Crest`}></img>
+            </div>
+            <h4>{row.next.kickOff}</h4>
+            <div className="nextAway">
+              <img src={row.next.awayCrest} alt={`Next Match Away Crest`}></img>
+              <h4>{row.next.awayTeam}</h4>
             </div>
           </div>
         </div>
-      </CSSTransition>
+      </div>
     </div>
   );
 };
 
 const FormMatch = ({ formObj }) => {
-  const [openNext, setOpenNext] = useState(false);
+  const formRef = useRef(null);
   const date = new Date(`${formObj.date} ${formObj.kickOff}`);
   const [styleObj, setStyleObj] = useState({});
 
@@ -313,45 +305,33 @@ const FormMatch = ({ formObj }) => {
     <li
       className="result"
       style={styleObj}
-      onMouseEnter={() => setOpenNext(true)}
-      onMouseLeave={() => setOpenNext(false)}
+      onMouseEnter={() => (formRef.current.style.display = "block")}
+      onMouseLeave={() => (formRef.current.style.display = "none")}
     >
       {formObj.result}
-
-      <CSSTransition in={openNext} mountOnEnter unmountOnExit timeout={0}>
-        <div className="formContainer">
-          <div
-            className="formOpponent"
-            onClick={() => window.open(formObj.url)}
-          >
-            <time>
-              {date.toDateString() !== "Invalid Date"
-                ? format(date, "iiii, LLL do")
-                : "Date To be Confirmed"}
-            </time>
-            <div className="formMatchInfo">
-              <div className="formHome">
-                <h4>{formObj.homeTeam}</h4>
-                <img
-                  src={formObj.homeCrest}
-                  alt={`Form Match Home Crest`}
-                ></img>
-              </div>
-              <div className="scoreContainer">
-                <div className="score">{formObj.homeScore}</div>
-                <div className="score">{formObj.awayScore}</div>
-              </div>
-              <div className="formAway">
-                <img
-                  src={formObj.awayCrest}
-                  alt={`Form Match Away Crest`}
-                ></img>
-                <h4>{formObj.awayTeam}</h4>
-              </div>
+      <a className="formContainer" href={formObj.url} ref={formRef}>
+        <div className="formOpponent">
+          <time>
+            {date.toDateString() !== "Invalid Date"
+              ? format(date, "iiii, LLL do")
+              : "Date To be Confirmed"}
+          </time>
+          <div className="formMatchInfo">
+            <div className="formHome">
+              <h4>{formObj.homeTeam}</h4>
+              <img src={formObj.homeCrest} alt={`Form Match Home Crest`}></img>
+            </div>
+            <div className="scoreContainer">
+              <div className="score">{formObj.homeScore}</div>
+              <div className="score">{formObj.awayScore}</div>
+            </div>
+            <div className="formAway">
+              <img src={formObj.awayCrest} alt={`Form Match Away Crest`}></img>
+              <h4>{formObj.awayTeam}</h4>
             </div>
           </div>
         </div>
-      </CSSTransition>
+      </a>
     </li>
   );
 };

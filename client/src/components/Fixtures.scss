@@ -1,6 +1,7 @@
 @use "../assets/variables";
 
 .fixturesContainer {
+  position: relative;
   display: flex;
   flex-flow: column;
   overflow: hidden;
@@ -288,6 +289,7 @@
 
 @media screen and (max-width: 992px) {
   .fixturesContainer {
+    position: static;
     margin-top: 0;
     margin-bottom: 0;
     background-color: variables.$heading-bg-colour;

@@ -39,7 +39,6 @@ const DateCarousel = (props) => {
   const sliderULref = useRef(null);
   const calendarIconRef = useRef(null);
   const selectedDate = document.getElementById("selectedDate");
-  const [calendarStyle, setCalendarStyle] = useState();
 
   useEffect(() => {
     if (date === "all") {
@@ -200,7 +199,7 @@ const DateCarousel = (props) => {
   };
 
   useEffect(() => {
-    if (openCalendar) {
+    if (openCalendar && window.innerWidth <= 992) {
       document.getElementsByTagName("html")[0].scrollTop = 0;
       document.getElementsByTagName("html")[0].className = "noScroll";
       document.getElementsByTagName("body")[0].className = "noScroll";
@@ -208,16 +207,9 @@ const DateCarousel = (props) => {
       document.getElementsByTagName("html")[0].classList.remove("noScroll");
       document.getElementsByTagName("body")[0].classList.remove("noScroll");
     }
-    if (window.innerWidth >= 992) {
-      const eltRect = document
-        .getElementsByClassName("datePickerContainer")[0]
-        .getBoundingClientRect();
-      const left = eltRect.left;
-      const width = eltRect.width;
-      const top = eltRect.top + 32;
-      setCalendarStyle({ left, top, width });
-    } else if (window.innerWidth < 992) {
-      setCalendarStyle(null);
+
+    if (openCalendar && window.innerWidth > 992) {
+      document.body.addEventListener("click", () => setOpenCalendar(false));
     }
   }, [openCalendar]);
 
@@ -238,6 +230,7 @@ const DateCarousel = (props) => {
                     selectorDate={selectorDate}
                     dispatch={dispatch}
                     setDirection={props.setDirection}
+                    setOpenCalendar={setOpenCalendar}
                     key={i}
                     selectedDateRef={selectedDateRef}
                   />
@@ -254,8 +247,10 @@ const DateCarousel = (props) => {
       <CalendarTodaySharpIcon
         ref={calendarIconRef}
         id="calendarIcon"
-        onClick={() => {
+        onClick={(event) => {
           setOpenCalendar(!openCalendar);
+          event.stopPropagation();
+          event.nativeEvent.stopImmediatePropagation();
         }}
       />
       {document.getElementsByClassName("filters")[0]
@@ -263,8 +258,10 @@ const DateCarousel = (props) => {
             <CalendarTodaySharpIcon
               ref={calendarIconRef}
               id="calendarIcon"
-              onClick={() => {
+              onClick={(event) => {
                 setOpenCalendar(!openCalendar);
+                event.stopPropagation();
+                event.nativeEvent.stopImmediatePropagation();
               }}
             />,
             document.getElementsByClassName("filters")[0]
@@ -272,7 +269,7 @@ const DateCarousel = (props) => {
         : null}
       {createPortal(
         <CSSTransition
-          in={openCalendar}
+          in={window.innerWidth <= 992 ? openCalendar : false}
           timeout={200}
           mountOnEnter
           unmountOnExit
@@ -282,7 +279,6 @@ const DateCarousel = (props) => {
           <div className="calendarModal">
             <div
               className="calendar"
-              style={calendarStyle}
               onClick={(event) => {
                 event.stopPropagation();
                 event.nativeEvent.stopImmediatePropagation();
@@ -299,6 +295,31 @@ const DateCarousel = (props) => {
         </CSSTransition>,
         document.getElementById("root")
       )}
+      <CSSTransition
+        in={window.innerWidth > 992 ? openCalendar : false}
+        timeout={200}
+        mountOnEnter
+        unmountOnExit
+        classNames="calendarModal"
+        onClick={() => setOpenCalendar(false)}
+      >
+        <div className="calendarModal">
+          <div
+            className="calendar"
+            onClick={(event) => {
+              event.stopPropagation();
+              event.nativeEvent.stopImmediatePropagation();
+            }}
+          >
+            <DatePickerCalendar
+              locale={enGB}
+              date={date !== "all" ? date : new Date()}
+              onDateChange={handleCalendarChange}
+            />
+            <div className="calendarButtons"></div>
+          </div>
+        </div>
+      </CSSTransition>
     </div>
   );
 };
@@ -313,7 +334,7 @@ const DateSelector = (props) => {
     }
 
     props.setDirection(`fixturesTransition${direction}`);
-
+    props.setOpenCalendar(false);
     props.dispatch(setFilters({ date: props.selectorDate }));
   };
 

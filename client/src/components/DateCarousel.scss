@@ -90,6 +90,19 @@
     -ms-overflow-style: none;
     scrollbar-width: none;
   }
+
+  .calendarModal {
+    background-color: transparent;
+    display: flex;
+    justify-content: center;
+    margin-top: 2.5rem;
+
+    .calendar {
+      position: absolute;
+      background-color: variables.$heading-text-colour;
+      width: 100%;
+    }
+  }
 }
 
 .calendarModal {
