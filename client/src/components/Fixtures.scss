@@ -87,13 +87,16 @@
                 padding: 0.5rem 0 0.5rem 0;
               }
 
-              .fixtureBody {
+              .fixtureBody,
+              .fixtureBodyNoLink {
                 display: grid;
                 grid-template-rows: auto auto;
                 grid-template-columns: 5fr 1fr 5fr;
                 align-items: center;
                 font-weight: 630;
                 letter-spacing: 0.05rem;
+                text-decoration: none;
+                color: variables.$heading-text-colour;
                 transition: color 150ms ease-in, background-color 150ms ease-in;
 
                 .home,
@@ -142,6 +145,11 @@
                   font-weight: 650;
                   letter-spacing: 0.15rem;
                 }
+              }
+
+              .noLink {
+                pointer-events: none;
+                cursor: default;
               }
 
               .date {

@@ -4,6 +4,7 @@ import FixturesLayout from "./layouts/FixturesLayout";
 import Header from "./components/Header";
 import Table from "./components/Tables";
 import News from "./components/News";
+import MatchInfo from "./components/MatchInfo";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 
 function App() {
@@ -11,9 +12,11 @@ function App() {
 
   return (
     <div className="container">
-      <div className="headerContainer">
-        <Header />
-      </div>
+      {!location.pathname.includes("match") ? (
+        <div className="headerContainer">
+          <Header />
+        </div>
+      ) : null}
       <div className="contentContainer">
         <SwitchTransition>
           <CSSTransition
@@ -36,6 +39,9 @@ function App() {
             </Switch>
           </CSSTransition>
         </SwitchTransition>
+        <Route path="/match/:league?/:hometeam?/:awayteam">
+          <MatchInfo />
+        </Route>
       </div>
     </div>
   );

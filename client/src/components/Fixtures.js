@@ -250,14 +250,16 @@ const LeagueFixtures = (props) => {
     const date = new Date(`${match.info.date}T${match.info.kickOff}Z`);
 
     return (
-      <div
+      <a
         key={i ? i : null}
-        className="fixtureBody"
-        onClick={
+        className={
           match.info.status !== "Scheduled"
-            ? () => window.open(match.info.url)
-            : null
+            ? "fixtureBody"
+            : "fixtureBody noLink"
         }
+        href={`match/${props.league.league}/${match.teams.home.name}/${match.teams.away.name}`}
+        target="_blank"
+        rel="noopener noreferrer"
       >
         <div className="home">
           {match.teams.home.shortName
@@ -299,7 +301,7 @@ const LeagueFixtures = (props) => {
             ? match.teams.away.shortName
             : match.teams.away.name}
         </div>
-      </div>
+      </a>
     );
   };
 

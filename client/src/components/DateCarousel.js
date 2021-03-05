@@ -269,7 +269,7 @@ const DateCarousel = (props) => {
         : null}
       {createPortal(
         <CSSTransition
-          in={window.innerWidth <= 992 ? openCalendar : false}
+          in={openCalendar && window.innerWidth <= 992}
           timeout={200}
           mountOnEnter
           unmountOnExit
@@ -296,7 +296,7 @@ const DateCarousel = (props) => {
         document.getElementById("root")
       )}
       <CSSTransition
-        in={window.innerWidth > 992 ? openCalendar : false}
+        in={openCalendar && window.innerWidth > 992}
         timeout={200}
         mountOnEnter
         unmountOnExit

@@ -18,7 +18,7 @@ const Header = () => {
       <nav>
         <ul>
           <li id={activePage === "/news" ? "activePage" : null}>
-            <Link to="news">
+            <Link to="/news">
               <AnnouncementIcon />
               <span>NEWS</span>
             </Link>
@@ -39,7 +39,7 @@ const Header = () => {
                 : null
             }
           >
-            <Link to="tables">
+            <Link to="/tables">
               <TableChartIcon />
               <span>TABLES</span>
             </Link>

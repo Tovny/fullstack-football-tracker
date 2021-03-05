@@ -1,0 +1,403 @@
+@use '../assets/variables';
+
+.matchContainer {
+  margin-top: 1rem;
+  margin-bottom: 1rem;
+
+  .matchInfo {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
+    width: 100%;
+
+    .scoreContainer {
+      display: grid;
+      grid-template-columns: 1fr 4rem 125px 4rem 1fr;
+      width: 100%;
+      align-items: center;
+      justify-content: center;
+
+      .teamName {
+        background-color: variables.$heading-text-colour;
+
+        h3 {
+          font-size: 1.35rem;
+          letter-spacing: 0.2rem;
+          color: variables.$heading-bg-colour;
+          margin: 0.5rem 2.5rem 0.5rem 2.5rem;
+          text-transform: capitalize;
+        }
+
+        div {
+          height: 5px;
+          background-color: variables.$bg-colour;
+        }
+      }
+
+      #homeTeam {
+        text-align: right;
+        margin-right: -1rem;
+        border-bottom: 4px solid variables.$heading-text-colour;
+      }
+
+      #awayTeam {
+        margin-left: -1rem;
+        border-bottom: 4px solid variables.$heading-bg-colour;
+      }
+
+      .crestContainer {
+        display: flex;
+        width: 4rem;
+        height: 4rem;
+        background-color: variables.$bg-colour;
+        border-radius: 50%;
+        border: 4px solid variables.$heading-text-colour;
+        z-index: 5;
+
+        img {
+          height: 75%;
+          margin: auto;
+        }
+      }
+
+      .score {
+        text-align: center;
+        font-size: 1.35rem;
+        padding: 0.75rem 3rem 0.75rem 3rem;
+        margin-left: -1rem;
+        margin-right: -1rem;
+        background-color: variables.$heading-bg-colour;
+        color: variables.$heading-text-colour;
+      }
+
+      #homeScorers,
+      #awayScorers {
+        grid-column: span 2;
+        align-self: flex-start;
+        margin: 0 1.5rem 0 1.5rem;
+      }
+
+      #homeScorers {
+        text-align: right;
+      }
+
+      .matchStatus {
+        grid-column: span 1;
+        align-self: flex-start;
+        text-align: center;
+        font-size: 0.9rem;
+      }
+    }
+
+    .info {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      align-items: center;
+      width: 100%;
+      text-transform: capitalize;
+
+      div {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        padding: 0.75rem 2rem 0.75rem 2rem;
+
+        svg {
+          margin: 0 0.75rem 0 0.5rem;
+        }
+      }
+
+      .date {
+        span {
+          margin-left: 1rem;
+        }
+      }
+
+      .stadium {
+        img {
+          height: 1.75rem;
+          margin-right: 0.75rem;
+        }
+      }
+    }
+  }
+
+  .tabs {
+    display: flex;
+    justify-content: center;
+    margin-top: 2rem;
+    width: 100%;
+    background-color: variables.$heading-bg-colour;
+
+    #selectedTab {
+      background-color: variables.$fixture-body-bg;
+    }
+
+    span {
+      text-align: center;
+      background-color: variables.$heading-bg-colour;
+      color: variables.$heading-text-colour;
+      padding: 1rem 3rem 1rem 3rem;
+      margin: 0.5rem 1rem 0.5rem 1rem;
+      transition: 150ms background-color;
+    }
+
+    @media (hover: hover) {
+      span:hover {
+        background-color: variables.$fixture-body-bg;
+        cursor: pointer;
+      }
+    }
+  }
+
+  .matchEvents {
+    display: flex;
+    justify-content: center;
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        display: grid;
+        position: relative;
+        align-items: center;
+        grid-template-columns: 1fr 5rem 1fr;
+        height: 6rem;
+
+        .eventTime {
+          display: flex;
+          justify-content: center;
+          align-items: center;
+          justify-self: center;
+          width: 3.5rem;
+          height: 3.5rem;
+          border: 3px solid variables.$heading-bg-colour;
+          border-radius: 50%;
+          font-size: 0.85rem;
+          z-index: 5;
+          background-color: variables.$bg-colour;
+        }
+
+        .eventInfo {
+          display: flex;
+          align-items: center;
+
+          svg {
+            margin: 0.5rem;
+            height: 2rem;
+            width: 2rem;
+          }
+
+          .subOut {
+            color: #d81920;
+            transform: rotateY(180deg);
+          }
+        }
+
+        .yellowCard,
+        .redCard {
+          height: 25px;
+          width: 17px;
+          border-radius: 3px;
+          margin: 0 1rem 0 1rem;
+        }
+
+        .yellowCard {
+          background-color: #ecf75e;
+        }
+
+        .redCard {
+          background-color: #d81920;
+        }
+
+        .secondYellow {
+          position: relative;
+          width: min-content;
+          transform: translateX(-10%);
+
+          .yellowCard {
+            transform: rotate(-10deg);
+          }
+          .redCard {
+            position: absolute;
+            top: 0;
+            left: 10px;
+            transform: scale(1.1);
+          }
+        }
+
+        .homeEvent,
+        .awayEvent {
+          background-color: variables.$heading-bg-colour;
+          color: variables.$heading-text-colour;
+        }
+
+        .homeEvent {
+          padding-right: 2rem;
+
+          .eventInfo {
+            display: flex;
+            justify-content: flex-end;
+          }
+
+          .subIn {
+            transform: rotateY(180deg);
+          }
+
+          .subOut {
+            color: #d81920;
+            transform: none;
+          }
+        }
+
+        .awayEvent {
+          margin-left: -2rem;
+          padding-left: 2rem;
+        }
+      }
+
+      li::after {
+        display: block;
+        position: absolute;
+        content: "";
+        width: 5px;
+        height: 3rem;
+        left: 50%;
+        top: 4.5rem;
+        transform: translateX(-50%);
+        background-color: variables.$heading-bg-colour;
+        z-index: 0;
+      }
+    }
+  }
+
+  .lineupsContainer {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    margin-top: 1rem;
+    background-color: variables.$fixture-body-bg-light;
+    color: variables.$heading-text-colour;
+
+    h3 {
+      grid-column: span 2;
+      text-align: center;
+      background-color: variables.$heading-bg-colour;
+      color: variables.$heading-text-colour;
+      padding: 0.65rem 0 0.65rem 0;
+      margin: 0;
+    }
+
+    ul {
+      list-style: none;
+      padding: 0;
+
+      li {
+        margin-top: 0.75rem;
+      }
+    }
+
+    .homeStarters,
+    .homeReserves {
+      ul {
+        margin-right: 1.5rem;
+
+        li {
+          display: grid;
+          grid-template-columns: 1fr 40px;
+          align-items: center;
+
+          span {
+            text-align: right;
+          }
+
+          span:nth-child(2) {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+
+    .awayStarters,
+    .awayReserves {
+      ul {
+        margin-left: 1.5rem;
+
+        li {
+          display: grid;
+          grid-template-columns: 40px 1fr;
+          align-items: center;
+
+          span:nth-child(1) {
+            font-size: 1rem;
+          }
+        }
+      }
+    }
+  }
+
+  .tabsContainer {
+    overflow: hidden;
+    margin-left: 1rem;
+    margin-right: 1rem;
+
+    .tabsInfo {
+      display: flex;
+      position: relative;
+      transition: transform 300ms ease-in;
+      width: 300%;
+
+      div {
+        width: 100%;
+        height: min-content;
+      }
+
+      .statistics {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+
+        .statistic {
+          display: flex;
+          flex-flow: column;
+          align-items: center;
+          margin-top: 0.5rem;
+          font-size: 0.9rem;
+
+          h4 {
+            text-align: center;
+            margin: 0.25rem;
+          }
+
+          .stat {
+            display: grid;
+            grid-template-columns: 40px 1fr 40px;
+            align-items: center;
+            background-color: variables.$fixture-body-bg;
+            color: variables.$heading-text-colour;
+            padding: 0.75rem 0 0.75rem 0;
+
+            span {
+              text-align: center;
+            }
+
+            .statBar {
+              display: grid;
+              column-gap: 5px;
+
+              .homeStat {
+                background-color: variables.$heading-text-colour;
+                height: 0.8rem;
+              }
+
+              .awayStat {
+                background-color: variables.$heading-bg-colour;
+                height: 0.8rem;
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}
