@@ -107,12 +107,6 @@
         }
       }
 
-      .date {
-        span {
-          margin-left: 1rem;
-        }
-      }
-
       .stadium {
         img {
           height: 1.75rem;
@@ -125,221 +119,35 @@
   .tabs {
     display: flex;
     justify-content: center;
-    margin-top: 2rem;
     width: 100%;
     background-color: variables.$heading-bg-colour;
+    color: variables.$heading-text-colour;
+    border-top: 3px solid variables.$heading-text-colour;
 
     #selectedTab {
-      background-color: variables.$fixture-body-bg;
+      background-color: variables.$heading-text-colour;
+      color: variables.$heading-bg-colour;
     }
 
     span {
       text-align: center;
-      background-color: variables.$heading-bg-colour;
-      color: variables.$heading-text-colour;
-      padding: 1rem 3rem 1rem 3rem;
+      padding: 0.75rem 2rem 0.75rem 2rem;
       margin: 0.5rem 1rem 0.5rem 1rem;
       transition: 150ms background-color;
     }
 
     @media (hover: hover) {
       span:hover {
-        background-color: variables.$fixture-body-bg;
+        background-color: variables.$heading-text-colour;
+        color: variables.$heading-bg-colour;
         cursor: pointer;
-      }
-    }
-  }
-
-  .matchEvents {
-    display: flex;
-    justify-content: center;
-
-    ul {
-      list-style: none;
-      padding: 0;
-
-      li {
-        display: grid;
-        position: relative;
-        align-items: center;
-        grid-template-columns: 1fr 5rem 1fr;
-        height: 6rem;
-
-        .eventTime {
-          display: flex;
-          justify-content: center;
-          align-items: center;
-          justify-self: center;
-          width: 3.5rem;
-          height: 3.5rem;
-          border: 3px solid variables.$heading-bg-colour;
-          border-radius: 50%;
-          font-size: 0.85rem;
-          z-index: 5;
-          background-color: variables.$bg-colour;
-        }
-
-        .eventInfo {
-          display: flex;
-          align-items: center;
-
-          svg {
-            margin: 0.5rem;
-            height: 2rem;
-            width: 2rem;
-          }
-
-          .subOut {
-            color: #d81920;
-            transform: rotateY(180deg);
-          }
-        }
-
-        .yellowCard,
-        .redCard {
-          height: 25px;
-          width: 17px;
-          border-radius: 3px;
-          margin: 0 1rem 0 1rem;
-        }
-
-        .yellowCard {
-          background-color: #ecf75e;
-        }
-
-        .redCard {
-          background-color: #d81920;
-        }
-
-        .secondYellow {
-          position: relative;
-          width: min-content;
-          transform: translateX(-10%);
-
-          .yellowCard {
-            transform: rotate(-10deg);
-          }
-          .redCard {
-            position: absolute;
-            top: 0;
-            left: 10px;
-            transform: scale(1.1);
-          }
-        }
-
-        .homeEvent,
-        .awayEvent {
-          background-color: variables.$heading-bg-colour;
-          color: variables.$heading-text-colour;
-        }
-
-        .homeEvent {
-          padding-right: 2rem;
-
-          .eventInfo {
-            display: flex;
-            justify-content: flex-end;
-          }
-
-          .subIn {
-            transform: rotateY(180deg);
-          }
-
-          .subOut {
-            color: #d81920;
-            transform: none;
-          }
-        }
-
-        .awayEvent {
-          margin-left: -2rem;
-          padding-left: 2rem;
-        }
-      }
-
-      li::after {
-        display: block;
-        position: absolute;
-        content: "";
-        width: 5px;
-        height: 3rem;
-        left: 50%;
-        top: 4.5rem;
-        transform: translateX(-50%);
-        background-color: variables.$heading-bg-colour;
-        z-index: 0;
-      }
-    }
-  }
-
-  .lineupsContainer {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    margin-top: 1rem;
-    background-color: variables.$fixture-body-bg-light;
-    color: variables.$heading-text-colour;
-
-    h3 {
-      grid-column: span 2;
-      text-align: center;
-      background-color: variables.$heading-bg-colour;
-      color: variables.$heading-text-colour;
-      padding: 0.65rem 0 0.65rem 0;
-      margin: 0;
-    }
-
-    ul {
-      list-style: none;
-      padding: 0;
-
-      li {
-        margin-top: 0.75rem;
-      }
-    }
-
-    .homeStarters,
-    .homeReserves {
-      ul {
-        margin-right: 1.5rem;
-
-        li {
-          display: grid;
-          grid-template-columns: 1fr 40px;
-          align-items: center;
-
-          span {
-            text-align: right;
-          }
-
-          span:nth-child(2) {
-            font-size: 1rem;
-          }
-        }
-      }
-    }
-
-    .awayStarters,
-    .awayReserves {
-      ul {
-        margin-left: 1.5rem;
-
-        li {
-          display: grid;
-          grid-template-columns: 40px 1fr;
-          align-items: center;
-
-          span:nth-child(1) {
-            font-size: 1rem;
-          }
-        }
       }
     }
   }
 
   .tabsContainer {
     overflow: hidden;
-    margin-left: 1rem;
-    margin-right: 1rem;
+    background-color: variables.$body-bg-dark;
 
     .tabsInfo {
       display: flex;
@@ -347,15 +155,222 @@
       transition: transform 300ms ease-in;
       width: 300%;
 
-      div {
-        width: 100%;
+      .matchEvents,
+      .lineups,
+      .statistics {
         height: min-content;
       }
 
-      .statistics {
+      .matchEvents {
         display: flex;
         flex-flow: column;
         align-items: center;
+        color: variables.$heading-text-colour;
+        width: calc(100% / 3);
+
+        ul {
+          list-style: none;
+          padding: 0;
+          margin: 0;
+          width: calc(100% - 15px);
+
+          li {
+            display: grid;
+            position: relative;
+            align-items: center;
+            grid-template-columns: 1fr 5rem 1fr;
+            height: 6rem;
+
+            .eventTime {
+              display: flex;
+              justify-content: center;
+              align-items: center;
+              justify-self: center;
+              width: 4rem;
+              height: 3rem;
+              background-color: variables.$bg-colour;
+              color: variables.$heading-bg-colour;
+              border: 3px solid variables.$heading-bg-colour;
+              border-radius: 5px;
+              font-size: 0.85rem;
+              z-index: 5;
+            }
+
+            .eventInfo {
+              display: flex;
+              align-items: center;
+
+              svg {
+                margin: 0.5rem;
+                height: 2rem;
+                width: 2rem;
+              }
+
+              .subOut {
+                color: #d81920;
+                transform: rotateY(180deg);
+              }
+            }
+
+            .yellowCard,
+            .redCard {
+              height: 25px;
+              width: 17px;
+              border-radius: 3px;
+              margin: 0 1rem 0 1rem;
+            }
+
+            .yellowCard {
+              background-color: #ecf75e;
+            }
+
+            .redCard {
+              background-color: #d81920;
+            }
+
+            .secondYellow {
+              position: relative;
+              width: min-content;
+              transform: translateX(-10%);
+
+              .yellowCard {
+                transform: rotate(-10deg);
+              }
+              .redCard {
+                position: absolute;
+                top: 0;
+                left: 10px;
+                transform: scale(1.1);
+              }
+            }
+
+            .homeEvent,
+            .awayEvent {
+              background-color: variables.$heading-bg-colour;
+            }
+
+            .homeEvent {
+              margin-right: -1rem;
+              padding-right: 2rem;
+
+              .eventInfo {
+                display: flex;
+                justify-content: flex-end;
+              }
+
+              .subIn {
+                transform: rotateY(180deg);
+              }
+
+              .subOut {
+                color: #d81920;
+                transform: none;
+              }
+            }
+
+            .awayEvent {
+              margin-left: -1rem;
+              padding-left: 2rem;
+            }
+          }
+
+          li::after {
+            display: block;
+            position: absolute;
+            content: "";
+            width: 5px;
+            height: 3rem;
+            left: 50%;
+            top: 4.5rem;
+            transform: translateX(-50%);
+            background-color: variables.$heading-bg-colour;
+            z-index: 0;
+          }
+
+          li:last-child::after {
+            display: none;
+          }
+        }
+      }
+
+      .lineups {
+        display: flex;
+        justify-content: center;
+        width: calc(100% / 3);
+
+        .lineupsContainer {
+          display: grid;
+          grid-template-columns: 1fr 1fr;
+          width: calc(100% - 15px);
+          margin-top: 0.5rem;
+          margin-bottom: 1rem;
+          background-color: variables.$heading-bg-colour;
+          color: variables.$heading-text-colour;
+
+          h3 {
+            grid-column: span 2;
+            text-align: center;
+            background-color: variables.$body-bg-dark;
+            color: variables.$heading-text-colour;
+            padding: 0.65rem 0 0.65rem 0;
+            margin: 0;
+          }
+
+          ul {
+            list-style: none;
+            padding: 0;
+            margin: 10px 5px 10px 5px;
+
+            li {
+              padding-top: 0.75rem;
+              padding-bottom: 0.75rem;
+            }
+
+            li:nth-child(even) {
+              background-color: variables.$fixture-body-bg;
+            }
+          }
+
+          .homeStarters,
+          .homeReserves {
+            ul {
+              li {
+                display: grid;
+                grid-template-columns: 1fr 40px;
+                align-items: center;
+                padding-right: 1rem;
+
+                span {
+                  text-align: right;
+                }
+
+                span:nth-child(2) {
+                  font-size: 1rem;
+                }
+              }
+            }
+          }
+
+          .awayStarters,
+          .awayReserves {
+            ul {
+              li {
+                display: grid;
+                grid-template-columns: 40px 1fr;
+                align-items: center;
+                padding-left: 1rem;
+
+                span:nth-child(1) {
+                  font-size: 1rem;
+                }
+              }
+            }
+          }
+        }
+      }
+
+      .statistics {
+        width: calc(100% / 3);
 
         .statistic {
           display: flex;
@@ -363,6 +378,7 @@
           align-items: center;
           margin-top: 0.5rem;
           font-size: 0.9rem;
+          color: variables.$heading-text-colour;
 
           h4 {
             text-align: center;
@@ -373,8 +389,8 @@
             display: grid;
             grid-template-columns: 40px 1fr 40px;
             align-items: center;
-            background-color: variables.$fixture-body-bg;
-            color: variables.$heading-text-colour;
+            width: calc(100% - 15px);
+            background-color: variables.$heading-bg-colour;
             padding: 0.75rem 0 0.75rem 0;
 
             span {
@@ -386,16 +402,20 @@
               column-gap: 5px;
 
               .homeStat {
-                background-color: variables.$heading-text-colour;
+                background-color: variables.$fixture-body-bg;
                 height: 0.8rem;
               }
 
               .awayStat {
-                background-color: variables.$heading-bg-colour;
+                background-color: variables.$fixture-body-bg-light;
                 height: 0.8rem;
               }
             }
           }
+        }
+
+        .statistic:last-child {
+          margin-bottom: 1rem;
         }
       }
     }

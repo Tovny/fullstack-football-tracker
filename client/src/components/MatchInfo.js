@@ -33,7 +33,7 @@ const MatchInfo = () => {
       setFixture(jsonData[0].fixtures[0]);
       setDate(
         new Date(
-          `${jsonData[0].fixtures[0].info.date} ${jsonData[0].fixtures[0].info.kickOff}`
+          `${jsonData[0].fixtures[0].info.date}T${jsonData[0].fixtures[0].info.kickOff}Z`
         )
       );
       setSelectedTab("events");
@@ -52,16 +52,16 @@ const MatchInfo = () => {
           current.children[0].getBoundingClientRect().height
         }px`;
       } else if (selectedTab === "lineups") {
-        current.style.transform = "translateX(-33.333%)";
-        current.style.WebkitTransform = "translateX(-33.333%)";
-        current.style.MozTransform = "translateX(-33.333%)";
+        current.style.transform = `translateX(-${100 / 3}%)`;
+        current.style.WebkitTransform = `translateX(-${100 / 3}%)`;
+        current.style.MozTransform = `translateX(-${100 / 3}%)`;
         current.style.height = `${
           current.children[1].getBoundingClientRect().height
         }px`;
       } else {
-        current.style.transform = "translateX(-66.666%)";
-        current.style.WebkitTransform = "translateX(-66.666%)";
-        current.style.MozTransform = "translateX(-66.666%)";
+        current.style.transform = `translateX(-${100 / 1.5}%)`;
+        current.style.WebkitTransform = `translateX(-${100 / 1.5}%)`;
+        current.style.MozTransform = `translateX(-${100 / 1.5}%)`;
         current.style.height = `${
           current.children[2].getBoundingClientRect().height
         }px`;
@@ -81,7 +81,23 @@ const MatchInfo = () => {
 
       const timeline = home.concat(away);
       const sortTimeline = (obj1, obj2) => {
-        return parseInt(obj1.minute) - parseInt(obj2.minute);
+        let firstTime = obj1.minute;
+        let secondTime = obj2.minute;
+
+        if (firstTime.includes("+")) {
+          firstTime = parseInt(firstTime) + parseInt(firstTime.split("+")[1]);
+        } else {
+          firstTime = parseInt(firstTime);
+        }
+
+        if (secondTime.includes("+")) {
+          secondTime =
+            parseInt(secondTime) + parseInt(secondTime.split("+")[1]);
+        } else {
+          secondTime = parseInt(secondTime);
+        }
+
+        return parseInt(firstTime) - parseInt(secondTime);
       };
 
       const sortedTimeline = timeline.sort(sortTimeline);
@@ -90,36 +106,57 @@ const MatchInfo = () => {
     }
   }, [fixture]);
 
-  const eventInfo = (event) => {
+  const eventInfo = (event, homeGoals, awayGoals) => {
     let eventElt;
+    let playerElt;
 
     switch (event.event) {
       case "Goal":
         eventElt = <SportsSoccerIcon />;
+        switch (event.team) {
+          case "home":
+            playerElt = <p>{`${event.player} (${homeGoals}:${awayGoals})`}</p>;
+            break;
+          case "away":
+            playerElt = <p>{`(${homeGoals}:${awayGoals}) ${event.player}`}</p>;
+            break;
+          default:
+            playerElt = <p>{event.player}</p>;
+        }
         break;
       case "Own goal":
+      /* falls through */
+      case "Own Goal":
         eventElt = <SportsSoccerIcon style={{ color: "#d81920" }} />;
+        switch (event.team) {
+          case "home":
+            playerElt = (
+              <p>{`${event.player}, Own goal (${homeGoals}:${awayGoals})`}</p>
+            );
+            break;
+          case "away":
+            playerElt = (
+              <p>{`(${homeGoals}:${awayGoals}) Own goal, ${event.player}`}</p>
+            );
+            break;
+          default:
+            playerElt = <p>{event.player}</p>;
+        }
         break;
       case "Yellow card":
-        eventElt = <div className="yellowCard"></div>;
-        break;
+      /* falls through */
       case "Yellow Card":
         eventElt = <div className="yellowCard"></div>;
+        playerElt = <p>{event.player}</p>;
         break;
       case "Red card":
-        eventElt = <div className="redCard"></div>;
-        break;
+      /* falls through */
       case "Red Card":
         eventElt = <div className="redCard"></div>;
+        playerElt = <p>{event.player}</p>;
         break;
       case "Second yellow card":
-        eventElt = (
-          <div className="secondYellow">
-            <div className="yellowCard"></div>
-            <div className="redCard"></div>
-          </div>
-        );
-        break;
+      /* falls through */
       case "Second Yellow Card (Red Card)":
         eventElt = (
           <div className="secondYellow">
@@ -127,12 +164,28 @@ const MatchInfo = () => {
             <div className="redCard"></div>
           </div>
         );
+        playerElt = <p>{event.player}</p>;
         break;
       case "Penalty scored":
         eventElt = <SportsSoccerIcon style={{ color: "#13cf00" }} />;
+        switch (event.team) {
+          case "home":
+            playerElt = (
+              <p>{`${event.player}, Penalty (${homeGoals}:${awayGoals})`}</p>
+            );
+            break;
+          case "away":
+            playerElt = (
+              <p>{`(${homeGoals}:${awayGoals}) Penalty, ${event.player}`}</p>
+            );
+            break;
+          default:
+            playerElt = <p>{event.player}</p>;
+        }
         break;
       default:
         eventElt = <p>{event.event}</p>;
+        playerElt = <p>{event.player}</p>;
     }
 
     return (
@@ -140,7 +193,7 @@ const MatchInfo = () => {
         {event.event !== "Substitution" ? (
           <Fragment>
             {event.team === "away" ? eventElt : null}
-            <p>{event.player}</p>
+            {playerElt}
             {event.team === "home" ? eventElt : null}
           </Fragment>
         ) : event.team === "away" ? (
@@ -167,21 +220,6 @@ const MatchInfo = () => {
   return fixture ? (
     <div className="matchContainer">
       <div className="matchInfo">
-        <div className="info">
-          <div className="date">
-            <ScheduleIcon />
-            {date ? format(date, "iii, LLL do") : null}, Matchday{" "}
-            {fixture.info.matchday}
-            <span>{fixture.info.kickOff}</span>
-          </div>
-          <div className="referee">
-            <SportsIcon /> {fixture.info.referee}
-          </div>
-          <div className="stadium">
-            <img src={stadium} alt="stadium"></img>
-            {fixture.info.stadium}
-          </div>
-        </div>
         <div className="scoreContainer">
           <div className="teamName" id="homeTeam">
             <h3>{fixture.teams.home.name}</h3>
@@ -215,6 +253,24 @@ const MatchInfo = () => {
             })}
           </div>
         </div>
+        <div className="info">
+          <div className="date">
+            {date ? (
+              <time>
+                {date.getHours()}:{date.getMinutes()}
+              </time>
+            ) : null}
+            <ScheduleIcon />
+            {date ? format(date, "iii, LLL do") : null}
+          </div>
+          <div className="referee">
+            <SportsIcon /> {fixture.info.referee}
+          </div>
+          <div className="stadium">
+            <img src={stadium} alt="stadium"></img>
+            {fixture.info.stadium}
+          </div>
+        </div>
       </div>
       <div className="tabs">
         <span
@@ -243,23 +299,44 @@ const MatchInfo = () => {
               {timeline
                 ? (() => {
                     const elts = [];
+                    let homeGoals = fixture.result.home.score;
+                    let awayGoals = fixture.result.away.score;
+
                     for (let i = timeline.length - 1; i >= 0; i--) {
-                      elts.push(
-                        <li key={i}>
-                          <div className="homeEvent">
-                            {timeline[i].team === "home"
-                              ? eventInfo(timeline[i])
-                              : null}
-                          </div>
-                          <div className="eventTime">{timeline[i].minute}</div>
-                          <div className="awayEvent">
-                            {timeline[i].team === "away"
-                              ? eventInfo(timeline[i])
-                              : null}
-                          </div>
-                        </li>
-                      );
+                      if (timeline[i].event)
+                        elts.push(
+                          <li key={i}>
+                            <div className="homeEvent">
+                              {timeline[i].team === "home"
+                                ? eventInfo(timeline[i], homeGoals, awayGoals)
+                                : null}
+                            </div>
+                            <div className="eventTime">
+                              {timeline[i].minute}
+                            </div>
+                            <div className="awayEvent">
+                              {timeline[i].team === "away"
+                                ? eventInfo(timeline[i], homeGoals, awayGoals)
+                                : null}
+                            </div>
+                          </li>
+                        );
+
+                      if (timeline[i].event) {
+                        if (
+                          timeline[i].event.includes("Goal") ||
+                          timeline[i].event.includes("goal") ||
+                          timeline[i].event.includes("Penalty scored")
+                        ) {
+                          if (timeline[i].team === "home") {
+                            homeGoals--;
+                          } else {
+                            awayGoals--;
+                          }
+                        }
+                      }
                     }
+
                     return elts;
                   })()
                 : null}
