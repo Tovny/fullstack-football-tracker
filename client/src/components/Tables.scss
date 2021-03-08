@@ -81,6 +81,11 @@
       }
     }
 
+    svg {
+      height: 2rem;
+      width: 2rem;
+    }
+
     @media (hover: hover) {
       svg:hover {
         color: variables.$heading-text-colour;

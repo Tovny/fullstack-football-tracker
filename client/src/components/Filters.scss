@@ -8,6 +8,8 @@
 
   #filtersIcon,
   #calendarIcon {
+    height: 1.5rem;
+    width: 1.5rem;
     display: none;
   }
 }
@@ -42,6 +44,10 @@ form {
       border: none;
       color: variables.$heading-text-colour;
       height: 2rem;
+    }
+
+    select:focus {
+      outline: none;
     }
   }
 
@@ -147,6 +153,8 @@ form {
 
   .clearFilterBtn {
     height: 1rem;
+    width: 1rem;
+    margin-left: 0.25rem;
     align-self: center;
   }
 
@@ -167,6 +175,10 @@ form {
     input:disabled {
       cursor: auto;
     }
+  }
+
+  input:focus {
+    outline: none;
   }
 }
 

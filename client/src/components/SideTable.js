@@ -2,8 +2,7 @@ import "./SideTable.scss";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
 import x_auth from "../config/default";
-import ArrowBack from "@material-ui/icons/ArrowBackIosOutlined";
-import ArrowForward from "@material-ui/icons/ArrowForwardIosOutlined";
+import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
 import getTables from "../redux/actions/table-actions";
@@ -50,7 +49,7 @@ const SideTable = () => {
                 <tr>
                   <th colSpan="2">
                     <div id="leagueHeading">
-                      <ArrowBack
+                      <FaChevronLeft
                         id="arrowBack"
                         onClick={async () => {
                           await new Promise((res) => {
@@ -65,7 +64,7 @@ const SideTable = () => {
                           {tables[selectedTable].league}
                         </Link>
                       }
-                      <ArrowForward
+                      <FaChevronRight
                         id="arrowForward"
                         onClick={async () => {
                           await new Promise((res) => {

@@ -7,7 +7,7 @@ import { useSelector, useDispatch } from "react-redux";
 import getTables from "../redux/actions/table-actions";
 import { format } from "date-fns";
 import LoadingIcon from "./LoadingIcon";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import { RiArrowDropDownLine } from "react-icons/ri";
 
 const Table = () => {
   const dispatch = useDispatch();
@@ -54,7 +54,7 @@ const Table = () => {
                 {`${tables[selectedTable].country} - 
                 ${tables[selectedTable].league}`}
               </h3>
-              <ArrowDropDownIcon
+              <RiArrowDropDownLine
                 onClick={(event) => {
                   setOpenLeagueSelect(!openLeagueSelect);
                   setOpenMatchSelect(false);
@@ -90,7 +90,7 @@ const Table = () => {
               </CSSTransition>
             </div>
             <div className="selectMatch">
-              <ArrowDropDownIcon
+              <RiArrowDropDownLine
                 onClick={(event) => {
                   setOpenMatchSelect(!openMatchSelect);
                   setOpenLeagueSelect(false);

@@ -5,8 +5,8 @@ import x_auth from "../config/default";
 import { useSelector, useDispatch } from "react-redux";
 import getLeagues from "../redux/actions/league-actions";
 import { setFilters } from "../redux/actions/filter-actions";
-import ClearIcon from "@material-ui/icons/Clear";
-import FilterIcon from "@material-ui/icons/Filter";
+import { BsFilterRight } from "react-icons/bs";
+import { MdClear } from "react-icons/md";
 import { CSSTransition } from "react-transition-group";
 
 const Filters = () => {
@@ -159,7 +159,7 @@ const Filters = () => {
             })}
           </select>
           {selectedFilters.league ? (
-            <ClearIcon
+            <MdClear
               className="clearFilterBtn"
               style={{ color: "red" }}
               onClick={() => {
@@ -204,7 +204,7 @@ const Filters = () => {
             })}
           </select>
           {selectedFilters.team ? (
-            <ClearIcon
+            <MdClear
               className="clearFilterBtn"
               onClick={() => handleClick("team")}
             />
@@ -233,7 +233,7 @@ const Filters = () => {
             })}
           </select>
           {selectedFilters.hometeam ? (
-            <ClearIcon
+            <MdClear
               className="clearFilterBtn"
               onClick={() => handleClick("hometeam")}
             />
@@ -262,7 +262,7 @@ const Filters = () => {
             })}
           </select>
           {selectedFilters.awayteam ? (
-            <ClearIcon
+            <MdClear
               className="clearFilterBtn"
               onClick={() => handleClick("awayteam")}
             />
@@ -287,7 +287,7 @@ const Filters = () => {
             <span id="sliderValue">{selectedFilters.matchday}</span>
           ) : null}
           {selectedFilters.matchday ? (
-            <ClearIcon
+            <MdClear
               className="clearFilterBtn"
               onClick={() => handleClick("matchday")}
             />
@@ -324,7 +324,7 @@ const Filters = () => {
           ></input>
           <label htmlFor="full-time">Full Time</label>
           {selectedFilters.status ? (
-            <ClearIcon
+            <MdClear
               className="clearFilterBtn"
               onClick={() => handleClick("status")}
             />
@@ -341,7 +341,7 @@ const Filters = () => {
 
   return leagues ? (
     <div className="filters">
-      <FilterIcon
+      <BsFilterRight
         id="filtersIcon"
         onClick={() => setOpenFilters(!openFilters)}
       />

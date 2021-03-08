@@ -53,7 +53,7 @@ const NewsArticle = ({ article }) => {
     return finalTitle;
   };
   return (
-    <a className="article" href={url}>
+    <a className="article" href={url} target="_blank" rel="noopener noreferrer">
       <h5>{title.length > 60 ? sliceTitle(title) : title}</h5>
       <div
         className="articleImage"

@@ -3,12 +3,12 @@ import { useState, useEffect, useRef, Fragment } from "react";
 import x_auth from "../config/default";
 import DateCarousel from "./DateCarousel";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
-import ArrowDropDownIcon from "@material-ui/icons/ArrowDropDown";
+import { RiArrowDropDownLine } from "react-icons/ri";
+import { GiSoccerField } from "react-icons/gi";
 import { useSelector, useDispatch } from "react-redux";
 import setFixtures from "../redux/actions/fixture-actions";
 import { setFilters } from "../redux/actions/filter-actions";
 import { format } from "date-fns";
-import stadium from "../assets/stadium.png";
 import LoadingIcon from "./LoadingIcon";
 
 const Fixtures = () => {
@@ -89,7 +89,7 @@ const Fixtures = () => {
       if (temp.length === 0)
         temp.push(
           <div className="noFixtures" key="noFix">
-            <img src={stadium} alt="stadium"></img>
+            <GiSoccerField />
             <h3>No scheduled fixtures</h3>
           </div>
         );
@@ -361,7 +361,7 @@ const LeagueFixtures = (props) => {
         <h3>
           {props.league.country} - {props.league.league}
         </h3>
-        <ArrowDropDownIcon
+        <RiArrowDropDownLine
           onClick={() => setOpen(!open)}
           style={
             open

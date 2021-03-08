@@ -1,9 +1,9 @@
 import "./Header.scss";
 import { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
-import SportsSoccerIcon from "@material-ui/icons/SportsSoccer";
-import AnnouncementIcon from "@material-ui/icons/Announcement";
-import TableChartIcon from "@material-ui/icons/TableChart";
+import { ImNewspaper } from "react-icons/im";
+import { GiSoccerBall } from "react-icons/gi";
+import { ImTable } from "react-icons/im";
 
 const Header = () => {
   const [activePage, setActivePage] = useState();
@@ -19,14 +19,14 @@ const Header = () => {
         <ul>
           <li id={activePage === "/news" ? "activePage" : null}>
             <Link to="/news">
-              <AnnouncementIcon />
+              <ImNewspaper />
               <span>NEWS</span>
             </Link>
           </li>
 
           <li id={activePage === "/" ? "activePage" : null}>
             <Link to="/">
-              <SportsSoccerIcon />
+              <GiSoccerBall />
               <span>FIXTURES</span>
             </Link>
           </li>
@@ -40,7 +40,7 @@ const Header = () => {
             }
           >
             <Link to="/tables">
-              <TableChartIcon />
+              <ImTable />
               <span>TABLES</span>
             </Link>
           </li>

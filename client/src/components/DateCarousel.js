@@ -1,9 +1,7 @@
 import "./DateCarousel.scss";
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import ArrowBack from "@material-ui/icons/ArrowBackIosOutlined";
-import ArrowForward from "@material-ui/icons/ArrowForwardIosOutlined";
-import CalendarTodaySharpIcon from "@material-ui/icons/CalendarTodaySharp";
+import { FaChevronLeft, FaChevronRight, FaRegCalendar } from "react-icons/fa";
 import { CSSTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
 import { setFilters } from "../redux/actions/filter-actions";
@@ -37,7 +35,6 @@ const DateCarousel = (props) => {
   const [changeScrollX, setChangeScrollX] = useState(false);
   const [currentSelectedI, setCurrentSelectedI] = useState(0);
   const sliderULref = useRef(null);
-  const calendarIconRef = useRef(null);
   const selectedDate = document.getElementById("selectedDate");
 
   useEffect(() => {
@@ -215,7 +212,7 @@ const DateCarousel = (props) => {
 
   return (
     <div className="datePickerContainer">
-      <ArrowBack
+      <FaChevronLeft
         className="sliderButton"
         id="sliderLeft"
         onClick={() => handleScroll(-300)}
@@ -239,13 +236,12 @@ const DateCarousel = (props) => {
             : null}
         </ul>
       </div>
-      <ArrowForward
+      <FaChevronRight
         className="sliderButton"
         id="sliderRight"
         onClick={() => handleScroll(300)}
       />
-      <CalendarTodaySharpIcon
-        ref={calendarIconRef}
+      <FaRegCalendar
         id="calendarIcon"
         onClick={(event) => {
           setOpenCalendar(!openCalendar);
@@ -255,8 +251,7 @@ const DateCarousel = (props) => {
       />
       {document.getElementsByClassName("filters")[0]
         ? createPortal(
-            <CalendarTodaySharpIcon
-              ref={calendarIconRef}
+            <FaRegCalendar
               id="calendarIcon"
               onClick={(event) => {
                 setOpenCalendar(!openCalendar);

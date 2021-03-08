@@ -4,11 +4,9 @@ import { useParams } from "react-router-dom";
 import { format } from "date-fns";
 import x_auth from "../config/default";
 import LoadingIcon from "./LoadingIcon";
-import ScheduleIcon from "@material-ui/icons/Schedule";
-import SportsIcon from "@material-ui/icons/Sports";
-import stadium from "../assets/stadium.png";
-import SportsSoccerIcon from "@material-ui/icons/SportsSoccer";
-import ReplyIcon from "@material-ui/icons/Reply";
+import { GiSoccerField, GiSoccerBall, GiWhistle } from "react-icons/gi";
+import { BiTimeFive } from "react-icons/bi";
+import { RiReplyFill } from "react-icons/ri";
 
 const MatchInfo = () => {
   const { league, hometeam, awayteam } = useParams();
@@ -112,7 +110,7 @@ const MatchInfo = () => {
 
     switch (event.event) {
       case "Goal":
-        eventElt = <SportsSoccerIcon />;
+        eventElt = <GiSoccerBall />;
         switch (event.team) {
           case "home":
             playerElt = <p>{`${event.player} (${homeGoals}:${awayGoals})`}</p>;
@@ -127,7 +125,7 @@ const MatchInfo = () => {
       case "Own goal":
       /* falls through */
       case "Own Goal":
-        eventElt = <SportsSoccerIcon style={{ color: "#d81920" }} />;
+        eventElt = <GiSoccerBall style={{ color: "#d81920" }} />;
         switch (event.team) {
           case "home":
             playerElt = (
@@ -167,7 +165,7 @@ const MatchInfo = () => {
         playerElt = <p>{event.player}</p>;
         break;
       case "Penalty scored":
-        eventElt = <SportsSoccerIcon style={{ color: "#13cf00" }} />;
+        eventElt = <GiSoccerBall style={{ color: "#13cf00" }} />;
         switch (event.team) {
           case "home":
             playerElt = (
@@ -198,9 +196,9 @@ const MatchInfo = () => {
           </Fragment>
         ) : event.team === "away" ? (
           <Fragment>
-            <ReplyIcon />
+            <RiReplyFill />
             <p>{event.playerIn}</p>
-            <ReplyIcon className="subOut" />
+            <RiReplyFill className="subOut" />
             <p>{event.playerOff}</p>
             <p>{event.playerOut}</p>
           </Fragment>
@@ -208,9 +206,9 @@ const MatchInfo = () => {
           <Fragment>
             <p>{event.playerOff}</p>
             <p>{event.playerOut}</p>
-            <ReplyIcon className="subOut" />
+            <RiReplyFill className="subOut" />
             <p>{event.playerIn}</p>
-            <ReplyIcon className="subIn" />
+            <RiReplyFill className="subIn" />
           </Fragment>
         )}
       </div>
@@ -239,18 +237,20 @@ const MatchInfo = () => {
             <h3>{fixture.teams.away.name}</h3>
             <div></div>
           </div>
-          <div className="scorers" id="homeScorers">
-            {fixture.result.home.scorers.map((scorer, i) => {
-              return <p key={`Scorer Home ${i}`}>{scorer}</p>;
-            })}
-          </div>
-          <div className="matchStatus">
-            <h2>{fixture.info.status}</h2>
-          </div>
-          <div className="scorers" id="awayScorers">
-            {fixture.result.away.scorers.map((scorer, i) => {
-              return <p key={`Scorer Away ${i}`}>{scorer}</p>;
-            })}
+          <div className="scorersContainer">
+            <div className="scorers" id="homeScorers">
+              {fixture.result.home.scorers.map((scorer, i) => {
+                return <p key={`Scorer Home ${i}`}>{scorer}</p>;
+              })}
+            </div>
+            <div className="matchStatus">
+              <h2>{fixture.info.status}</h2>
+            </div>
+            <div className="scorers" id="awayScorers">
+              {fixture.result.away.scorers.map((scorer, i) => {
+                return <p key={`Scorer Away ${i}`}>{scorer}</p>;
+              })}
+            </div>
           </div>
         </div>
         <div className="info">
@@ -260,14 +260,14 @@ const MatchInfo = () => {
                 {date.getHours()}:{date.getMinutes()}
               </time>
             ) : null}
-            <ScheduleIcon />
+            <BiTimeFive />
             {date ? format(date, "iii, LLL do") : null}
           </div>
           <div className="referee">
-            <SportsIcon /> {fixture.info.referee}
+            <GiWhistle /> {fixture.info.referee}
           </div>
           <div className="stadium">
-            <img src={stadium} alt="stadium"></img>
+            <GiSoccerField style={{ transform: "rotate(90deg)" }} />
             {fixture.info.stadium}
           </div>
         </div>
@@ -397,7 +397,9 @@ const MatchInfo = () => {
               <div className="statistic" key={`Stat ${i}`}>
                 <h4>{stat}</h4>
                 <div className="stat">
-                  <span>{fixture.stats[stat].home}</span>
+                  <span className="firstStatNum">
+                    {fixture.stats[stat].home}
+                  </span>
                   <div
                     className="statBar"
                     style={
@@ -416,7 +418,9 @@ const MatchInfo = () => {
                     <div className="homeStat"></div>
                     <div className="awayStat"></div>
                   </div>
-                  <span>{fixture.stats[stat].away}</span>
+                  <span className="secondStatNum">
+                    {fixture.stats[stat].away}
+                  </span>
                 </div>
               </div>
             ))}

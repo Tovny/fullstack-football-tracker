@@ -34,7 +34,13 @@ const Articles = () => {
         const date = new Date(`${news[i].date} 15:00`);
 
         temp.push(
-          <a href={news[i].url} className="article" key={i}>
+          <a
+            href={news[i].url}
+            className="article"
+            key={i}
+            target="_blank"
+            rel="noopener noreferrer"
+          >
             <div className="articleImage">
               <img alt={news[i].title} src={news[i].image}></img>
             </div>
@@ -61,7 +67,7 @@ const Articles = () => {
         entries.forEach((entry) => {
           if (entry.intersectionRatio === 1) {
             const temp = [];
-            for (let i = articles.length - 1; i < articles.length + 9; i++) {
+            for (let i = articles.length; i < articles.length + 9; i++) {
               const date = new Date(`${news[i].date} ${news[i].time}`);
 
               temp.push(
@@ -83,7 +89,7 @@ const Articles = () => {
               );
             }
 
-            setArticles([...articles, temp]);
+            setArticles([...articles, ...temp]);
 
             observer.unobserve(secondLastElt);
           }
