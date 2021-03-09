@@ -65,7 +65,7 @@ const Fixtures = () => {
       if (status) filterString = filterString + `&status=${status}`;
 
       const res = await fetch(
-        `https://${process.env.IP}:${process.env.PORT}/api/matches?${filterString}`,
+        `https://serene-everglades-51285.herokuapp.com/api/matches?${filterString}`,
         {
           method: "GET",
           headers: {
