@@ -30,7 +30,7 @@ const Filters = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`http://localhost:${PORT}/leagues`, {
+      const res = await fetch(`http://localhost:${PORT}/api/leagues`, {
         method: "GET",
         headers: {
           "x-auth": x_auth,

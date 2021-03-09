@@ -15,7 +15,7 @@ const SideTable = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`http://localhost:${PORT}/tables`, {
+      const res = await fetch(`http://localhost:${PORT}/api/tables`, {
         headers: { "x-auth": x_auth },
       });
 

@@ -11,7 +11,7 @@ const SideNews = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`http://localhost:${PORT}/articles`, {
+      const res = await fetch(`http://localhost:${PORT}/api/articles`, {
         headers: { "x-auth": x_auth },
       });
 

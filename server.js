@@ -1,6 +1,7 @@
 const express = require("express");
 const mongoose = require("mongoose");
 const cors = require("cors");
+const path = require("path");
 
 const articleRoutes = require("./routes/articles");
 const matchRoutes = require("./routes/matches");
@@ -22,10 +23,18 @@ const { mongoURI, PORT } = require("./config/");
     });
     console.log("Database connected");
 
-    app.use("/articles", articleRoutes);
-    app.use("/matches", matchRoutes);
-    app.use("/tables", tableRoutes);
-    app.use("/leagues", leagueRoutes);
+    app.use("/api/articles", articleRoutes);
+    app.use("/api/matches", matchRoutes);
+    app.use("/api/tables", tableRoutes);
+    app.use("/api/leagues", leagueRoutes);
+
+    if (process.env.NODE_EVN === "production") {
+      app.use(express.statis("client/build"));
+
+      app.get("*", (req, res) => {
+        res.sendFile(path.resolve(__dirname, "client", "build", "index.html"));
+      });
+    }
 
     app.listen(PORT, () => console.log(`App live on port ${PORT}`));
   } catch (err) {}

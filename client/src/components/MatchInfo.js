@@ -19,7 +19,7 @@ const MatchInfo = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch(
-        `http://localhost:${PORT}/matches?league=${league}&hometeam=${hometeam}&awayteam=${awayteam}`,
+        `http://localhost:${PORT}/api/matches?league=${league}&hometeam=${hometeam}&awayteam=${awayteam}`,
         {
           method: "GET",
           headers: {
