@@ -2,7 +2,7 @@ import "./MatchInfo.scss";
 import { useEffect, useState, useRef, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
-import x_auth from "../config/default";
+import { x_auth, PORT } from "../config/";
 import LoadingIcon from "./LoadingIcon";
 import { GiSoccerField, GiSoccerBall, GiWhistle } from "react-icons/gi";
 import { BiTimeFive } from "react-icons/bi";
@@ -19,7 +19,7 @@ const MatchInfo = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch(
-        `http://localhost:5000/matches?league=${league}&hometeam=${hometeam}&awayteam=${awayteam}`,
+        `http://localhost:${PORT}/api/matches?league=${league}&hometeam=${hometeam}&awayteam=${awayteam}`,
         {
           method: "GET",
           headers: {
