@@ -1,6 +1,6 @@
 import "./Fixtures.scss";
 import { useState, useEffect, useRef, Fragment } from "react";
-import x_auth from "../config/default";
+import { x_auth, PORT } from "../config/";
 import DateCarousel from "./DateCarousel";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -64,12 +64,15 @@ const Fixtures = () => {
       if (matchday) filterString = filterString + `&matchday=${matchday}`;
       if (status) filterString = filterString + `&status=${status}`;
 
-      const res = await fetch(`http://localhost:5000/matches?${filterString}`, {
-        method: "GET",
-        headers: {
-          "x-auth": x_auth,
-        },
-      });
+      const res = await fetch(
+        `http://localhost:${PORT}/matches?${filterString}`,
+        {
+          method: "GET",
+          headers: {
+            "x-auth": x_auth,
+          },
+        }
+      );
       const data = await res.json();
       dispatch(setFixtures(data));
     })();

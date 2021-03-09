@@ -7,7 +7,7 @@ const matchRoutes = require("./routes/matches");
 const tableRoutes = require("./routes/tables");
 const leagueRoutes = require("./routes/leagues");
 
-const { mongoURI } = require("./config/default");
+const { mongoURI, PORT } = require("./config/");
 
 (async () => {
   try {
@@ -27,6 +27,6 @@ const { mongoURI } = require("./config/default");
     app.use("/tables", tableRoutes);
     app.use("/leagues", leagueRoutes);
 
-    app.listen(5000, () => console.log("App live on port 5000"));
+    app.listen(PORT, () => console.log(`App live on port ${PORT}`));
   } catch (err) {}
 })();

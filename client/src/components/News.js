@@ -1,6 +1,6 @@
 import "./News.scss";
 import { useState, useEffect } from "react";
-import x_auth from "../config/default";
+import { x_auth, PORT } from "../config/";
 import { useSelector, useDispatch } from "react-redux";
 import getNews from "../redux/actions/news-actions";
 import LoadingIcon from "./LoadingIcon";
@@ -14,7 +14,7 @@ const Articles = () => {
   useEffect(() => {
     if (!news) {
       (async () => {
-        const res = await fetch("http://localhost:5000/articles", {
+        const res = await fetch(`http://localhost:${PORT}/articles`, {
           headers: { "x-auth": x_auth },
         });
 

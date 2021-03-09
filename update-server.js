@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { mongoURI } = require("./config/default");
+const { mongoURI } = require("./config/");
 const PremierLeague = require("./utilities/premier-league");
 const SerieA = require("./utilities/serie-a");
 

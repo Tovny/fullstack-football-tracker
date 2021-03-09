@@ -1,7 +1,7 @@
 import "./SideNews.scss";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import x_auth from "../config/default";
+import { x_auth, PORT } from "../config/";
 import { useSelector, useDispatch } from "react-redux";
 import getNews from "../redux/actions/news-actions";
 
@@ -11,7 +11,7 @@ const SideNews = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch("http://localhost:5000/articles", {
+      const res = await fetch(`http://localhost:${PORT}/articles`, {
         headers: { "x-auth": x_auth },
       });
 
