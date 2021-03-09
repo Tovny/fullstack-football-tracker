@@ -14,8 +14,18 @@ const tableSchema = Schema({
     required: true,
   },
   tables: {
-    type: Object,
-    required: true,
+    total: {
+      type: Array,
+      required: true,
+    },
+    home: {
+      type: Array,
+      required: true,
+    },
+    away: {
+      type: Array,
+      required: true,
+    },
   },
 });
 

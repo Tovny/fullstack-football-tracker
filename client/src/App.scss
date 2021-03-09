@@ -1,0 +1,99 @@
+@use './assets/variables';
+@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Open+Sans:wght@300&display=swap");
+
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+html,
+body {
+  background: variables.$bg-colour;
+  background-blend-mode: multiply;
+  background-repeat: no-repeat;
+  font-family: "Montserrat", sans-serif;
+  font-family: "Open Sans", sans-serif;
+  font-size: 0.85rem;
+  font-weight: bold;
+  letter-spacing: 0.1rem;
+  color: variables.$heading-bg-colour;
+
+  body {
+    .container {
+      display: grid;
+      grid-template-columns: auto minmax(auto, 1100px) auto;
+
+      .headerContainer {
+        grid-column-start: 2;
+        width: 100%;
+      }
+
+      .contentContainer {
+        grid-column-start: 2;
+      }
+
+      .pageTransition-enter {
+        opacity: 0%;
+        transition: left 0ms linear;
+      }
+      .pageTransition-enter-active {
+        opacity: 100%;
+        transition: opacity 100ms ease-in, left 0ms linear;
+      }
+      .pageTransition-exit {
+        opacity: 100%;
+        transition: left 0ms linear;
+      }
+      .pageTransition-exit-active {
+        opacity: 0%;
+        transition: opacity 100ms ease-in, left 0ms linear;
+      }
+    }
+  }
+}
+
+.noScroll {
+  height: 100%;
+  margin: 0;
+  overflow: hidden;
+}
+
+@media screen and (max-width: 992px) {
+  html,
+  body {
+    #root {
+      .container {
+        display: flex;
+        flex-flow: column;
+        margin-top: 0;
+
+        .headerContainer {
+          z-index: 30;
+        }
+
+        .contentContainer {
+          position: absolute;
+          width: 100%;
+          padding-top: 3rem;
+          min-height: calc(100% - 3rem);
+        }
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .container {
+    .headerContainer {
+      top: 0.25rem;
+      left: 0.5rem;
+      z-index: 30;
+    }
+
+    .contentContainer {
+      top: 0;
+      padding-top: 0 !important;
+      min-height: 100% !important;
+    }
+  }
+}

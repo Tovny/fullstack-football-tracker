@@ -1,8 +1,56 @@
-const createTable = async (model, sort, penalty = []) => {
+const createTable = async (model, sort, penalty = [], status = []) => {
   try {
     const res = await model.find({ "info.status": { $ne: "Scheduled" } });
+    const scheduled = await model
+      .find({ "info.status": "Scheduled" })
+      .sort({ "info.date": 1 });
 
     const fixtures = new Object();
+
+    const createFormObj = (fix, teamName) => {
+      const fixture = new Object();
+
+      fixture.homeTeam = fix.teams.home.name;
+      fixture.homeCrest = fix.teams.home.crest;
+      fixture.homeScore = fix.result.home.score;
+      fixture.awayTeam = fix.teams.away.name;
+      fixture.awayCrest = fix.teams.away.crest;
+      fixture.awayScore = fix.result.away.score;
+      fixture.date = fix.info.date;
+      fixture.kickOff = fix.info.kickOff;
+      fixture.url = fix.info.url;
+
+      if (fix.result.winner == "draw") {
+        fixture.result = "D";
+      } else if (fix.result.winner == "home") {
+        if (teamName == fixture.homeTeam) {
+          fixture.result = "W";
+        } else {
+          fixture.result = "L";
+        }
+      } else if (fix.result.winner == "away") {
+        if (teamName == fixture.awayTeam) {
+          fixture.result = "W";
+        } else {
+          fixture.result = "L";
+        }
+      }
+
+      return fixture;
+    };
+
+    const createNextObj = (fix) => {
+      const fixture = new Object();
+
+      fixture.homeTeam = fix.teams.home.name;
+      fixture.homeCrest = fix.teams.home.crest;
+      fixture.awayTeam = fix.teams.away.name;
+      fixture.awayCrest = fix.teams.away.crest;
+      fixture.date = fix.info.date;
+      fixture.kickOff = fix.info.kickOff;
+
+      return fixture;
+    };
 
     res.forEach((fix) => {
       const homeTeam = fix.teams.home.name;
@@ -46,6 +94,7 @@ const createTable = async (model, sort, penalty = []) => {
 
       [totalRow, homeRow, awayRow].forEach((table) => {
         table.team = team.name;
+        if (team.shortName) table.shortName = team.shortName;
         table.crest = team.crest;
         table.played = 0;
         table.won = 0;
@@ -55,6 +104,7 @@ const createTable = async (model, sort, penalty = []) => {
         table.ga = 0;
         table.gd = 0;
         table.points = 0;
+        table.form = new Array();
       });
 
       res.forEach((fix) => {
@@ -125,6 +175,32 @@ const createTable = async (model, sort, penalty = []) => {
         }
       });
 
+      for (let fix of scheduled) {
+        if (
+          team.name == fix.teams.home.name ||
+          team.name == fix.teams.away.name
+        ) {
+          const next = createNextObj(fix);
+          totalRow.next = next;
+          homeRow.next = next;
+          awayRow.next = next;
+          break;
+        }
+      }
+
+      for (let i = res.length - 1; i >= 0; i--) {
+        if (res[i].teams.home.name == team.name) {
+          const fixture = createFormObj(res[i], team.name);
+          if (totalRow.form.length < 5) totalRow.form.unshift(fixture);
+          if (homeRow.form.length < 5) homeRow.form.unshift(fixture);
+        }
+        if (res[i].teams.away.name == team.name) {
+          const fixture = createFormObj(res[i], team.name);
+          if (totalRow.form.length < 5) totalRow.form.unshift(fixture);
+          if (awayRow.form.length < 5) awayRow.form.unshift(fixture);
+        }
+      }
+
       [(total, home, away)].forEach((row) => {
         row.sort((a, b) => b.points - a.points);
       });
@@ -190,33 +266,27 @@ const createTable = async (model, sort, penalty = []) => {
 
               if (!match1 || !match2) bothMatchesPlayed = false;
 
-              [match1, match2].forEach((match) => {
-                let home = match.result.home;
-                let away = match.result.away;
+              if (!bothMatchesPlayed) {
+                return;
+              } else {
+                const aboveTeamGoals =
+                  parseInt(match1.result.home.score) +
+                  parseInt(match2.result.away.score);
+                const belowTeamGoals =
+                  parseInt(match2.result.home.score) +
+                  parseInt(match1.result.away.score);
 
-                if (!bothMatchesPlayed) {
-                  return;
-                } else {
-                  home.score = parseInt(home.score);
-                  away.score = parseInt(away.score);
+                if (aboveTeamGoals > belowTeamGoals) {
+                  swapTeams();
+                } else if (aboveTeamGoals == belowTeamGoals) {
+                  const aboveTeamAwayGoals = match2.result.away.score;
+                  const belowTeamAwayGoals = match1.result.away.score;
 
-                  const aboveTeamGoals =
-                    match1.result.home.score + match2.result.away.score;
-                  const belowTeamGoals =
-                    match2.result.home.score + match1.result.away.score;
-
-                  if (aboveTeamGoals > belowTeamGoals) {
+                  if (aboveTeamAwayGoals > belowTeamAwayGoals) {
                     swapTeams();
-                  } else if (aboveTeamGoals == belowTeamGoals) {
-                    const aboveTeamAwayGoals = match2.result.away.score;
-                    const belowTeamAwayGoals = match1.result.away.score;
-
-                    if (aboveTeamAwayGoals > belowTeamAwayGoals) {
-                      swapTeams();
-                    }
                   }
                 }
-              });
+              }
             }
           }
         }
@@ -298,6 +368,16 @@ const createTable = async (model, sort, penalty = []) => {
         sortByGd(table);
       });
     }
+
+    [total, home, away].forEach((table) => {
+      table.forEach((row, i) => {
+        row["#"] = i + 1;
+      });
+    });
+
+    status.forEach((stat) => {
+      total[stat[0]].status = stat[1];
+    });
 
     return tables;
   } catch (err) {}

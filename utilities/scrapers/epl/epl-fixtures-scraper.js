@@ -12,7 +12,7 @@ const scrapeEPLFixtures = async (url) => {
       "https://www.premierleague.com/fixtures",
     ];
 
-    let fixtures = [];
+    const fixtures = [];
 
     for (url of urls) {
       const page = await browser.newPage();
@@ -25,70 +25,70 @@ const scrapeEPLFixtures = async (url) => {
 
       await page.close();
 
-      const $ = cheerio.load(data);
+      if (data) {
+        const $ = cheerio.load(data);
 
-      if (url == "https://www.premierleague.com/fixtures")
-        await browser.close();
+        $("div[data-ui-tab='First Team']")
+          .find(
+            ".matchFixtureContainer[data-competition='Premier League'] div:nth-child(1)"
+          )
+          .each((i, fixture) => {
+            const match = new Object();
 
-      $("div[data-ui-tab='First Team']")
-        .find(
-          ".matchFixtureContainer[data-competition='Premier League'] div:nth-child(1)"
-        )
-        .each((i, fixture) => {
-          const match = new Object();
+            match.url = "https:" + $(fixture).attr("data-href");
 
-          match.url = "https:" + $(fixture).attr("data-href");
+            $(fixture)
+              .find(".teams .shortname")
+              .each((i, team) => {
+                if (i == 0) {
+                  match.homeTeam = $(team).text();
+                } else {
+                  match.awayTeam = $(team).text();
+                }
+              });
 
-          $(fixture)
-            .find(".teams .shortname")
-            .each((i, team) => {
-              if (i == 0) {
-                match.homeTeam = $(team).text();
+            const status = $(fixture).find("span.score").text();
+
+            if (status) {
+              const [homeScore, awayScore] = status.split("-");
+              match.homeScore = parseInt(homeScore);
+              match.awayScore = parseInt(awayScore);
+
+              if (url.includes("results")) {
+                match.status = "Full Time";
+                fixtures.unshift(match);
               } else {
-                match.awayTeam = $(team).text();
+                match.status = "Scheduled";
+                fixtures.push(match);
               }
-            });
 
-          const status = $(fixture).find("span.score").text();
-
-          if (status) {
-            const [homeScore, awayScore] = status.split("-");
-            match.homeScore = parseInt(homeScore);
-            match.awayScore = parseInt(awayScore);
-
-            if (url.includes("results")) {
-              match.status = "Full Time";
-              fixtures.unshift(match);
-            } else {
-              match.status = "Scheduled";
-              fixtures.push(match);
+              return;
             }
 
-            return;
-          }
+            const matchDate = new Date(
+              $(fixture)
+                .parent()
+                .parent()
+                .parent()
+                .attr("data-competition-matches-list") +
+                " " +
+                $(fixture).find(".teams time").text()
+            );
 
-          const matchDate = new Date(
-            $(fixture)
-              .parent()
-              .parent()
-              .parent()
-              .attr("data-competition-matches-list") +
-              " " +
-              $(fixture).find(".teams time").text()
-          );
-
-          if (matchDate.toString() == "Invalid Date") {
-            match.date = "TBC";
-            match.kickOff = "TBC";
-          } else {
-            const [date, time] = matchDate.toISOString().split("T");
-            match.date = date;
-            match.kickOff = time.slice(0, 5);
-          }
-          fixtures.push(match);
-        });
+            if (matchDate.toString() == "Invalid Date") {
+              match.date = "TBC";
+              match.kickOff = "TBC";
+            } else {
+              const [date, time] = matchDate.toISOString().split("T");
+              match.date = date;
+              match.kickOff = time.slice(0, 5);
+            }
+            fixtures.push(match);
+          });
+      }
     }
 
+    await browser.close();
     return fixtures;
   } catch (err) {
     console.log(err);

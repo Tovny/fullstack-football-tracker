@@ -1,5 +1,5 @@
 const mongoose = require("mongoose");
-const { mongoURI } = require("./config/default");
+const { mongoURI } = require("./config");
 const PremierLeague = require("./utilities/premier-league");
 const SerieA = require("./utilities/serie-a");
 
@@ -10,6 +10,8 @@ leagues.push(PremierLeague);
 
 (async () => {
   try {
+    process.setMaxListeners(0);
+
     await mongoose.connect(mongoURI, {
       useNewUrlParser: true,
       useUnifiedTopology: true,
@@ -17,20 +19,24 @@ leagues.push(PremierLeague);
     });
 
     const updateAllData = async () => {
+      console.log("Starting update");
       for (let league of leagues) {
         await league.updateAllFixtureChanges();
         await league.updateArticles();
         await league.updateTables();
       }
+      console.log("Update successful");
     };
 
-    const updateDailyAt = (callback, hour) => {
+    const updateDaily = (callback, hour = 0, minute = 0) => {
       const dayMiliseconds = 1000 * 60 * 60 * 24;
 
       const today = new Date();
-      today.setHours(hour, 0, 0, 0);
+      today.setHours(hour, minute, 0, 0);
 
       const timeUntilUpdate = today.getTime() + dayMiliseconds - Date.now();
+
+      setTimeout(callback, timeUntilUpdate - dayMiliseconds);
 
       setTimeout(() => {
         callback();
@@ -38,7 +44,7 @@ leagues.push(PremierLeague);
       }, timeUntilUpdate);
     };
 
-    updateDailyAt4(updateAllData, 4);
+    updateDaily(updateAllData, 4);
   } catch (err) {
     console.log(err);
   }

@@ -1,0 +1,66 @@
+@use '../assets/variables';
+
+.sideNewsContainer {
+  margin-top: 0.5rem;
+  width: 100%;
+
+  h4 {
+    padding: 0.5rem;
+    margin: 0;
+    margin-top: 0.5rem;
+    text-align: left;
+    color: variables.$heading-text-colour;
+    background-color: variables.$heading-bg-colour;
+  }
+
+  .newsLinkContainer {
+    text-align: center;
+    padding-bottom: 0.5rem;
+
+    a {
+      text-decoration: none;
+      font-size: 0.8rem;
+      color: black;
+      transition: color 150ms ease-in;
+    }
+  }
+
+  .article {
+    display: grid;
+    grid-template-columns: auto auto;
+    border: 2px solid variables.$heading-bg-colour;
+    margin-bottom: 0.2rem;
+    margin-top: 0.2rem;
+    transition: background-color 200ms ease-in, color 200ms ease-in;
+    text-decoration: none;
+    color: variables.$heading-bg-colour;
+
+    h5 {
+      margin: 0.3rem;
+      align-self: center;
+    }
+
+    .articleImage {
+      position: relative;
+      height: 5rem;
+      width: 7rem;
+      overflow: hidden;
+      justify-self: right;
+    }
+  }
+
+  @media (hover: hover) {
+    a:hover {
+      color: variables.$heading-text-colour;
+    }
+
+    .article {
+      cursor: pointer;
+    }
+
+    .article:hover {
+      background-color: variables.$heading-bg-colour;
+      color: variables.$heading-text-colour;
+    }
+  }
+}
