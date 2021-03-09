@@ -1,6 +1,6 @@
 import "./News.scss";
 import { useState, useEffect } from "react";
-import { x_auth, PORT } from "../config/";
+import { x_auth, PORT } from "../config";
 import { useSelector, useDispatch } from "react-redux";
 import getNews from "../redux/actions/news-actions";
 import LoadingIcon from "./LoadingIcon";

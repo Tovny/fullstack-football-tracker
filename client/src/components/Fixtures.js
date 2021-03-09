@@ -1,6 +1,6 @@
 import "./Fixtures.scss";
 import { useState, useEffect, useRef, Fragment } from "react";
-import { x_auth, PORT } from "../config/";
+import { x_auth, PORT } from "../config";
 import DateCarousel from "./DateCarousel";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { RiArrowDropDownLine } from "react-icons/ri";
