@@ -28,7 +28,7 @@ const { mongoURI, PORT } = require("./config");
     app.use("/api/tables", tableRoutes);
     app.use("/api/leagues", leagueRoutes);
 
-    if (process.env.NODE_EVN === "production") {
+    if (process.env.NODE_ENV === "production") {
       app.use(express.statis("client/build"));
 
       app.get("*", (req, res) => {
