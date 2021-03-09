@@ -47,7 +47,7 @@ form {
     }
 
     select:focus {
-      outline: none;
+      outline: 1px solid variables.$heading-bg-colour;
     }
   }
 
@@ -115,6 +115,7 @@ form {
       margin: 0;
       margin-left: 0.5rem;
       margin-right: 0.5rem;
+      outline: none;
     }
 
     input[type="radio"]:after {
@@ -178,7 +179,7 @@ form {
   }
 
   input:focus {
-    outline: none;
+    outline: 1px solid variables.$heading-bg-colour;
   }
 }
 
