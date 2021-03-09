@@ -65,7 +65,7 @@ const Fixtures = () => {
       if (status) filterString = filterString + `&status=${status}`;
 
       const res = await fetch(
-        `http://localhost:${PORT}/api/matches?${filterString}`,
+        `https://${process.env.IP}:${process.env.PORT}/api/matches?${filterString}`,
         {
           method: "GET",
           headers: {
