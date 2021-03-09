@@ -1,0 +1,391 @@
+@use "../assets/variables";
+
+.fixturesContainer {
+  position: relative;
+  display: flex;
+  flex-flow: column;
+  overflow: hidden;
+  margin-top: -0.1rem;
+  border-top: 0.6rem solid variables.$heading-bg-colour;
+  background-color: variables.$heading-bg-colour;
+  border-left: 5px solid variables.$heading-bg-colour;
+  border-right: 5px solid variables.$heading-bg-colour;
+
+  .fixtures {
+    position: relative;
+    display: flex;
+    transition: left 100ms linear;
+
+    #loadingIconLeft,
+    #loadingIconRight {
+      position: absolute;
+      width: 100%;
+    }
+
+    #loadingIconLeft {
+      left: -100%;
+    }
+
+    #loadingIconRight {
+      right: -100%;
+    }
+
+    .leagueFixturesContainer {
+      width: 100%;
+      margin-top: 5px;
+
+      .leagueFixtures {
+        position: relative;
+        overflow-y: hidden;
+        transition: all 250ms ease-in;
+        margin-bottom: 5px;
+
+        .fixturesHeading {
+          display: flex;
+          align-items: center;
+          background: variables.$heading-text-colour;
+          color: variables.$heading-bg-colour;
+          position: relative;
+          z-index: 5;
+          font-size: 0.75rem;
+
+          .leagueLogoContainer {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            margin-left: 0.5rem;
+            margin-right: 0.5rem;
+
+            .leagueLogo {
+              height: 80%;
+              width: auto;
+              margin: auto;
+            }
+          }
+
+          h3 {
+            letter-spacing: 0.25rem;
+          }
+
+          svg {
+            height: 1.75rem;
+            width: 1.75rem;
+          }
+        }
+
+        .fixtureBodies {
+          ul {
+            padding: 0;
+            margin: 0;
+
+            li {
+              list-style: none;
+              color: variables.$heading-text-colour;
+              background-color: variables.$fixture-body-bg;
+
+              .fixturesDate {
+                text-align: center;
+                font-size: 0.8rem;
+                font-weight: bold;
+                background-color: variables.$heading-bg-colour;
+                color: variables.$heading-text-colour;
+                padding: 0.5rem 0 0.5rem 0;
+              }
+
+              .fixtureBody,
+              .fixtureBodyNoLink {
+                display: grid;
+                grid-template-rows: auto auto;
+                grid-template-columns: 5fr 1fr 5fr;
+                align-items: center;
+                font-weight: 630;
+                letter-spacing: 0.05rem;
+                text-decoration: none;
+                color: variables.$heading-text-colour;
+                transition: color 150ms ease-in, background-color 150ms ease-in;
+
+                .home,
+                .away {
+                  display: flex;
+                  flex-direction: row;
+                  align-items: center;
+                  text-transform: capitalize;
+                }
+
+                .home {
+                  justify-content: flex-end;
+                }
+
+                .away {
+                  justify-content: flex-start;
+                }
+
+                .crest {
+                  height: 1.5rem;
+                  width: 1.5rem;
+                  margin: 0.5rem;
+                }
+
+                .scoreContainer {
+                  display: flex;
+                  flex-flow: row;
+                  justify-content: center;
+
+                  .score {
+                    background: variables.$heading-bg-colour;
+                    color: variables.$heading-text-colour;
+                    margin: 0.05rem;
+                    font-weight: bold;
+                    font-size: 1rem;
+                    padding: 0.35rem;
+                    padding-left: 0.5rem;
+                    padding-right: 0.5rem;
+                  }
+                }
+
+                .kickOff {
+                  text-align: center;
+                  margin: 0.05rem;
+                  font-size: 0.9rem;
+                  font-weight: 650;
+                  letter-spacing: 0.15rem;
+                }
+              }
+
+              .noLink {
+                pointer-events: none;
+                cursor: default;
+              }
+
+              .date {
+                grid-column: span 3;
+                text-align: center;
+                font-size: 0.9rem;
+                font-weight: bold;
+                padding-top: 0.5rem;
+                padding-bottom: 0.5rem;
+                background-color: variables.$heading-bg-colour;
+                color: variables.$heading-text-colour;
+              }
+
+              @media (hover: hover) {
+                .fixtureBody:hover {
+                  background-color: variables.$fixture-body-bg-light;
+                  color: variables.$heading-bg-colour;
+                  cursor: pointer;
+                }
+              }
+            }
+          }
+        }
+
+        .innerFixturesTransition-enter {
+          transform: translateY(-100%);
+          -webkit-transform: translateY(-100%);
+          -moz-transform: translateY(-100%);
+          position: relative;
+          z-index: 1;
+        }
+        .innerFixturesTransition-enter-active {
+          transform: translateY(0);
+          -webkit-transform: translateY(0);
+          -moz-transform: translateY(0);
+          transition: transform 250ms ease-in;
+          position: relative;
+          z-index: 1;
+        }
+        .innerFixturesTransition-exit {
+          transform: translateY(0);
+          -webkit-transform: translateY(0);
+          -moz-transform: translateY(0);
+          position: relative;
+          z-index: 1;
+        }
+        .innerFixturesTransition-exit-active {
+          transform: translateY(-100%);
+          -webkit-transform: translateY(-100%);
+          -moz-transform: translateY(-100%);
+          transition: transform 250ms ease-in;
+          position: relative;
+          z-index: 1;
+        }
+      }
+
+      .noFixtures {
+        display: flex;
+        flex-flow: column;
+        align-items: center;
+        color: variables.$heading-text-colour;
+
+        svg {
+          height: 175px;
+          width: 175px;
+        }
+
+        h3 {
+          font-size: 1.2rem;
+          letter-spacing: 0.2rem;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  #loadingIconContainer {
+    position: absolute;
+    width: 100%;
+    left: 0;
+  }
+
+  .fixturesTransitionRight-enter {
+    transform: translate(100%);
+    -webkit-transform: translate(100%);
+    -moz-transform: translate(100%);
+  }
+  .fixturesTransitionRight-enter-active {
+    transform: translate(0);
+    -webkit-transform: translate(0);
+    -moz-transform: translate(0);
+    transition: transform 200ms ease-in;
+  }
+  .fixturesTransitionRight-exit {
+    transform: translate(0);
+    -webkit-transform: translate(0);
+    -moz-transform: translate(0);
+  }
+  .fixturesTransitionRight-exit-active {
+    transform: translate(-110%);
+    -webkit-transform: translate(-110%);
+    -moz-transform: translate(-110%);
+    transition: transform 200ms ease-in;
+  }
+
+  .fixturesTransitionLeft-enter {
+    transform: translate(-100%);
+    -webkit-transform: translate(-100%);
+    -moz-transform: translate(-100%);
+  }
+  .fixturesTransitionLeft-enter-active {
+    transform: translate(0);
+    -webkit-transform: translate(0);
+    -moz-transform: translate(0);
+    transition: transform 200ms ease-in;
+  }
+  .fixturesTransitionLeft-exit {
+    transform: translate(0);
+    -webkit-transform: translate(0);
+    -moz-transform: translate(0);
+  }
+  .fixturesTransitionLeft-exit-active {
+    transform: translate(110%);
+    -webkit-transform: translate(110%);
+    -moz-transform: translate(110%);
+    transition: transform 200ms ease-in;
+  }
+
+  .fixturesTransitionOpacity-enter {
+    opacity: 0%;
+    transition: left 0ms linear;
+  }
+  .fixturesTransitionOpacity-enter-active {
+    opacity: 100%;
+    transition: opacity 250ms ease-in, left 0ms linear;
+  }
+  .fixturesTransitionOpacity-exit {
+    opacity: 100%;
+    transition: left 0ms linear;
+  }
+  .fixturesTransitionOpacity-exit-active {
+    opacity: 0%;
+    transition: opacity 250ms ease-in, left 0ms linear;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .fixturesContainer {
+    position: static;
+    margin-top: 0;
+    margin-bottom: 0;
+    background-color: variables.$heading-bg-colour;
+    border-top: none;
+
+    .fixtures {
+      margin-top: 2.3rem;
+      height: 100%;
+
+      .leagueFixturesContainer {
+        margin-top: 3px;
+      }
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .fixturesContainer {
+    height: 100%;
+    overflow-y: auto;
+    border-left: none;
+    border-right: none;
+
+    .fixtures {
+      margin-top: calc(6.1rem + 3px);
+
+      .leagueFixturesContainer {
+        margin-top: 2px;
+        padding-left: 0;
+        padding-right: 0;
+
+        .fixturesHeading {
+          .leagueLogoContainer {
+            width: 2.5rem;
+            height: 2.5rem;
+            display: flex;
+            margin-left: 0.3rem;
+            margin-right: 0.3rem;
+
+            .leagueLogo {
+              height: 95%;
+              width: auto;
+              margin: auto;
+            }
+          }
+          h3 {
+            font-size: 0.8rem;
+          }
+        }
+
+        .fixtureBodies {
+          .fixtureBody {
+            .home,
+            .away {
+              font-size: 0.75rem;
+            }
+            .kickOff {
+              font-size: 0.75rem;
+            }
+
+            .score {
+              font-size: 1rem;
+              padding-left: 0.35rem;
+              padding-right: 0.35rem;
+            }
+
+            .crest {
+              height: 1.35rem;
+              width: 1.35rem;
+            }
+
+            .date {
+              font-size: 0.7rem;
+            }
+          }
+        }
+      }
+    }
+  }
+
+  #loadingIconContainer {
+    margin-top: 4rem !important;
+    border-top: 3px solid variables.$heading-bg-colour;
+  }
+}

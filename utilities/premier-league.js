@@ -1,6 +1,9 @@
 const scrapeEPLFixtures = require("./scrapers/epl/epl-fixtures-scraper");
 const scrapeEPLMatchInfo = require("./scrapers/epl/epl-match-info-scraper");
-const scrapeEPLNews = require("./scrapers/epl/epl-news-scraper");
+const {
+  scrapeEPLNews,
+  scrapeEPLArticleDates,
+} = require("./scrapers/epl/epl-news-scraper");
 const { EPLMatch } = require("../models/Match");
 const League = require("../models/League");
 const Table = require("../models/Table");
@@ -82,24 +85,48 @@ const PremierLeague = {
         country: "England",
         league: "Premier League",
       });
+
       const deductions = league[0].deductions;
-      const tables = await createTable(EPLMatch, "gd", deductions);
 
-      const tableObj = {
-        country: league[0].country,
-        league: league[0].league,
-        logo: league[0].logo,
-        tables: tables,
-      };
+      const specialStatus = [
+        [0, "Champions League"],
+        [1, "Champions League"],
+        [2, "Champions League"],
+        [3, "Champions League"],
+        [4, "Europa League"],
+        [17, "Relegation"],
+        [18, "Relegation"],
+        [19, "Relegation"],
+      ];
 
-      if (dbTable.length < 1) {
-        const newTable = new Table(tableObj);
-        await newTable.save();
-      } else {
-        await Table.updateOne(
-          { country: "England", league: "Premier League" },
-          tableObj
-        );
+      const tables = await createTable(
+        EPLMatch,
+        "gd",
+        deductions,
+        specialStatus
+      );
+
+      if (
+        tables.hasOwnProperty("total") &&
+        tables.hasOwnProperty("home") &&
+        tables.hasOwnProperty("away")
+      ) {
+        const tableObj = {
+          country: league[0].country,
+          league: league[0].league,
+          logo: league[0].logo,
+          tables: tables,
+        };
+
+        if (dbTable.length < 1) {
+          const newTable = new Table(tableObj);
+          await newTable.save();
+        } else {
+          await Table.updateOne(
+            { country: "England", league: "Premier League" },
+            tableObj
+          );
+        }
       }
     } catch (err) {}
   },
@@ -112,14 +139,16 @@ const PremierLeague = {
         url.includes("premierleague.com")
       );
 
-      const scrape = await scrapeEPLNews();
+      const scrapedArticles = await scrapeEPLNews();
+      const toDo = scrapedArticles.filter(
+        (article) => !doneLinks.includes(article.url)
+      );
+      const articles = await scrapeEPLArticleDates(toDo);
 
-      for (let article of scrape) {
-        if (!doneLinks.includes(article.url)) {
-          const newArticle = new Article(article);
+      for (let article of articles) {
+        const newArticle = new Article(article);
 
-          newArticle.save();
-        }
+        await newArticle.save();
       }
     } catch (err) {
       console.log(err);

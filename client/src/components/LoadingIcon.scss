@@ -1,0 +1,33 @@
+.loadingIcon {
+  width: 1.5rem;
+  height: 1.5rem;
+  border-radius: 50%;
+  border: 6px solid rgba(0, 0, 0, 0.4);
+  border-top: 6px solid transparent;
+  margin-right: auto;
+  margin-left: auto;
+  margin-top: 2rem;
+  margin-bottom: 1rem;
+  animation: spin 500ms linear infinite;
+}
+
+.loadingIcon::after {
+  content: " ";
+  height: 0.5rem;
+  width: 0.5rem;
+  border-top: 0.25rem solid rgba(0, 0, 0, 0.4);
+  border-right: 0.25rem solid rgba(0, 0, 0, 0.4);
+  position: relative;
+  display: block;
+  left: -25%;
+  top: -10%;
+}
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+  100% {
+    transform: rotate(360deg);
+  }
+}

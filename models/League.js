@@ -17,6 +17,10 @@ const leagueSchema = Schema({
     type: Array,
     required: false,
   },
+  teams: {
+    type: Array,
+    required: true,
+  },
   model: {
     type: String,
     required: true,

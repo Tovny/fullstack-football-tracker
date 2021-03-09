@@ -11,22 +11,72 @@ router.get("/", auth, async (req, res) => {
     const leagues = await League.find();
     const fixtures = new Array();
 
-    let multi = parseInt(req.headers.day);
-    if (!multi) multi = 0;
-    const day = 1000 * 60 * 60 * 24 * multi;
+    let {
+      date,
+      team,
+      hometeam,
+      awayteam,
+      league,
+      matchday,
+      status,
+    } = req.query;
 
-    let date = new Date(Date.now() + day).toISOString().split("T")[0];
+    if (!date) {
+      date = new Date().toISOString();
+      date = date.split("T")[0];
+    }
+
+    const searchObj = new Object();
+
+    if (
+      date != "all" &&
+      !matchday &&
+      !hometeam &&
+      !awayteam &&
+      !team &&
+      !status
+    )
+      searchObj["info.date"] = date;
+
+    if (matchday) searchObj["info.matchday"] = parseInt(matchday);
+
+    if (status && !matchday)
+      searchObj["info.status"] = new RegExp(status.replace("-", " "), "i");
+
+    if (league) {
+      searchObj["league.name"] = new RegExp(league.replace("-", " "), "i");
+
+      if (team && !hometeam && !awayteam)
+        searchObj.$or = [
+          { "teams.home.name": new RegExp(team.replace("-", " "), "i") },
+          { "teams.away.name": new RegExp(team.replace("-", " "), "i") },
+        ];
+
+      if (hometeam)
+        searchObj["teams.home.name"] = new RegExp(
+          hometeam.replace("-", " "),
+          "i"
+        );
+
+      if (awayteam)
+        searchObj["teams.away.name"] = new RegExp(
+          awayteam.replace("-", " "),
+          "i"
+        );
+    }
 
     for (league of leagues) {
-      const leagueFixtures = await models[league.model]
-        .find({ "info.date": date })
+      let leagueFixtures;
+
+      leagueFixtures = await models[league.model]
+        .find(searchObj)
         .sort({ "info.date": 1, "info.kickOff": 1 });
 
       if (leagueFixtures.length > 0) {
         const leagueObj = {
           country: league["_doc"].country,
           league: league["_doc"].league,
-          leagueLogo: league["_doc"].leagueLogo,
+          logo: league["_doc"].logo,
           fixtures: leagueFixtures,
         };
 

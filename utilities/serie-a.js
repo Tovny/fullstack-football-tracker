@@ -83,24 +83,48 @@ const SerieA = {
         country: "Italy",
         league: "Serie A",
       });
+
       const deductions = league[0].deductions;
-      const tables = await createTable(SerieAMatch, "h2h", deductions);
 
-      const tableObj = {
-        country: league[0].country,
-        league: league[0].league,
-        logo: league[0].logo,
-        tables: tables,
-      };
+      const specialStatus = [
+        [0, "Champions League"],
+        [1, "Champions League"],
+        [2, "Champions League"],
+        [3, "Champions League"],
+        [4, "Europa League"],
+        [17, "Relegation"],
+        [18, "Relegation"],
+        [19, "Relegation"],
+      ];
 
-      if (dbTable.length < 1) {
-        const newTable = new Table(tableObj);
-        await newTable.save();
-      } else {
-        await Table.updateOne(
-          { country: "Italy", league: "Serie A" },
-          tableObj
-        );
+      const tables = await createTable(
+        SerieAMatch,
+        "h2h",
+        deductions,
+        specialStatus
+      );
+
+      if (
+        tables.hasOwnProperty("total") &&
+        tables.hasOwnProperty("home") &&
+        tables.hasOwnProperty("away")
+      ) {
+        const tableObj = {
+          country: league[0].country,
+          league: league[0].league,
+          logo: league[0].logo,
+          tables: tables,
+        };
+
+        if (dbTable.length < 1) {
+          const newTable = new Table(tableObj);
+          await newTable.save();
+        } else {
+          await Table.updateOne(
+            { country: "Italy", league: "Serie A" },
+            tableObj
+          );
+        }
       }
     } catch (err) {
       console.log(err);

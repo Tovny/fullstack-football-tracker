@@ -1,0 +1,136 @@
+@use '../assets/variables';
+
+.tableContainer {
+  overflow: hidden;
+  width: 100%;
+
+  table {
+    letter-spacing: 0.01rem;
+    border-collapse: collapse;
+
+    thead {
+      background: variables.$heading-bg-colour;
+      color: variables.$heading-text-colour;
+
+      th {
+        padding: 0.5rem;
+        border: 2px solid variables.$heading-bg-colour;
+
+        #leagueHeading {
+          display: grid;
+          grid-template-columns: auto auto auto;
+
+          a {
+            color: variables.$heading-text-colour;
+            text-decoration: none;
+            transition: filter 150ms ease-in;
+          }
+        }
+
+        #arrowBack {
+          height: 1rem;
+          width: 1rem;
+          padding-left: 0.5rem;
+          align-self: center;
+        }
+
+        #arrowForward {
+          height: 1rem;
+          width: 1rem;
+          padding-right: 0.5rem;
+          justify-self: end;
+          align-self: center;
+        }
+      }
+
+      th:first-child {
+        background: variables.$heading-bg-colour;
+      }
+    }
+
+    tbody {
+      tr {
+        border: 2px solid variables.$heading-bg-colour;
+        border-top: none;
+
+        td {
+          padding-right: 0.3rem;
+          padding-bottom: 0.1rem;
+          text-align: center;
+        }
+
+        .position {
+          text-align: right;
+          font-weight: bold;
+          padding-left: 0.5rem;
+          padding-right: 0.5rem;
+        }
+
+        .club {
+          text-transform: capitalize;
+          text-align: left;
+          padding-right: 1rem;
+          width: 13rem;
+        }
+      }
+    }
+  }
+
+  @media (hover: hover) {
+    svg {
+      cursor: pointer;
+      transition: filter 150ms ease-in;
+    }
+
+    svg:hover,
+    a:hover {
+      filter: brightness(0.8);
+    }
+  }
+}
+
+.tableTransitionRight-enter {
+  transform: translate(110%);
+  -webkit-transform: translate(110%);
+  -moz-transform: translate(110%);
+}
+.tableTransitionRight-enter-active {
+  transform: translate(0);
+  -webkit-transform: translate(0);
+  -moz-transform: translate(0);
+  transition: transform 250ms ease-in;
+}
+.tableTransitionRight-exit {
+  transform: translate(0);
+  -webkit-transform: translate(0);
+  -moz-transform: translate(0);
+}
+.tableTransitionRight-exit-active {
+  transform: translate(-110%);
+  -webkit-transform: translate(-110%);
+  -moz-transform: translate(-110%);
+  transition: transform 250ms ease-in;
+}
+
+.tableTransitionLeft-enter {
+  transform: translate(-110%);
+  -webkit-transform: translate(-110%);
+  -moz-transform: translate(-110%);
+}
+.tableTransitionLeft-enter-active {
+  transform: translate(0);
+  -webkit-transform: translate(0);
+  -moz-transform: translate(0);
+  transition: transform 250ms ease-in;
+}
+.tableTransitionLeft-exit {
+  transform: translate(0);
+  -webkit-transform: translate(0);
+  -moz-transform: translate(0);
+}
+.tableTransitionLeft-exit-active {
+  transform: translate(110%);
+  -webkit-transform: translate(110%);
+  -moz-transform: translate(110%);
+  transition: transform 250ms ease-in;
+}

@@ -2,44 +2,45 @@ const puppeteer = require("puppeteer");
 const cheerio = require("cheerio");
 
 const delay = require("../puppeteer-utilities/async-delay");
-const scrollToBottom = require("../puppeteer-utilities/scroll-to-bottom");
+const scrollDownFor = require("../puppeteer-utilities/scroll-down-for");
 
-const getArticles = async () => {
+const scrapeEPLNews = async () => {
   try {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
     await page.goto("https://www.premierleague.com/news");
 
-    await delay(3000);
-    await scrollToBottom(page);
+    await scrollDownFor(page, 10);
 
     const data = await page.content();
 
-    await browser.close();
-
-    const $ = cheerio.load(data);
-
     const articles = new Array();
 
-    $(".thumbnail.thumbLong").each((i, art) => {
-      let article = {};
+    if (data) {
+      const $ = cheerio.load(data);
 
-      article.league = "English Premier League";
-      article.title = $(art).find(".title").text();
-      article.description = $(art).find(".text").text();
-      article.image = $(art)
-        .find(".thumbCrop-news-list img")
-        .attr("src")
-        .trim();
-      let href = $(art).attr("href");
+      $(".thumbnail.thumbLong").each((i, art) => {
+        let article = {};
 
-      if (href.includes("premierleague.com/")) href = href.split(".com/")[1];
+        article.league = "English Premier League";
+        article.title = $(art).find(".title").text();
+        article.description = $(art).find(".text").text();
 
-      const link = "https://www.premierleague.com/" + href;
-      article.url = link;
+        const image = $(art).find(".thumbCrop-news-list img").attr("src");
+        if (image) article.image = image.trim();
 
-      if (!link.includes("/match/")) articles.push(article);
-    });
+        let href = $(art).attr("href");
+
+        if (href.includes("premierleague.com/")) href = href.split(".com/")[1];
+
+        let link = "https://www.premierleague.com/" + href;
+        link = link.replace(".com//", ".com/");
+        article.url = link;
+
+        if (!link.includes("/match/")) articles.push(article);
+      });
+    }
+    await browser.close();
 
     return articles;
   } catch (err) {
@@ -47,54 +48,60 @@ const getArticles = async () => {
   }
 };
 
-const scrapeEPLNews = async () => {
+const scrapeEPLArticleDates = async (articles) => {
   try {
-    const articles = await getArticles();
+    const completeArticles = new Array();
 
     let currentDate;
     let substractTime = 0;
+    const browser = await puppeteer.launch({ headless: true });
+    const page = await browser.newPage();
 
     for (let article of articles) {
       const link = article.url;
 
-      const browser = await puppeteer.launch({ headless: true });
-      const page = await browser.newPage();
       await page.goto(link);
 
       await delay(2000);
 
       const data = await page.content();
 
-      await browser.close();
+      if (data) {
+        const $ = cheerio.load(data);
 
-      const $ = cheerio.load(data);
+        $(".articleHeader newsTag").remove();
+        $(".articleHeader articleAuth").remove();
 
-      $(".articleHeader newsTag").remove();
-      $(".articleHeader articleAuth").remove();
+        const dateString = $(".articleHeader h5").text();
 
-      const articleDate = new Date(
-        $(".articleHeader h5").text().trim() + " 15:00"
-      );
+        const articleDate = new Date(dateString.trim() + " 15:00");
 
-      const date = articleDate.toISOString().split("T")[0];
-      if (currentDate != date) {
-        currentDate = date;
-        substractTime = 0;
-      } else {
-        substractTime = substractTime + 1;
+        if (articleDate.toString() != "Invalid Date") {
+          const date = articleDate.toISOString().split("T")[0];
+          if (currentDate != date) {
+            currentDate = date;
+            substractTime = 0;
+          } else {
+            substractTime = substractTime + 1;
+          }
+
+          const hour = 18 - substractTime;
+          const time = `${hour}:00`;
+
+          article.date = date;
+          article.time = time;
+
+          completeArticles.push(article);
+        }
       }
-
-      const hour = 18 - substractTime;
-      const time = `${hour}:00`;
-
-      article.date = date;
-      article.time = time;
     }
+    page.close();
+    await browser.close();
 
-    return articles;
+    return completeArticles;
   } catch (err) {
     console.log(err);
   }
 };
 
-module.exports = scrapeEPLNews;
+module.exports = { scrapeEPLNews, scrapeEPLArticleDates };

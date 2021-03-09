@@ -1,0 +1,62 @@
+@use '../assets/variables';
+
+.fixturesLayout {
+  display: grid;
+  grid-template-columns: 220px minmax(350px, auto) 300px;
+
+  .filterContainer {
+    display: flex;
+    flex-flow: column;
+    align-items: flex-end;
+    padding: 0.5rem;
+  }
+
+  .tableAndNewsContainer {
+    display: flex;
+    flex-flow: column;
+    padding: 0.5rem;
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .fixturesLayout {
+    display: grid;
+    position: absolute;
+    grid-template-columns: min-content auto;
+    width: 100%;
+    min-height: calc(100% - 3rem);
+
+    .filterContainer {
+      margin-top: 0;
+      padding: 0;
+      width: 200px;
+      height: 100%;
+    }
+
+    .tableAndNewsContainer {
+      display: none;
+    }
+  }
+}
+
+@media screen and (max-width: 600px) {
+  .fixturesLayout {
+    display: flex;
+    flex-flow: column;
+    align-items: stretch;
+    height: 100%;
+    border-top: none;
+
+    .filterContainer {
+      position: absolute;
+      right: 0.5rem;
+      width: auto;
+      height: auto;
+      background-color: transparent;
+    }
+
+    .tableAndNewsContainer {
+      display: none;
+    }
+  }
+}
