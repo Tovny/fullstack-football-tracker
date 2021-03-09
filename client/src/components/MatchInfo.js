@@ -2,7 +2,7 @@ import "./MatchInfo.scss";
 import { useEffect, useState, useRef, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
-import { x_auth, PORT } from "../config/";
+import { x_auth, PORT } from "../config";
 import LoadingIcon from "./LoadingIcon";
 import { GiSoccerField, GiSoccerBall, GiWhistle } from "react-icons/gi";
 import { BiTimeFive } from "react-icons/bi";

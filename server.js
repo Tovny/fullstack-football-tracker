@@ -8,7 +8,7 @@ const matchRoutes = require("./routes/matches");
 const tableRoutes = require("./routes/tables");
 const leagueRoutes = require("./routes/leagues");
 
-const { mongoURI, PORT } = require("./config/");
+const { mongoURI, PORT } = require("./config");
 
 (async () => {
   try {
