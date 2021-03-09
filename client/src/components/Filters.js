@@ -1,7 +1,7 @@
 import "./Filters.scss";
 import { useState, useEffect, useRef } from "react";
 import { createPortal } from "react-dom";
-import { x_auth, PORT } from "../config";
+import { x_auth, PORT } from "../config/default.js";
 import { useSelector, useDispatch } from "react-redux";
 import getLeagues from "../redux/actions/league-actions";
 import { setFilters } from "../redux/actions/filter-actions";

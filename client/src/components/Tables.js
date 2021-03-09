@@ -1,7 +1,7 @@
 import "./Tables.scss";
 import { useState, useEffect, useRef, Fragment } from "react";
 import { useParams } from "react-router-dom";
-import { x_auth, PORT } from "../config";
+import { x_auth, PORT } from "../config/default.js";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
 import getTables from "../redux/actions/table-actions";
