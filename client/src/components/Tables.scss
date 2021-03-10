@@ -61,6 +61,7 @@
         padding: 1rem;
         margin: 0;
         transition: 150ms color ease-in, 150ms background-color ease-in;
+        -webkit-transition: 150ms color ease-in, 150ms background-color ease-in;
       }
 
       @media (hover: hover) {
@@ -210,6 +211,8 @@
               background-color: variables.$heading-text-colour;
               color: variables.$heading-bg-colour;
               transition: background-color 150ms ease-in, color 150ms ease-in;
+              -webkit-transition: background-color 150ms ease-in,
+                color 150ms ease-in;
 
               time {
                 align-self: flex-end;
@@ -282,6 +285,8 @@
               -webkit-transform: rotate(45deg);
               -moz-transform: rotate(45deg);
               transition: background-color 150ms ease-in, color 150ms ease-in;
+              -webkit-transition: background-color 150ms ease-in,
+                color 150ms ease-in;
             }
           }
         }
@@ -344,6 +349,7 @@
   .tableTransition-enter-active {
     opacity: 100%;
     transition: opacity 250ms ease-in;
+    -webkit-transition: opacity 250ms ease-in;
   }
   .tableTransition-exit {
     opacity: 100%;
@@ -351,6 +357,7 @@
   .tableTransition-exit-active {
     opacity: 0%;
     transition: opacity 250ms ease-in;
+    -webkit-transition: opacity 250ms ease-in;
   }
 }
 

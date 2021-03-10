@@ -1,7 +1,7 @@
 import "./SideNews.scss";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { x_auth, PORT } from "../config/default.js";
+import { x_auth } from "../config/default.js";
 import { useSelector, useDispatch } from "react-redux";
 import getNews from "../redux/actions/news-actions";
 
@@ -11,9 +11,12 @@ const SideNews = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`http://localhost:${PORT}/api/articles`, {
-        headers: { "x-auth": x_auth },
-      });
+      const res = await fetch(
+        `https://serene-everglades-51285.herokuapp.com/api/articles`,
+        {
+          headers: { "x-auth": x_auth },
+        }
+      );
 
       const data = await res.json();
       dispatch(getNews(data));

@@ -2,7 +2,7 @@ import "./MatchInfo.scss";
 import { useEffect, useState, useRef, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
-import { x_auth, PORT } from "../config/default.js";
+import { x_auth } from "../config/default.js";
 import LoadingIcon from "./LoadingIcon";
 import { GiSoccerField, GiSoccerBall, GiWhistle } from "react-icons/gi";
 import { BiTimeFive } from "react-icons/bi";
@@ -19,7 +19,7 @@ const MatchInfo = () => {
   useEffect(() => {
     (async () => {
       const data = await fetch(
-        `http://localhost:${PORT}/api/matches?league=${league}&hometeam=${hometeam}&awayteam=${awayteam}`,
+        `https://serene-everglades-51285.herokuapp.com/api/matches?league=${league}&hometeam=${hometeam}&awayteam=${awayteam}`,
         {
           method: "GET",
           headers: {

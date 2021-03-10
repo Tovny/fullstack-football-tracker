@@ -23,6 +23,10 @@ body {
       display: grid;
       grid-template-columns: auto minmax(auto, 1100px) auto;
 
+      a:focus {
+        outline: 1px solid variables.$heading-bg-colour;
+      }
+
       .headerContainer {
         grid-column-start: 2;
         width: 100%;
@@ -35,19 +39,29 @@ body {
       .pageTransition-enter {
         opacity: 0%;
         transition: left 0ms linear;
+        -webkit-transition: left 0ms linear;
       }
       .pageTransition-enter-active {
         opacity: 100%;
         transition: opacity 100ms ease-in, left 0ms linear;
+        -webkit-transition: opacity 100ms ease-in, left 0ms linear;
       }
       .pageTransition-exit {
         opacity: 100%;
         transition: left 0ms linear;
+        -webkit-transition: left 0ms linear;
       }
       .pageTransition-exit-active {
         opacity: 0%;
         transition: opacity 100ms ease-in, left 0ms linear;
+        -webkit-transition: opacity 100ms ease-in, left 0ms linear;
       }
+    }
+
+    #loadingIconContainer {
+      position: absolute;
+      width: 100%;
+      top: 5.75rem;
     }
   }
 }
@@ -78,6 +92,10 @@ body {
           min-height: calc(100% - 3rem);
         }
       }
+
+      #loadingIconContainer {
+        top: 3.4rem;
+      }
     }
   }
 }
@@ -95,5 +113,9 @@ body {
       padding-top: 0 !important;
       min-height: 100% !important;
     }
+  }
+
+  #loadingIconContainer {
+    top: 0.2rem !important;
   }
 }

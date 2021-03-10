@@ -8,6 +8,7 @@
     background-color: variables.$heading-bg-colour;
     color: variables.$heading-text-colour;
     transition: color 200ms ease-in, background-color 200ms ease-in;
+    -webkit-transition: color 200ms ease-in, background-color 200ms ease-in;
     overflow: hidden;
     border-top: 3px solid variables.$heading-text-colour;
     text-decoration: none;
@@ -21,6 +22,9 @@
       img {
         width: 450px;
         transition: transform 150ms ease-in;
+        -webkit-transition: transform 150ms ease-in;
+        transition: -webkit-transform 150ms ease-in;
+        -webkit-transition: -webkit-transform 150ms ease-in;
       }
     }
 
@@ -65,6 +69,11 @@
         }
       }
     }
+
+    .loadingIcon {
+      position: relative;
+      top: 0.4rem;
+    }
   }
 }
 
@@ -72,6 +81,11 @@
   .articles {
     margin-top: 4.75rem;
     font-size: 0.5rem;
+
+    .loadingIcon {
+      position: relative;
+      top: 1.4rem;
+    }
 
     .article {
       display: grid !important;

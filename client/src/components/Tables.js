@@ -1,7 +1,7 @@
 import "./Tables.scss";
 import { useState, useEffect, useRef, Fragment } from "react";
 import { useParams } from "react-router-dom";
-import { x_auth, PORT } from "../config/default.js";
+import { x_auth } from "../config/default.js";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
 import getTables from "../redux/actions/table-actions";
@@ -23,9 +23,12 @@ const Table = () => {
   useEffect(() => {
     if (!tables) {
       (async () => {
-        const res = await fetch(`http://localhost:${PORT}/api/tables`, {
-          headers: { "x-auth": x_auth },
-        });
+        const res = await fetch(
+          `https://serene-everglades-51285.herokuapp.com/api/tables`,
+          {
+            headers: { "x-auth": x_auth },
+          }
+        );
 
         const data = await res.json();
 

@@ -268,6 +268,7 @@ form {
   .filtersModal-enter-active {
     opacity: 1;
     transition: opacity 200ms ease-in;
+    -webkit-transition: opacity 200ms ease-in;
   }
   .filtersModal-exit {
     opacity: 1;
@@ -275,5 +276,6 @@ form {
   .filtersModal-exit-active {
     opacity: 0;
     transition: opacity 200ms ease-in;
+    -webkit-transition: opacity 200ms ease-in;
   }
 }

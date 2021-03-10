@@ -60,7 +60,7 @@ const DateCarousel = (props) => {
     setSelectorDates(dateSelectors);
   }, [carouselDate]);
 
-  const handleCalendarChange = (calendarDate) => {
+  const handleCalendarChange = async (calendarDate) => {
     let direction;
     if (calendarDate > date) {
       direction = "Right";
@@ -68,7 +68,10 @@ const DateCarousel = (props) => {
       direction = "Left";
     }
 
-    props.setDirection(`fixturesTransition${direction}`);
+    await new Promise((resolve) => {
+      props.setDirection(`fixturesTransition${direction}`);
+      resolve();
+    });
 
     dispatch(setFilters({ date: calendarDate }));
     setCarouselDate(calendarDate);
@@ -320,15 +323,18 @@ const DateCarousel = (props) => {
 };
 
 const DateSelector = (props) => {
-  const handleClick = () => {
+  const handleClick = async () => {
     let direction;
     if (props.selectorDate > props.date) {
       direction = "Right";
     } else {
       direction = "Left";
     }
+    await new Promise((resolve) => {
+      props.setDirection(`fixturesTransition${direction}`);
+      resolve();
+    });
 
-    props.setDirection(`fixturesTransition${direction}`);
     props.setOpenCalendar(false);
     props.dispatch(setFilters({ date: props.selectorDate }));
   };

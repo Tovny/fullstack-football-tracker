@@ -1,7 +1,7 @@
 import "./SideTable.scss";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { x_auth, PORT } from "../config/default.js";
+import { x_auth } from "../config/default.js";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
@@ -15,9 +15,12 @@ const SideTable = () => {
 
   useEffect(() => {
     (async () => {
-      const res = await fetch(`http://localhost:${PORT}/api/tables`, {
-        headers: { "x-auth": x_auth },
-      });
+      const res = await fetch(
+        `https://serene-everglades-51285.herokuapp.com/api/tables`,
+        {
+          headers: { "x-auth": x_auth },
+        }
+      );
 
       const data = await res.json();
 

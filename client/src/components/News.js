@@ -1,6 +1,6 @@
 import "./News.scss";
 import { useState, useEffect } from "react";
-import { x_auth, PORT } from "../config/default.js";
+import { x_auth } from "../config/default.js";
 import { useSelector, useDispatch } from "react-redux";
 import getNews from "../redux/actions/news-actions";
 import LoadingIcon from "./LoadingIcon";
@@ -14,9 +14,12 @@ const Articles = () => {
   useEffect(() => {
     if (!news) {
       (async () => {
-        const res = await fetch(`http://localhost:${PORT}/api/articles`, {
-          headers: { "x-auth": x_auth },
-        });
+        const res = await fetch(
+          `https://serene-everglades-51285.herokuapp.com/api/articles`,
+          {
+            headers: { "x-auth": x_auth },
+          }
+        );
 
         const data = await res.json();
 

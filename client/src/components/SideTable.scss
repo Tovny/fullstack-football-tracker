@@ -80,6 +80,7 @@
     svg {
       cursor: pointer;
       transition: filter 150ms ease-in;
+      -webkit-transition: filter 150ms ease-in;
     }
 
     svg:hover,
@@ -99,6 +100,9 @@
   -webkit-transform: translate(0);
   -moz-transform: translate(0);
   transition: transform 250ms ease-in;
+  -webkit-transition: transform 250ms ease-in;
+  transition: -webkit-transform 250ms ease-in;
+  -webkit-transition: -webkit-transform 250ms ease-in;
 }
 .tableTransitionRight-exit {
   transform: translate(0);
@@ -110,6 +114,9 @@
   -webkit-transform: translate(-110%);
   -moz-transform: translate(-110%);
   transition: transform 250ms ease-in;
+  -webkit-transition: transform 250ms ease-in;
+  transition: -webkit-transform 250ms ease-in;
+  -webkit-transition: -webkit-transform 250ms ease-in;
 }
 
 .tableTransitionLeft-enter {
@@ -122,6 +129,9 @@
   -webkit-transform: translate(0);
   -moz-transform: translate(0);
   transition: transform 250ms ease-in;
+  -webkit-transition: transform 250ms ease-in;
+  transition: -webkit-transform 250ms ease-in;
+  -webkit-transition: -webkit-transform 250ms ease-in;
 }
 .tableTransitionLeft-exit {
   transform: translate(0);
@@ -133,4 +143,7 @@
   -webkit-transform: translate(110%);
   -moz-transform: translate(110%);
   transition: transform 250ms ease-in;
+  -webkit-transition: transform 250ms ease-in;
+  transition: -webkit-transform 250ms ease-in;
+  -webkit-transition: -webkit-transform 250ms ease-in;
 }

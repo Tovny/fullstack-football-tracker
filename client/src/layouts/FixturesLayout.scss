@@ -24,6 +24,7 @@
     position: absolute;
     grid-template-columns: min-content auto;
     width: 100%;
+    margin-top: 5px;
     min-height: calc(100% - 3rem);
 
     .filterContainer {
@@ -46,6 +47,7 @@
     align-items: stretch;
     height: 100%;
     border-top: none;
+    margin-top: 0;
 
     .filterContainer {
       position: absolute;

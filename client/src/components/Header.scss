@@ -3,6 +3,7 @@
 .header {
   position: relative;
   transition: opacity 150ms ease-in;
+  -webkit-transition: opacity 150ms ease-in;
   overflow: hidden;
   border-bottom: 10px solid variables.$heading-bg-colour;
 
@@ -27,6 +28,7 @@
         color: variables.$heading-bg-colour;
         text-decoration: none;
         transition: all 0.2s ease-in;
+        -webkit-transition: all 0.2s ease-in;
 
         svg {
           width: 2rem;
@@ -38,6 +40,10 @@
           font-size: 1.2rem;
           font-weight: bold;
         }
+      }
+
+      a:focus {
+        outline: none;
       }
 
       @media (hover: hover) {
@@ -52,6 +58,7 @@
       background-color: variables.$heading-bg-colour;
       overflow: hidden;
       transition: background-color 250ms ease-in;
+      -webkit-transition: background-color 250ms ease-in;
 
       a {
         color: variables.$heading-text-colour;

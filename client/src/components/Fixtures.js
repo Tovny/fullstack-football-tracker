@@ -1,6 +1,7 @@
 import "./Fixtures.scss";
 import { useState, useEffect, useRef, Fragment } from "react";
-import { x_auth, PORT } from "../config/default.js";
+import { createPortal } from "react-dom";
+import { x_auth } from "../config/default.js";
 import DateCarousel from "./DateCarousel";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -108,13 +109,13 @@ const Fixtures = () => {
   const handleTouchMove = (event) => {
     let scrollPos = event.touches[0].clientY;
 
-    const element = event.target;
+    const element = document.getElementsByClassName("fixtures")[0];
 
     element.ontouchmove = (event) => {
       let secondY = event.touches[0].clientY;
 
-      if (secondY > scrollPos - 2 && secondY < scrollPos + 2) {
-        element.onTouchStart = onTouchPreventScroll(event);
+      if (secondY > scrollPos - 5 && secondY < scrollPos + 5) {
+        element.ontouchstart = onTouchPreventScroll(event);
       } else {
         element.ontouchmove = null;
       }
@@ -130,6 +131,9 @@ const Fixtures = () => {
       element.ontouchmove = (event) => {
         secondPos = event.touches[0].clientX;
         finalPos = xPos + secondPos - firstPos;
+
+        document.body.style.overflow = "hidden";
+
         setXPos(finalPos);
       };
 
@@ -178,7 +182,9 @@ const Fixtures = () => {
           }
         }
 
-        element.onTouchStart = handleTouchMove;
+        element.ontouchstart = handleTouchMove;
+
+        document.body.style.overflow = "visible";
       };
     };
   };
@@ -222,9 +228,12 @@ const Fixtures = () => {
           </SwitchTransition>
         </Fragment>
       ) : (
-        <div id="loadingIconContainer">
-          <LoadingIcon />
-        </div>
+        createPortal(
+          <div id="loadingIconContainer">
+            <LoadingIcon />
+          </div>,
+          document.getElementById("root")
+        )
       )}
     </div>
   );

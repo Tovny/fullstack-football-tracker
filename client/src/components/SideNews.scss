@@ -22,6 +22,7 @@
       font-size: 0.8rem;
       color: black;
       transition: color 150ms ease-in;
+      -webkit-transition: color 150ms ease-in;
     }
   }
 
@@ -32,6 +33,7 @@
     margin-bottom: 0.2rem;
     margin-top: 0.2rem;
     transition: background-color 200ms ease-in, color 200ms ease-in;
+    -webkit-transition: background-color 200ms ease-in, color 200ms ease-in;
     text-decoration: none;
     color: variables.$heading-bg-colour;
 
