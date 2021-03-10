@@ -1,3 +1,3 @@
-const x_auth = process.env.X_AUTH;
+const x_auth = "98e10fb6ca9419a8894108337d3cb61d";
 
 export { x_auth };
