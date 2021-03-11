@@ -290,6 +290,11 @@
             }
           }
         }
+
+        .next {
+          padding: 0;
+          width: 5rem;
+        }
       }
 
       tr:nth-child(even) {
