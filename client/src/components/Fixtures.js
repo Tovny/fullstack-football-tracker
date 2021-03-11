@@ -134,8 +134,6 @@ const Fixtures = () => {
             "fixturesContainer"
           )[0].style.overflowY = "hidden";
         if (window.innerWidth <= 662) {
-          document.getElementsByClassName("fixturesContainer")[0].style.height =
-            "200%";
           document.getElementsByClassName(
             "fixturesContainer"
           )[0].style.marginBottom = "-500px";
@@ -195,8 +193,6 @@ const Fixtures = () => {
           document.getElementsByClassName(
             "fixturesContainer"
           )[0].style.overflowY = "auto";
-          document.getElementsByClassName("fixturesContainer")[0].style.height =
-            "100%";
           document.getElementsByClassName(
             "fixturesContainer"
           )[0].style.marginBottom = "0";
