@@ -133,11 +133,6 @@ const Fixtures = () => {
           document.getElementsByClassName(
             "fixturesContainer"
           )[0].style.overflowY = "hidden";
-        if (window.innerWidth <= 662) {
-          document.getElementsByClassName(
-            "fixturesContainer"
-          )[0].style.marginBottom = "-500px";
-        }
 
         setXPos(finalPos);
       };
@@ -189,14 +184,10 @@ const Fixtures = () => {
         element.ontouchstart = handleTouchMove;
 
         document.body.style.overflow = "auto";
-        if (window.innerWidth <= 662) {
-          document.getElementsByClassName(
-            "fixturesContainer"
-          )[0].style.overflowY = "auto";
-          document.getElementsByClassName(
-            "fixturesContainer"
-          )[0].style.marginBottom = "0";
-        }
+
+        document.getElementsByClassName(
+          "fixturesContainer"
+        )[0].style.overflowY = "auto";
       };
     };
   };

@@ -323,7 +323,9 @@
 
 @media screen and (max-width: 600px) {
   .fixturesContainer {
+    position: fixed;
     height: 100%;
+    width: 100%;
     overflow-y: auto;
     border-left: none;
     border-right: none;
