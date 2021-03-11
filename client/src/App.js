@@ -5,7 +5,6 @@ import Header from "./components/Header";
 import Table from "./components/Tables";
 import News from "./components/News";
 import MatchInfo from "./components/MatchInfo";
-import { CSSTransition, SwitchTransition } from "react-transition-group";
 
 function App() {
   const location = useLocation();
@@ -18,27 +17,17 @@ function App() {
         </div>
       ) : null}
       <div className="contentContainer">
-        <SwitchTransition>
-          <CSSTransition
-            key={location.key}
-            unmountOnExit
-            mountOnEnter
-            timeout={200}
-            classNames="pageTransition"
-          >
-            <Switch location={location}>
-              <Route path="/tables:table?">
-                <Table />
-              </Route>
-              <Route exact path="/">
-                <FixturesLayout />
-              </Route>
-              <Route exact path="/news">
-                <News />
-              </Route>
-            </Switch>
-          </CSSTransition>
-        </SwitchTransition>
+        <Switch location={location}>
+          <Route path="/tables:table?">
+            <Table />
+          </Route>
+          <Route exact path="/">
+            <FixturesLayout />
+          </Route>
+          <Route exact path="/news">
+            <News />
+          </Route>
+        </Switch>
         <Route path="/match/:league?/:hometeam?/:awayteam">
           <MatchInfo />
         </Route>

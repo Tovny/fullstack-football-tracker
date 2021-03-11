@@ -102,7 +102,7 @@ form {
     }
 
     .slider:disabled {
-      opacity: 15%;
+      opacity: 0.075;
     }
   }
 
@@ -115,13 +115,15 @@ form {
       margin: 0;
       margin-left: 0.5rem;
       margin-right: 0.5rem;
+      width: 11px;
+      height: 11px;
       outline: none;
     }
 
     input[type="radio"]:after {
       width: 11px;
       height: 11px;
-      border-radius: 11px;
+      border-radius: 50%;
       position: relative;
       background-color: variables.$body-bg-dark;
       content: "";
@@ -157,6 +159,11 @@ form {
     width: 1rem;
     margin-left: 0.25rem;
     align-self: center;
+  }
+
+  input:disabled,
+  select:disabled {
+    opacity: 0.2;
   }
 
   @media (pointer: fine) {

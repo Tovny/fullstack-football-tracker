@@ -14,8 +14,8 @@
   .fixtures {
     position: relative;
     display: flex;
-    transition: left 100ms linear;
-    -webkit-transition: left 100ms linear;
+    transition: left 150ms linear;
+    -webkit-transition: left 150ms linear;
 
     .loadingIcon {
       border: 6px solid variables.$heading-text-colour;
@@ -258,81 +258,41 @@
     display: none;
   }
 
-  .fixturesTransitionRight-enter {
-    transform: translate(100%);
-    -webkit-transform: translate(100%);
-    -moz-transform: translate(100%);
-  }
-  .fixturesTransitionRight-enter-active {
-    transform: translate(0);
-    -webkit-transform: translate(0);
-    -moz-transform: translate(0);
-    transition: transform 200ms ease-in;
-    -webkit-transition: transform 200ms ease-in;
-    transition: -webkit-transform 200ms ease-in;
-    -webkit-transition: -webkit-transform 200ms ease-in;
-  }
-  .fixturesTransitionRight-exit {
-    transform: translate(0);
-    -webkit-transform: translate(0);
-    -moz-transform: translate(0);
-  }
-  .fixturesTransitionRight-exit-active {
-    transform: translate(-110%);
-    -webkit-transform: translate(-110%);
-    -moz-transform: translate(-110%);
-    transition: transform 200ms ease-in;
-    -webkit-transition: transform 200ms ease-in;
-    transition: -webkit-transform 200ms ease-in;
-    -webkit-transition: -webkit-transform 200ms ease-in;
-  }
-
-  .fixturesTransitionLeft-enter {
+  .fixturesTransitionRight {
     transform: translate(-100%);
     -webkit-transform: translate(-100%);
     -moz-transform: translate(-100%);
+    -webkit-transition: transform 300ms ease-in;
+    transition: -webkit-transform 300ms ease-in;
+    -webkit-transition: -webkit-transform 300ms ease-in;
   }
-  .fixturesTransitionLeft-enter-active {
-    transform: translate(0);
-    -webkit-transform: translate(0);
-    -moz-transform: translate(0);
-    transition: transform 200ms ease-in;
-    -webkit-transition: transform 200ms ease-in;
-    transition: -webkit-transform 200ms ease-in;
-    -webkit-transition: -webkit-transform 200ms ease-in;
-  }
-  .fixturesTransitionLeft-exit {
-    transform: translate(0);
-    -webkit-transform: translate(0);
-    -moz-transform: translate(0);
-  }
-  .fixturesTransitionLeft-exit-active {
-    transform: translate(110%);
-    -webkit-transform: translate(110%);
-    -moz-transform: translate(110%);
-    transition: transform 200ms ease-in;
-    -webkit-transition: transform 200ms ease-in;
-    transition: -webkit-transform 200ms ease-in;
-    -webkit-transition: -webkit-transform 200ms ease-in;
+
+  .fixturesTransitionLeft {
+    transform: translate(100%);
+    -webkit-transform: translate(100%);
+    -moz-transform: translate(100%);
+    -webkit-transition: transform 300ms ease-in;
+    transition: -webkit-transform 300ms ease-in;
+    -webkit-transition: -webkit-transform 300ms ease-in;
   }
 
   .fixturesTransitionOpacity-enter {
-    opacity: 0%;
+    opacity: 0;
     transition: left 0ms linear;
     -webkit-transition: left 0ms linear;
   }
   .fixturesTransitionOpacity-enter-active {
-    opacity: 100%;
+    opacity: 1;
     transition: opacity 250ms ease-in, left 0ms linear;
     -webkit-transition: opacity 250ms ease-in, left 0ms linear;
   }
   .fixturesTransitionOpacity-exit {
-    opacity: 100%;
+    opacity: 1;
     transition: left 0ms linear;
     -webkit-transition: left 0ms linear;
   }
   .fixturesTransitionOpacity-exit-active {
-    opacity: 0%;
+    opacity: 0;
     transition: opacity 250ms ease-in, left 0ms linear;
     -webkit-transition: opacity 250ms ease-in, left 0ms linear;
   }

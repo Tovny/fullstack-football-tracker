@@ -1,7 +1,7 @@
 import "./SideNews.scss";
 import { useEffect } from "react";
 import { Link } from "react-router-dom";
-import { x_auth } from "../config/default.js";
+import { x_auth } from "../config/";
 import { useSelector, useDispatch } from "react-redux";
 import getNews from "../redux/actions/news-actions";
 

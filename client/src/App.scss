@@ -1,5 +1,5 @@
 @use './assets/variables';
-@import url("https://fonts.googleapis.com/css2?family=Montserrat:wght@200&family=Open+Sans:wght@300&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Open+Sans:wght@300&display=swap");
 
 * {
   -webkit-font-smoothing: antialiased;
@@ -11,7 +11,6 @@ body {
   background: variables.$bg-colour;
   background-blend-mode: multiply;
   background-repeat: no-repeat;
-  font-family: "Montserrat", sans-serif;
   font-family: "Open Sans", sans-serif;
   font-size: 0.85rem;
   font-weight: bold;
@@ -23,10 +22,6 @@ body {
       display: grid;
       grid-template-columns: auto minmax(auto, 1100px) auto;
 
-      a:focus {
-        outline: 1px solid variables.$heading-bg-colour;
-      }
-
       .headerContainer {
         grid-column-start: 2;
         width: 100%;
@@ -34,27 +29,6 @@ body {
 
       .contentContainer {
         grid-column-start: 2;
-      }
-
-      .pageTransition-enter {
-        opacity: 0%;
-        transition: left 0ms linear;
-        -webkit-transition: left 0ms linear;
-      }
-      .pageTransition-enter-active {
-        opacity: 100%;
-        transition: opacity 100ms ease-in, left 0ms linear;
-        -webkit-transition: opacity 100ms ease-in, left 0ms linear;
-      }
-      .pageTransition-exit {
-        opacity: 100%;
-        transition: left 0ms linear;
-        -webkit-transition: left 0ms linear;
-      }
-      .pageTransition-exit-active {
-        opacity: 0%;
-        transition: opacity 100ms ease-in, left 0ms linear;
-        -webkit-transition: opacity 100ms ease-in, left 0ms linear;
       }
     }
 

@@ -1,7 +1,7 @@
 import "./SideTable.scss";
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import { x_auth } from "../config/default.js";
+import { x_auth } from "../config/";
 import { FaChevronLeft, FaChevronRight } from "react-icons/fa";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";

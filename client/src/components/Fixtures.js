@@ -1,7 +1,7 @@
 import "./Fixtures.scss";
 import { useState, useEffect, useRef, Fragment } from "react";
 import { createPortal } from "react-dom";
-import { x_auth } from "../config/default.js";
+import { x_auth } from "../config/";
 import DateCarousel from "./DateCarousel";
 import { CSSTransition, SwitchTransition } from "react-transition-group";
 import { RiArrowDropDownLine } from "react-icons/ri";
@@ -24,7 +24,6 @@ const Fixtures = () => {
     matchday,
     status,
   } = useSelector((state) => state.filters);
-  const [direction, setDirection] = useState("fixturesTransitionOpacity");
   const [fixtureElements, setFixtureElements] = useState(null);
   const [causeRerender, setCauseRerender] = useState(0);
   const [xPos, setXPos] = useState(0);
@@ -40,8 +39,6 @@ const Fixtures = () => {
       let filterString = "?";
 
       if (fixtures && causeRerender === 0) {
-        setCauseRerender(causeRerender + 1);
-        dispatch(setFilters({ date: new Date() }));
         return;
       }
 
@@ -49,7 +46,6 @@ const Fixtures = () => {
         dateString === "all" ||
         document.getElementsByClassName("fixturesDate")[0]
       ) {
-        setDirection("fixturesTransitionOpacity");
         setFixtureElements(null);
         setCauseRerender(causeRerender + 1);
         await new Promise((resolve) => {
@@ -99,7 +95,7 @@ const Fixtures = () => {
         );
       setFixtureElements(temp);
       setXPos(0);
-      setDirection("fixturesTransitionOpacity");
+
       setCauseRerender(causeRerender + 1);
     }
 
@@ -132,7 +128,11 @@ const Fixtures = () => {
         secondPos = event.touches[0].clientX;
         finalPos = xPos + secondPos - firstPos;
 
-        document.body.style.overflow = "hidden";
+        if (window.innerWidth > 662) document.body.style.overflow = "hidden";
+        if (window.innerWidth <= 662)
+          document.getElementsByClassName(
+            "fixturesContainer"
+          )[0].style.overflowY = "hidden";
 
         setXPos(finalPos);
       };
@@ -148,7 +148,6 @@ const Fixtures = () => {
         if (finalPos === 0 || !finalPos) {
           return;
         } else {
-          setDirection("fixturesTransitionOpacity");
           if (finalPos < 0) {
             if (-eltRect.width / 2 < finalPos) {
               setXPos(0);
@@ -184,7 +183,11 @@ const Fixtures = () => {
 
         element.ontouchstart = handleTouchMove;
 
-        document.body.style.overflow = "visible";
+        if (window.innerWidth > 662) document.body.style.overflow = "visible";
+        if (window.innerWidth <= 662)
+          document.getElementsByClassName(
+            "fixturesContainer"
+          )[0].style.overflowY = "auto";
       };
     };
   };
@@ -198,14 +201,14 @@ const Fixtures = () => {
     >
       {fixtures ? (
         <Fragment>
-          <DateCarousel setDirection={setDirection} />
+          <DateCarousel />
           <SwitchTransition>
             <CSSTransition
               key={causeRerender}
               addEndListener={(node, done) =>
                 node.addEventListener("transitionend", done, false)
               }
-              classNames={direction}
+              classNames="fixturesTransitionOpacity"
               style={{ left: xPos }}
             >
               <div className="fixtures" onTouchStart={handleTouchMove}>

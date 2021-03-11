@@ -1,8 +1,8 @@
 import "./Tables.scss";
 import { useState, useEffect, useRef, Fragment } from "react";
 import { useParams } from "react-router-dom";
-import { x_auth } from "../config/default.js";
-import { CSSTransition, SwitchTransition } from "react-transition-group";
+import { x_auth } from "../config/";
+import { CSSTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
 import getTables from "../redux/actions/table-actions";
 import { format } from "date-fns";
@@ -35,6 +35,10 @@ const Table = () => {
         dispatch(getTables(data));
       })();
     }
+
+    return () => {
+      setSelectedTable(0);
+    };
   }, [dispatch, tables]);
 
   useEffect(() => {
@@ -147,88 +151,83 @@ const Table = () => {
               </CSSTransition>
             </div>
           </div>
-          <SwitchTransition>
-            <CSSTransition
-              timeout={200}
-              unmountOnExit
-              key={[selectedTable, selectedMatches]}
-              classNames="tableTransition"
-            >
-              <table>
-                <thead>
-                  <tr>
-                    <th>#</th>
-                    <th>Club</th>
-                    <th>Played</th>
-                    <th>Won</th>
-                    <th>Drawn</th>
-                    <th>Lost</th>
-                    <th>GF</th>
-                    <th>GA</th>
-                    <th>GD</th>
-                    <th>Points</th>
-                    <th>Form</th>
-                    <th>Next</th>
+          <table>
+            <thead>
+              <tr>
+                <th>#</th>
+                <th>Club</th>
+                <th>Played</th>
+                <th>Won</th>
+                <th>Drawn</th>
+                <th>Lost</th>
+                <th>GF</th>
+                <th>GA</th>
+                <th>GD</th>
+                <th>Points</th>
+                <th>Form</th>
+                <th>Next</th>
+              </tr>
+            </thead>
+            <tbody>
+              {tables[selectedTable].tables[selectedMatches].map((row) => {
+                return (
+                  <tr key={row["#"]}>
+                    <td
+                      style={
+                        row.status === "Relegation"
+                          ? {
+                              boxShadow: "inset 5px 0px 0px 0px #d81920",
+                            }
+                          : row.status === "Champions League"
+                          ? {
+                              boxShadow: "inset 5px 0px 0px 0px #13cf00",
+                            }
+                          : row.status === "Europa League"
+                          ? {
+                              boxShadow: "inset 5px 0px 0px 0px #AA9944",
+                            }
+                          : null
+                      }
+                    >
+                      {row["#"]}
+                    </td>
+                    <td>
+                      <div className="club">
+                        <img
+                          className="crest"
+                          src={row.crest}
+                          alt={`${row.team} Crest`}
+                        ></img>
+                        <h3>{row.team}</h3>
+                      </div>
+                    </td>
+                    <td>{row.played}</td>
+                    <td>{row.won}</td>
+                    <td>{row.drawn}</td>
+                    <td>{row.lost}</td>
+                    <td>{row.gf}</td>
+                    <td>{row.ga}</td>
+                    <td>{row.gd}</td>
+                    <td>{row.points}</td>
+                    <td className="form">
+                      <ul>
+                        {row.form.map((fix, i) => (
+                          <FormMatch
+                            formObj={fix}
+                            league={tables[selectedTable].league}
+                            key={i}
+                          />
+                        ))}
+                      </ul>
+                    </td>
+                    <td className="next">
+                      <NextMatch row={row} />
+                    </td>
                   </tr>
-                </thead>
-                <tbody>
-                  {tables[selectedTable].tables[selectedMatches].map((row) => {
-                    return (
-                      <tr key={row["#"]}>
-                        <td
-                          style={
-                            row.status === "Relegation"
-                              ? {
-                                  boxShadow: "inset 5px 0px 0px 0px #d81920",
-                                }
-                              : row.status === "Champions League"
-                              ? {
-                                  boxShadow: "inset 5px 0px 0px 0px #13cf00",
-                                }
-                              : row.status === "Europa League"
-                              ? {
-                                  boxShadow: "inset 5px 0px 0px 0px #AA9944",
-                                }
-                              : null
-                          }
-                        >
-                          {row["#"]}
-                        </td>
-                        <td>
-                          <div className="club">
-                            <img
-                              className="crest"
-                              src={row.crest}
-                              alt={`${row.team} Crest`}
-                            ></img>
-                            <h3>{row.team}</h3>
-                          </div>
-                        </td>
-                        <td>{row.played}</td>
-                        <td>{row.won}</td>
-                        <td>{row.drawn}</td>
-                        <td>{row.lost}</td>
-                        <td>{row.gf}</td>
-                        <td>{row.ga}</td>
-                        <td>{row.gd}</td>
-                        <td>{row.points}</td>
-                        <td className="form">
-                          <ul>
-                            {row.form.map((fix, i) => (
-                              <FormMatch formObj={fix} key={i} />
-                            ))}
-                          </ul>
-                        </td>
-                        <td className="next">
-                          <NextMatch row={row} />
-                        </td>
-                      </tr>
-                    );
-                  })}
-                </tbody>
-              </table>
-            </CSSTransition>
-          </SwitchTransition>
+                );
+              })}
+            </tbody>
+          </table>
           <div id="tableLegend">
             <div id="championsLeague">Champions League</div>
             <div id="europaLeague">Europa League</div>
@@ -288,7 +287,7 @@ const NextMatch = ({ row }) => {
   );
 };
 
-const FormMatch = ({ formObj }) => {
+const FormMatch = ({ formObj, league }) => {
   const formRef = useRef(null);
   const date = new Date(`${formObj.date} ${formObj.kickOff}`);
   const [styleObj, setStyleObj] = useState({});
@@ -301,8 +300,7 @@ const FormMatch = ({ formObj }) => {
     } else {
       setStyleObj({ background: "#76766f" });
     }
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [formObj]);
 
   return (
     <li
@@ -312,7 +310,13 @@ const FormMatch = ({ formObj }) => {
       onMouseLeave={() => (formRef.current.style.display = "none")}
     >
       {formObj.result}
-      <a className="formContainer" href={formObj.url} ref={formRef}>
+      <a
+        className="formContainer"
+        href={`match/${league}/${formObj.homeTeam}/${formObj.awayTeam}`}
+        target="_blank"
+        rel="noopener noreferrer"
+        ref={formRef}
+      >
         <div className="formOpponent">
           <time>
             {date.toDateString() !== "Invalid Date"

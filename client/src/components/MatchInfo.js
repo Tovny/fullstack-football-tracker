@@ -1,8 +1,8 @@
 import "./MatchInfo.scss";
-import { useEffect, useState, useRef, Fragment } from "react";
+import { useEffect, useState, Fragment } from "react";
 import { useParams } from "react-router-dom";
 import { format } from "date-fns";
-import { x_auth } from "../config/default.js";
+import { x_auth } from "../config/";
 import LoadingIcon from "./LoadingIcon";
 import { GiSoccerField, GiSoccerBall, GiWhistle } from "react-icons/gi";
 import { BiTimeFive } from "react-icons/bi";
@@ -14,7 +14,6 @@ const MatchInfo = () => {
   const [date, setDate] = useState(null);
   const [selectedTab, setSelectedTab] = useState(null);
   const [timeline, setTimeline] = useState(null);
-  const tabsRef = useRef(null);
 
   useEffect(() => {
     (async () => {
@@ -37,35 +36,6 @@ const MatchInfo = () => {
       setSelectedTab("events");
     })();
   }, [league, hometeam, awayteam]);
-
-  useEffect(() => {
-    const current = tabsRef.current;
-
-    if (current) {
-      if (selectedTab === "events") {
-        current.style.transform = "translateX(0)";
-        current.style.WebkitTransform = "translateX(0)";
-        current.style.MozTransform = "translateX(0)";
-        current.style.height = `${
-          current.children[0].getBoundingClientRect().height
-        }px`;
-      } else if (selectedTab === "lineups") {
-        current.style.transform = `translateX(-${100 / 3}%)`;
-        current.style.WebkitTransform = `translateX(-${100 / 3}%)`;
-        current.style.MozTransform = `translateX(-${100 / 3}%)`;
-        current.style.height = `${
-          current.children[1].getBoundingClientRect().height
-        }px`;
-      } else {
-        current.style.transform = `translateX(-${100 / 1.5}%)`;
-        current.style.WebkitTransform = `translateX(-${100 / 1.5}%)`;
-        current.style.MozTransform = `translateX(-${100 / 1.5}%)`;
-        current.style.height = `${
-          current.children[2].getBoundingClientRect().height
-        }px`;
-      }
-    }
-  }, [selectedTab]);
 
   useEffect(() => {
     if (fixture) {
@@ -293,138 +263,144 @@ const MatchInfo = () => {
         </span>
       </div>
       <div className="tabsContainer">
-        <div className="tabsInfo" ref={tabsRef}>
-          <div className="matchEvents">
-            <ul>
-              {timeline
-                ? (() => {
-                    const elts = [];
-                    let homeGoals = fixture.result.home.score;
-                    let awayGoals = fixture.result.away.score;
+        <div className="tabsInfo">
+          {selectedTab === "events" ? (
+            <div className="matchEvents">
+              <ul>
+                {timeline
+                  ? (() => {
+                      const elts = [];
+                      let homeGoals = fixture.result.home.score;
+                      let awayGoals = fixture.result.away.score;
 
-                    for (let i = timeline.length - 1; i >= 0; i--) {
-                      if (timeline[i].event)
-                        elts.push(
-                          <li key={i}>
-                            <div className="homeEvent">
-                              {timeline[i].team === "home"
-                                ? eventInfo(timeline[i], homeGoals, awayGoals)
-                                : null}
-                            </div>
-                            <div className="eventTime">
-                              {timeline[i].minute}
-                            </div>
-                            <div className="awayEvent">
-                              {timeline[i].team === "away"
-                                ? eventInfo(timeline[i], homeGoals, awayGoals)
-                                : null}
-                            </div>
-                          </li>
-                        );
+                      for (let i = timeline.length - 1; i >= 0; i--) {
+                        if (timeline[i].event)
+                          elts.push(
+                            <li key={i}>
+                              <div className="homeEvent">
+                                {timeline[i].team === "home"
+                                  ? eventInfo(timeline[i], homeGoals, awayGoals)
+                                  : null}
+                              </div>
+                              <div className="eventTime">
+                                {timeline[i].minute}
+                              </div>
+                              <div className="awayEvent">
+                                {timeline[i].team === "away"
+                                  ? eventInfo(timeline[i], homeGoals, awayGoals)
+                                  : null}
+                              </div>
+                            </li>
+                          );
 
-                      if (timeline[i].event) {
-                        if (
-                          timeline[i].event.includes("Goal") ||
-                          timeline[i].event.includes("goal") ||
-                          timeline[i].event.includes("Penalty scored")
-                        ) {
-                          if (timeline[i].team === "home") {
-                            homeGoals--;
-                          } else {
-                            awayGoals--;
+                        if (timeline[i].event) {
+                          if (
+                            timeline[i].event.includes("Goal") ||
+                            timeline[i].event.includes("goal") ||
+                            timeline[i].event.includes("Penalty scored")
+                          ) {
+                            if (timeline[i].team === "home") {
+                              homeGoals--;
+                            } else {
+                              awayGoals--;
+                            }
                           }
                         }
                       }
-                    }
 
-                    return elts;
-                  })()
-                : null}
-            </ul>
-          </div>
-          <div className="lineups">
-            <div className="lineupsContainer">
-              <h3>Starters</h3>
-              <div className="homeStarters">
-                <ul>
-                  {fixture.squads.home.starters.map((starter, i) => {
-                    return (
-                      <li key={`Starter Home ${i}`}>
-                        <span>{starter[1]}</span> <span>{starter[0]}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-              <div className="awayStarters">
-                <ul>
-                  {fixture.squads.away.starters.map((starter, i) => {
-                    return (
-                      <li key={`Starter Away ${i}`}>
-                        <span>{starter[0]}</span> <span>{starter[1]}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-              <h3>Reserves</h3>
-              <div className="homeReserves">
-                <ul>
-                  {fixture.squads.home.reserves.map((reserve, i) => {
-                    return (
-                      <li key={`Reserve Home ${i}`}>
-                        <span>{reserve[1]}</span> <span>{reserve[0]}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
-              <div className="awayReserves">
-                <ul>
-                  {fixture.squads.away.reserves.map((reserve, i) => {
-                    return (
-                      <li key={`Reserve ${i}`}>
-                        <span>{reserve[0]}</span> <span>{reserve[1]}</span>
-                      </li>
-                    );
-                  })}
-                </ul>
-              </div>
+                      return elts;
+                    })()
+                  : null}
+              </ul>
             </div>
-          </div>
-          <div className="statistics">
-            {Object.keys(fixture.stats).map((stat, i) => (
-              <div className="statistic" key={`Stat ${i}`}>
-                <h4>{stat}</h4>
-                <div className="stat">
-                  <span className="firstStatNum">
-                    {fixture.stats[stat].home}
-                  </span>
-                  <div
-                    className="statBar"
-                    style={
-                      fixture.stats[stat].home === 0 &&
-                      fixture.stats[stat].away === 0
-                        ? { gridTemplateColumns: "1fr 1fr" }
-                        : {
-                            gridTemplateColumns: `${
-                              (fixture.stats[stat].home * 100) /
-                              (fixture.stats[stat].home +
-                                fixture.stats[stat].away)
-                            }% 1fr`,
-                          }
-                    }
-                  >
-                    <div className="homeStat"></div>
-                    <div className="awayStat"></div>
-                  </div>
-                  <span className="secondStatNum">
-                    {fixture.stats[stat].away}
-                  </span>
+          ) : null}
+          {selectedTab === "lineups" ? (
+            <div className="lineups">
+              <div className="lineupsContainer">
+                <h3>Starters</h3>
+                <div className="homeStarters">
+                  <ul>
+                    {fixture.squads.home.starters.map((starter, i) => {
+                      return (
+                        <li key={`Starter Home ${i}`}>
+                          <span>{starter[1]}</span> <span>{starter[0]}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+                <div className="awayStarters">
+                  <ul>
+                    {fixture.squads.away.starters.map((starter, i) => {
+                      return (
+                        <li key={`Starter Away ${i}`}>
+                          <span>{starter[0]}</span> <span>{starter[1]}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+                <h3>Reserves</h3>
+                <div className="homeReserves">
+                  <ul>
+                    {fixture.squads.home.reserves.map((reserve, i) => {
+                      return (
+                        <li key={`Reserve Home ${i}`}>
+                          <span>{reserve[1]}</span> <span>{reserve[0]}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
+                </div>
+                <div className="awayReserves">
+                  <ul>
+                    {fixture.squads.away.reserves.map((reserve, i) => {
+                      return (
+                        <li key={`Reserve ${i}`}>
+                          <span>{reserve[0]}</span> <span>{reserve[1]}</span>
+                        </li>
+                      );
+                    })}
+                  </ul>
                 </div>
               </div>
-            ))}
-          </div>
+            </div>
+          ) : null}
+          {selectedTab === "stats" ? (
+            <div className="statistics">
+              {Object.keys(fixture.stats).map((stat, i) => (
+                <div className="statistic" key={`Stat ${i}`}>
+                  <h4>{stat}</h4>
+                  <div className="stat">
+                    <span className="firstStatNum">
+                      {fixture.stats[stat].home}
+                    </span>
+                    <div
+                      className="statBar"
+                      style={
+                        fixture.stats[stat].home === 0 &&
+                        fixture.stats[stat].away === 0
+                          ? { gridTemplateColumns: "1fr 1fr" }
+                          : {
+                              gridTemplateColumns: `${
+                                (fixture.stats[stat].home * 100) /
+                                (fixture.stats[stat].home +
+                                  fixture.stats[stat].away)
+                              }% 1fr`,
+                            }
+                      }
+                    >
+                      <div className="homeStat"></div>
+                      <div className="awayStat"></div>
+                    </div>
+                    <span className="secondStatNum">
+                      {fixture.stats[stat].away}
+                    </span>
+                  </div>
+                </div>
+              ))}
+            </div>
+          ) : null}
         </div>
       </div>
     </div>
