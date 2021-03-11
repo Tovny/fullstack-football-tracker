@@ -133,6 +133,9 @@ const Fixtures = () => {
           document.getElementsByClassName(
             "fixturesContainer"
           )[0].style.overflowY = "hidden";
+        if (window.innerWidth <= 662)
+          document.getElementsByClassName("fixturesContainer")[0].style.height =
+            "150%";
 
         setXPos(finalPos);
       };
@@ -188,6 +191,9 @@ const Fixtures = () => {
           document.getElementsByClassName(
             "fixturesContainer"
           )[0].style.overflowY = "auto";
+        if (window.innerWidth <= 662)
+          document.getElementsByClassName("fixturesContainer")[0].style.height =
+            "100%";
       };
     };
   };
