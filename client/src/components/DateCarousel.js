@@ -120,7 +120,11 @@ const DateCarousel = () => {
         childSpan.id = "calendarToday";
 
         childSpan.addEventListener("click", () => {
-          handleCalendarChange(new Date());
+          if (isToday(date)) {
+            setOpenCalendar(false);
+          } else {
+            handleCalendarChange(new Date());
+          }
         });
 
         elt.appendChild(childSpan);
