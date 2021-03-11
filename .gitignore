@@ -1,3 +1,5 @@
 /node_modules
 
 /config/default.js
+
+/update-server-local.js
