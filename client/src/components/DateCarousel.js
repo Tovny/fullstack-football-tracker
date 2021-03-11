@@ -203,6 +203,8 @@ const DateCarousel = () => {
   };
 
   useEffect(() => {
+    const closeCalendar = () => setOpenCalendar(false);
+
     if (openCalendar && window.innerWidth <= 992) {
       document.getElementsByTagName("html")[0].scrollTop = 0;
       document.getElementsByTagName("html")[0].className = "noScroll";
@@ -213,8 +215,12 @@ const DateCarousel = () => {
     }
 
     if (openCalendar && window.innerWidth > 992) {
-      document.body.addEventListener("click", () => setOpenCalendar(false));
+      document.body.addEventListener("click", closeCalendar);
     }
+
+    return () => {
+      document.body.removeEventListener("click", closeCalendar);
+    };
   }, [openCalendar]);
 
   return (

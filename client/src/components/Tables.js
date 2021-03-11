@@ -42,10 +42,14 @@ const Table = () => {
   }, [dispatch, tables]);
 
   useEffect(() => {
-    window.addEventListener("click", () => {
+    const closeSelectors = () => {
       setOpenLeagueSelect(false);
       setOpenMatchSelect(false);
-    });
+    };
+
+    window.addEventListener("click", closeSelectors);
+
+    return () => window.removeEventListener("click", closeSelectors);
   }, []);
 
   return (
