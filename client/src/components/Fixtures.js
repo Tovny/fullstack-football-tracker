@@ -128,14 +128,18 @@ const Fixtures = () => {
         secondPos = event.touches[0].clientX;
         finalPos = xPos + secondPos - firstPos;
 
-        if (window.innerWidth > 662) document.body.style.overflow = "hidden";
+        document.body.style.overflow = "hidden";
         if (window.innerWidth <= 662)
           document.getElementsByClassName(
             "fixturesContainer"
           )[0].style.overflowY = "hidden";
-        if (window.innerWidth <= 662)
+        if (window.innerWidth <= 662) {
           document.getElementsByClassName("fixturesContainer")[0].style.height =
-            "150%";
+            "200%";
+          document.getElementsByClassName(
+            "fixturesContainer"
+          )[0].style.marginBottom = "-500px";
+        }
 
         setXPos(finalPos);
       };
@@ -186,14 +190,17 @@ const Fixtures = () => {
 
         element.ontouchstart = handleTouchMove;
 
-        if (window.innerWidth > 662) document.body.style.overflow = "visible";
-        if (window.innerWidth <= 662)
+        document.body.style.overflow = "auto";
+        if (window.innerWidth <= 662) {
           document.getElementsByClassName(
             "fixturesContainer"
           )[0].style.overflowY = "auto";
-        if (window.innerWidth <= 662)
           document.getElementsByClassName("fixturesContainer")[0].style.height =
             "100%";
+          document.getElementsByClassName(
+            "fixturesContainer"
+          )[0].style.marginBottom = "0";
+        }
       };
     };
   };
