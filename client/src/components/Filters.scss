@@ -190,6 +190,10 @@ form {
   }
 }
 
+.filtersModal {
+  display: none;
+}
+
 @media screen and (max-width: 992px) {
   .filters {
     padding-bottom: 0;
@@ -262,6 +266,7 @@ form {
       width: 190px;
       padding: 1.5rem;
       margin: auto;
+      margin-top: 2rem;
 
       h4 {
         text-align: center;
