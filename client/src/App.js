@@ -44,7 +44,16 @@ function App() {
   }, []);
 
   return (
-    <div className="container">
+    <div
+      className={
+        stickyHeader &&
+        location.pathname === "/" &&
+        windowWidth > 600 &&
+        windowWidth <= 992
+          ? "container sticky"
+          : "container"
+      }
+    >
       {!location.pathname.includes("match") ? (
         <div ref={headerRef} className="headerContainer">
           <Header />

@@ -94,8 +94,8 @@ body {
         -webkit-transform 300ms ease-in, -moz-transform 300ms ease-in;
 
       .headerContainer {
-        top: 0.25rem;
-        left: 0.5rem;
+        position: fixed;
+        background-color: variables.$bg-colour;
         z-index: 30;
       }
 
