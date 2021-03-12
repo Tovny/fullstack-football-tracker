@@ -261,11 +261,15 @@ form {
     z-index: 30;
 
     form {
+      position: absolute;
+      right: 0;
       background-color: variables.$bg-colour;
       width: 190px;
-      padding: 1.5rem;
-      margin: auto;
-      margin-top: 2rem;
+      height: calc(100% - 2rem);
+      margin: 0;
+      padding: 2rem 1.5rem 0 1.5rem;
+      -webkit-box-shadow: -5px 0 6px 0 rgba(0, 0, 0, 0.2);
+      box-shadow: -5px 0 6px 0 rgba(0, 0, 0, 0.2);
 
       h4 {
         text-align: center;
@@ -274,19 +278,41 @@ form {
   }
 
   .filtersModal-enter {
-    opacity: 0;
+    form {
+      transform: translateX(100%);
+      -webkit-transform: translateX(100%);
+      -moz-transform: translateX(100%);
+      position: fixed;
+    }
   }
   .filtersModal-enter-active {
-    opacity: 1;
-    transition: opacity 200ms ease-in;
-    -webkit-transition: opacity 200ms ease-in;
+    form {
+      transform: translateX(0);
+      -webkit-transform: translateX(0);
+      -moz-transform: translateX(0);
+      transition: transform 300ms ease-in, -webkit-transform 300ms ease-in,
+        -moz-transform 300ms ease-in;
+      -webkit-transition: transform 300ms ease-in,
+        -webkit-transform 300ms ease-in, -moz-transform 300ms ease-in;
+    }
   }
   .filtersModal-exit {
-    opacity: 1;
+    form {
+      transform: translateX(0);
+      -webkit-transform: translateX(0);
+      -moz-transform: translateX(0);
+    }
   }
   .filtersModal-exit-active {
-    opacity: 0;
-    transition: opacity 200ms ease-in;
-    -webkit-transition: opacity 200ms ease-in;
+    form {
+      transform: translateX(100%);
+      -webkit-transform: translateX(100%);
+      -moz-transform: translateX(100%);
+      position: fixed;
+      transition: transform 300ms ease-in, -webkit-transform 300ms ease-in,
+        -moz-transform 300ms ease-in;
+      -webkit-transition: transform 300ms ease-in,
+        -webkit-transform 300ms ease-in, -moz-transform 300ms ease-in;
+    }
   }
 }

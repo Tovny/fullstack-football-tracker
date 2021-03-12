@@ -83,21 +83,31 @@ body {
 }
 
 @media screen and (max-width: 600px) {
-  .container {
-    .headerContainer {
-      top: 0.25rem;
-      left: 0.5rem;
-      z-index: 30;
+  #root {
+    height: 100vh;
+    overflow: hidden !important;
+
+    .container {
+      transition: transform 300ms ease-in, -webkit-transform 300ms ease-in,
+        -moz-transform 300ms ease-in;
+      -webkit-transition: transform 300ms ease-in,
+        -webkit-transform 300ms ease-in, -moz-transform 300ms ease-in;
+
+      .headerContainer {
+        top: 0.25rem;
+        left: 0.5rem;
+        z-index: 30;
+      }
+
+      .contentContainer {
+        top: 0;
+        padding-top: 0 !important;
+        min-height: 100% !important;
+      }
     }
 
-    .contentContainer {
-      top: 0;
-      padding-top: 0 !important;
-      min-height: 100% !important;
+    #loadingIconContainer {
+      top: 0.2rem !important;
     }
-  }
-
-  #loadingIconContainer {
-    top: 0.2rem !important;
   }
 }

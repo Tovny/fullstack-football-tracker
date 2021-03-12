@@ -29,6 +29,23 @@ const Filters = () => {
   const selectRef = useRef(null);
 
   useEffect(() => {
+    if (openFilters) {
+      document.getElementsByClassName("container")[0].style.transform =
+        "translateX(-10%)";
+      document.getElementsByClassName("container")[0].style.WebkitTransform =
+        "translateX(-10%)";
+      document.getElementsByClassName("container")[0].style.MozTransform =
+        "translateX(-10%)";
+    } else {
+      document.getElementsByClassName("container")[0].style.transform = null;
+      document.getElementsByClassName(
+        "container"
+      )[0].style.WebkitTransform = null;
+      document.getElementsByClassName("container")[0].style.MozTransform = null;
+    }
+  }, [openFilters]);
+
+  useEffect(() => {
     (async () => {
       const res = await fetch(
         `https://serene-everglades-51285.herokuapp.com/api/leagues`,
@@ -353,7 +370,7 @@ const Filters = () => {
         <CSSTransition
           classNames="filtersModal"
           in={openFilters}
-          timeout={200}
+          timeout={300}
           mountOnEnter
           unmountOnExit
         >
