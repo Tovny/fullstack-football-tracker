@@ -305,6 +305,7 @@
     margin-bottom: 0;
     background-color: variables.$heading-bg-colour;
     border-top: none;
+    grid-column-start: 2;
 
     #loadingIconContainer {
       display: block;

@@ -6,6 +6,7 @@
   background-color: variables.$body-bg-dark;
   align-items: center;
   font-size: 0.7rem;
+  transition: position 200ms ease-in;
 
   svg {
     margin-left: 0.3rem;
@@ -104,6 +105,20 @@
       position: absolute;
       background-color: variables.$heading-text-colour;
       width: 100%;
+    }
+  }
+}
+
+.sticky {
+  .datePickerContainer {
+    position: fixed;
+    top: 0;
+    width: 100%;
+    -webkit-box-shadow: 5px 2px 6px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 5px 2px 6px 0 rgba(0, 0, 0, 0.2);
+
+    ul {
+      z-index: 5;
     }
   }
 }

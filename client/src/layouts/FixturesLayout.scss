@@ -22,21 +22,32 @@
   .fixturesLayout {
     display: grid;
     position: absolute;
-    grid-template-columns: min-content auto;
+    grid-template-columns: 200px 1fr;
     width: 100%;
     margin-top: 5px;
     min-height: calc(100% - 3rem - 5px);
 
     .filterContainer {
+      position: absolute;
+      top: 2rem;
       margin-top: 0;
       padding: 0;
       width: 200px;
-      height: 100%;
+      height: calc(100% - 2rem);
+      overflow-y: auto;
     }
 
     .tableAndNewsContainer {
       display: none;
     }
+  }
+}
+
+.sticky {
+  .filterContainer {
+    position: fixed;
+    top: 2rem;
+    height: calc(100vh - 2rem);
   }
 }
 
@@ -55,6 +66,7 @@
       width: auto;
       height: auto;
       background-color: transparent;
+      overflow-y: visible;
     }
 
     .tableAndNewsContainer {

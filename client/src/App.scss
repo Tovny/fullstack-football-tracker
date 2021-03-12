@@ -57,6 +57,8 @@ body {
 
         .headerContainer {
           z-index: 30;
+          opacity: 1;
+          transition: opacity 500ms ease-in;
         }
 
         .contentContainer {
@@ -64,6 +66,12 @@ body {
           width: 100%;
           padding-top: 3rem;
           min-height: calc(100% - 3rem);
+        }
+      }
+
+      .sticky {
+        .headerContainer {
+          opacity: 0;
         }
       }
 

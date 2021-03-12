@@ -66,37 +66,35 @@ const Articles = () => {
       let secondLastElt = document.getElementsByClassName("article");
       secondLastElt = secondLastElt[secondLastElt.length - 2];
 
-      const onIntersection = (entries) => {
-        entries.forEach((entry) => {
-          if (entry.intersectionRatio === 1) {
-            const temp = [];
-            for (let i = articles.length; i < articles.length + 9; i++) {
-              const date = new Date(`${news[i].date} ${news[i].time}`);
+      const onIntersection = ([entries]) => {
+        if (entries.intersectionRatio === 1) {
+          const temp = [];
+          for (let i = articles.length; i < articles.length + 9; i++) {
+            const date = new Date(`${news[i].date} ${news[i].time}`);
 
-              temp.push(
-                <div
-                  onClick={() => window.open(news[i].url)}
-                  className="article"
-                  key={i}
-                >
-                  <div className="articleImage">
-                    <img alt={news[i].title} src={news[i].image}></img>
-                  </div>
-                  <div className="artText">
-                    <time>{format(date, "iiii, LLL do")}</time>
-                    <h1>{news[i].title}</h1>
-                    <h3>{news[i].league}</h3>
-                    <p>{news[i].description}</p>
-                  </div>
+            temp.push(
+              <div
+                onClick={() => window.open(news[i].url)}
+                className="article"
+                key={i}
+              >
+                <div className="articleImage">
+                  <img alt={news[i].title} src={news[i].image}></img>
                 </div>
-              );
-            }
-
-            setArticles([...articles, ...temp]);
-
-            observer.unobserve(secondLastElt);
+                <div className="artText">
+                  <time>{format(date, "iiii, LLL do")}</time>
+                  <h1>{news[i].title}</h1>
+                  <h3>{news[i].league}</h3>
+                  <p>{news[i].description}</p>
+                </div>
+              </div>
+            );
           }
-        });
+
+          setArticles([...articles, ...temp]);
+
+          observer.unobserve(secondLastElt);
+        }
       };
 
       const observer = new IntersectionObserver(onIntersection, {

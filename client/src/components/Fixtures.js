@@ -30,6 +30,16 @@ const Fixtures = () => {
   const fixturesContainerRef = useRef(null);
 
   useEffect(() => {
+    return () => {
+      dispatch(setFilters({ date: new Date() }));
+      dispatch(setFixtures([]));
+      setFixtureElements(null);
+    };
+
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
+
+  useEffect(() => {
     (async () => {
       let dateString;
       date === "all" || !date
