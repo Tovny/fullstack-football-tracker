@@ -14,21 +14,23 @@ function App() {
   const [windowWidth, setWindowWidth] = useState(null);
 
   useEffect(() => {
-    const currentHeader = headerRef.current;
+    if (location.pathname === "/") {
+      const currentHeader = headerRef.current;
 
-    const observer = new IntersectionObserver(
-      ([entries]) => {
-        setStickyHeader(entries.intersectionRatio < 0.01);
-      },
-      {
-        threshold: 0.01,
-      }
-    );
+      const observer = new IntersectionObserver(
+        ([entries]) => {
+          setStickyHeader(entries.intersectionRatio < 0.01);
+        },
+        {
+          threshold: 0.01,
+        }
+      );
 
-    observer.observe(currentHeader);
+      observer.observe(currentHeader);
 
-    return () => observer.unobserve(currentHeader);
-  }, []);
+      return () => observer.unobserve(currentHeader);
+    }
+  }, [location.pathname]);
 
   useEffect(() => {
     const setSize = () => {
