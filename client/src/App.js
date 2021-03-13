@@ -13,51 +13,10 @@ function App() {
   const headerRef = useRef(null);
   const [windowWidth, setWindowWidth] = useState(null);
 
-  useEffect(() => {
-    if (location.pathname === "/") {
-      const currentHeader = headerRef.current;
-
-      const observer = new IntersectionObserver(
-        ([entries]) => {
-          setStickyHeader(entries.intersectionRatio < 0.01);
-        },
-        {
-          threshold: 0.01,
-        }
-      );
-
-      observer.observe(currentHeader);
-
-      return () => observer.unobserve(currentHeader);
-    }
-  }, [location.pathname]);
-
-  useEffect(() => {
-    if (location.pathname === "/") {
-      const setSize = () => {
-        setWindowWidth(window.innerWidth);
-      };
-      window.addEventListener("resize", setSize);
-
-      return () => {
-        window.removeEventListener("resize", setSize);
-      };
-    }
-  }, [location.pathname]);
-
   return (
-    <div
-      className={
-        stickyHeader &&
-        location.pathname === "/" &&
-        windowWidth > 600 &&
-        windowWidth <= 992
-          ? "container sticky"
-          : "container"
-      }
-    >
+    <div className="container">
       {!location.pathname.includes("match") ? (
-        <div ref={headerRef} className="headerContainer">
+        <div className="headerContainer">
           <Header />
         </div>
       ) : null}
