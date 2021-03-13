@@ -27,7 +27,6 @@ const Fixtures = () => {
   const [fixtureElements, setFixtureElements] = useState(null);
   const [causeRerender, setCauseRerender] = useState(0);
   const [xPos, setXPos] = useState(0);
-  const [swipeDone, setSwipeDone] = useState(false);
   const fixturesContainerRef = useRef(null);
 
   useEffect(() => {
@@ -213,25 +212,9 @@ const Fixtures = () => {
         document.getElementsByClassName(
           "fixturesContainer"
         )[0].style.overflowY = "auto";
-
-        setSwipeDone(!swipeDone);
       };
     };
   };
-
-  useEffect(() => {
-    let eltRect = null;
-
-    if (fixturesContainerRef.current) {
-      eltRect = fixturesContainerRef.current.getBoundingClientRect();
-
-      if (Math.abs(xPos) !== Math.abs(eltRect.width)) {
-        setXPos(0);
-      }
-    }
-
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [swipeDone]);
 
   return (
     <div
