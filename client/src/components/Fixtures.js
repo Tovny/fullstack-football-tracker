@@ -30,10 +30,24 @@ const Fixtures = () => {
   const fixturesContainerRef = useRef(null);
 
   useEffect(() => {
-    return () => {
+    return async () => {
       dispatch(setFilters({ date: new Date() }));
-      dispatch(setFixtures([]));
-      setFixtureElements(null);
+
+      const res = await fetch(
+        `https://serene-everglades-51285.herokuapp.com/api/matches?`,
+        {
+          method: "GET",
+          headers: {
+            "x-auth": x_auth,
+          },
+        }
+      );
+
+      const data = await res.json();
+
+      dispatch(setFixtures(data));
+
+      setFixtureElements(fixtures);
     };
 
     // eslint-disable-next-line react-hooks/exhaustive-deps

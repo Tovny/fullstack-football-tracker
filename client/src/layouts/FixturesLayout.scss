@@ -61,16 +61,28 @@
     margin-top: 0;
 
     .filterContainer {
-      position: absolute;
+      position: fixed;
       right: 0.5rem;
       width: auto;
       height: auto;
       background-color: transparent;
       overflow-y: visible;
+      z-index: 30;
     }
 
     .tableAndNewsContainer {
       display: none;
+    }
+  }
+
+  .sticky {
+    .fixturesLayout {
+      display: flex;
+      flex-flow: column;
+      align-items: stretch;
+      height: 100%;
+      border-top: none;
+      margin-top: 0;
     }
   }
 }

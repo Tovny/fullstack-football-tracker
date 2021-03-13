@@ -33,15 +33,17 @@ function App() {
   }, [location.pathname]);
 
   useEffect(() => {
-    const setSize = () => {
-      setWindowWidth(window.innerWidth);
-    };
-    window.addEventListener("resize", setSize);
+    if (location.pathname === "/") {
+      const setSize = () => {
+        setWindowWidth(window.innerWidth);
+      };
+      window.addEventListener("resize", setSize);
 
-    return () => {
-      window.removeEventListener("resize", setSize);
-    };
-  }, []);
+      return () => {
+        window.removeEventListener("resize", setSize);
+      };
+    }
+  }, [location.pathname]);
 
   return (
     <div

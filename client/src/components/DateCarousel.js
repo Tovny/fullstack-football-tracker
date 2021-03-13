@@ -6,7 +6,7 @@ import { CSSTransition } from "react-transition-group";
 import { useSelector, useDispatch } from "react-redux";
 import { setFilters } from "../redux/actions/filter-actions";
 import { enGB } from "date-fns/locale";
-import { format, isToday, isTomorrow, isYesterday } from "date-fns";
+import { format, isToday, isTomorrow, isYesterday, isSameDay } from "date-fns";
 import { DatePickerCalendar } from "react-nice-dates";
 import "react-nice-dates/build/style.css";
 
@@ -333,19 +333,21 @@ const DateCarousel = () => {
 
 const DateSelector = (props) => {
   const handleClick = async () => {
-    let direction;
-    if (props.selectorDate > props.date) {
-      direction = "Right";
-    } else {
-      direction = "Left";
+    if (!isSameDay(props.selectorDate, props.date)) {
+      let direction;
+      if (props.selectorDate > props.date) {
+        direction = "Right";
+      } else {
+        direction = "Left";
+      }
+
+      document
+        .getElementsByClassName("fixtures")[0]
+        .classList.add(`fixturesTransition${direction}`);
+
+      props.setOpenCalendar(false);
+      props.dispatch(setFilters({ date: props.selectorDate }));
     }
-
-    document
-      .getElementsByClassName("fixtures")[0]
-      .classList.add(`fixturesTransition${direction}`);
-
-    props.setOpenCalendar(false);
-    props.dispatch(setFilters({ date: props.selectorDate }));
   };
 
   return props.selectorDate ? (

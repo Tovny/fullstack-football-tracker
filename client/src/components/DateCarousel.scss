@@ -230,6 +230,8 @@
     grid-template-rows: auto auto;
     background-color: variables.$bg-colour;
     padding-top: 4rem;
+    -webkit-box-shadow: 5px 2px 6px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 5px 2px 6px 0 rgba(0, 0, 0, 0.2);
 
     #sliderLeft,
     #sliderRight {
