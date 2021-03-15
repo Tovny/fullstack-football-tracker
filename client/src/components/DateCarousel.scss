@@ -64,7 +64,9 @@
         }
 
         @media (pointer: fine) {
-          cursor: pointer;
+          span {
+            cursor: pointer;
+          }          
         }
       }
 

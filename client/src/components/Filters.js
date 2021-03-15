@@ -87,7 +87,7 @@ const Filters = () => {
 
   const handleSubmit = (event) => {
     event.preventDefault();
-    delete selectedFilters.innerLeagueValue;
+
     setOpenFilters(false);
 
     dispatch(setFilters(selectedFilters));

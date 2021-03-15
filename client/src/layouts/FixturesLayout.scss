@@ -33,8 +33,8 @@
       margin-top: 0;
       padding: 0;
       width: 200px;
-      height: calc(100% - 2rem);
-      overflow-y: auto;
+      height: min-content;
+      background-color: variables.$bg-colour;
     }
 
     .tableAndNewsContainer {
@@ -48,6 +48,7 @@
     position: fixed;
     top: 2rem;
     height: calc(100vh - 2rem);
+    overflow-y: auto;
   }
 }
 
