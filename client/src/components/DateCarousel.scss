@@ -172,11 +172,15 @@
 
 @media screen and (max-width: 992px) {
   .datePickerContainer {
-    position: absolute;
+    position: sticky;
+    position: -webkit-sticky;
+    top: 0;
     z-index: 25;
     width: 100%;
     left: 0;
     margin-top: 0;
+    -webkit-box-shadow: 5px 2px 6px 0 rgba(0, 0, 0, 0.2);
+    box-shadow: 5px 2px 6px 0 rgba(0, 0, 0, 0.2);
 
     #sliderLeft,
     #sliderRight {
@@ -213,13 +217,7 @@
 
 @media screen and (max-width: 600px) {
   .datePickerContainer {
-    position: fixed;
-    display: grid;
-    grid-template-rows: auto auto;
     background-color: variables.$bg-colour;
-    padding-top: 4rem;
-    -webkit-box-shadow: 5px 2px 6px 0 rgba(0, 0, 0, 0.2);
-    box-shadow: 5px 2px 6px 0 rgba(0, 0, 0, 0.2);
 
     #sliderLeft,
     #sliderRight {

@@ -36,12 +36,20 @@ const Filters = () => {
         "translateX(-10%)";
       document.getElementsByClassName("container")[0].style.MozTransform =
         "translateX(-10%)";
+      if (window.innerWidth <= 992) {
+        document.getElementsByTagName("html")[0].scrollTop = 0;
+        document.getElementsByTagName("html")[0].className = "noScroll";
+        document.getElementsByTagName("body")[0].className = "noScroll";
+      }
     } else {
       document.getElementsByClassName("container")[0].style.transform = null;
       document.getElementsByClassName(
         "container"
       )[0].style.WebkitTransform = null;
       document.getElementsByClassName("container")[0].style.MozTransform = null;
+
+      document.getElementsByTagName("html")[0].classList.remove("noScroll");
+      document.getElementsByTagName("body")[0].classList.remove("noScroll");
     }
   }, [openFilters]);
 

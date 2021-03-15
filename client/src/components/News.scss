@@ -69,23 +69,12 @@
         }
       }
     }
-
-    .loadingIcon {
-      position: relative;
-      top: 0.4rem;
-    }
   }
 }
 
 @media screen and (max-width: 600px) {
   .articles {
-    margin-top: 4.75rem;
     font-size: 0.5rem;
-
-    .loadingIcon {
-      position: relative;
-      top: 1.4rem;
-    }
 
     .article {
       display: grid !important;

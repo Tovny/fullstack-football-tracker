@@ -218,7 +218,7 @@ const Fixtures = () => {
 
   return (
     <div
-      className="fixturesContainer"
+      className="pickerAndFixturesContainer"
       style={
         !fixtures ? { backgroundColor: "transparent", border: "none" } : null
       }
@@ -226,36 +226,38 @@ const Fixtures = () => {
       {fixtures ? (
         <Fragment>
           <DateCarousel />
-          <SwitchTransition>
-            <CSSTransition
-              key={causeRerender}
-              addEndListener={(node, done) =>
-                node.addEventListener("transitionend", done, false)
-              }
-              classNames="fixturesTransitionOpacity"
-            >
-              <div
-                className="fixtures"
-                onTouchStart={handleTouchMove}
-                style={{ left: xPos }}
+          <div className="fixturesContainer">
+            <SwitchTransition>
+              <CSSTransition
+                key={causeRerender}
+                addEndListener={(node, done) =>
+                  node.addEventListener("transitionend", done, false)
+                }
+                classNames="fixturesTransitionOpacity"
               >
-                <div id="loadingIconLeft">
-                  <LoadingIcon />
-                </div>
-
                 <div
-                  className="leagueFixturesContainer"
-                  ref={fixturesContainerRef}
+                  className="fixtures"
+                  onTouchStart={handleTouchMove}
+                  style={{ left: xPos }}
                 >
-                  {fixtureElements ? fixtureElements : <LoadingIcon />}
-                </div>
+                  <div id="loadingIconLeft">
+                    <LoadingIcon />
+                  </div>
 
-                <div id="loadingIconRight">
-                  <LoadingIcon />
+                  <div
+                    className="leagueFixturesContainer"
+                    ref={fixturesContainerRef}
+                  >
+                    {fixtureElements ? fixtureElements : <LoadingIcon />}
+                  </div>
+
+                  <div id="loadingIconRight">
+                    <LoadingIcon />
+                  </div>
                 </div>
-              </div>
-            </CSSTransition>
-          </SwitchTransition>
+              </CSSTransition>
+            </SwitchTransition>
+          </div>
         </Fragment>
       ) : (
         createPortal(

@@ -11,6 +11,12 @@
     padding: 0.5rem;
   }
 
+  .pickerAndFixturesContainer {
+    display: flex;
+    flex-flow: column;
+    justify-content: stretch;
+  }
+
   .tableAndNewsContainer {
     display: flex;
     flex-flow: column;
@@ -21,19 +27,13 @@
 @media screen and (max-width: 992px) {
   .fixturesLayout {
     display: grid;
-    position: absolute;
     grid-template-columns: 200px 1fr;
-    width: 100%;
-    margin-top: 5px;
-    min-height: calc(100% - 3rem - 5px);
 
     .filterContainer {
-      position: absolute;
-      top: 2rem;
-      margin-top: 0;
+      grid-column-start: 1;
+      grid-row-start: 1;
       padding: 0;
-      width: 200px;
-      height: calc(100% - 2rem);
+      z-index: 10;
     }
 
     .tableAndNewsContainer {
@@ -52,12 +52,12 @@
     margin-top: 0;
 
     .filterContainer {
-      position: fixed;
+      position: absolute;
+      top: 0;
       right: 0.5rem;
-      width: auto;
-      height: auto;
+      width: min-content;
+      height: min-content;
       background-color: transparent;
-      overflow-y: visible;
       z-index: 30;
     }
 

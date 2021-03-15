@@ -1,342 +1,347 @@
 @use "../assets/variables";
 
-.fixturesContainer {
+.pickerAndFixturesContainer {
   position: relative;
-  display: flex;
-  flex-flow: column;
-  overflow: hidden;
-  margin-top: -0.1rem;
+  border: 5px solid variables.$heading-bg-colour;
   border-top: 0.6rem solid variables.$heading-bg-colour;
-  background-color: variables.$heading-bg-colour;
-  border-left: 5px solid variables.$heading-bg-colour;
-  border-right: 5px solid variables.$heading-bg-colour;
+  border-bottom: 0;
 
-  .fixtures {
-    position: relative;
+  .fixturesContainer {
     display: flex;
-    transition: left 150ms linear;
-    -webkit-transition: left 150ms linear;
+    flex-flow: column;
+    height: 100%;
+    overflow: hidden;
+    background-color: variables.$heading-bg-colour;
 
-    .loadingIcon {
-      border: 6px solid variables.$heading-text-colour;
-      border-top: 6px solid transparent;
-    }
+    .fixtures {
+      position: relative;
+      display: flex;
+      transition: left 150ms linear;
+      -webkit-transition: left 150ms linear;
 
-    .loadingIcon::after {
-      border-top: 0.25rem solid variables.$heading-text-colour;
-      border-right: 0.25rem solid variables.$heading-text-colour;
-    }
+      .loadingIcon {
+        border: 6px solid variables.$heading-text-colour;
+        border-top: 6px solid transparent;
+      }
 
-    #loadingIconLeft,
-    #loadingIconRight {
-      position: absolute;
-      width: 100%;
-    }
+      .loadingIcon::after {
+        border-top: 0.25rem solid variables.$heading-text-colour;
+        border-right: 0.25rem solid variables.$heading-text-colour;
+      }
 
-    #loadingIconLeft {
-      left: -100%;
-    }
+      #loadingIconLeft,
+      #loadingIconRight {
+        position: absolute;
+        width: 100%;
+      }
 
-    #loadingIconRight {
-      right: -100%;
-    }
+      #loadingIconLeft {
+        left: -100%;
+      }
 
-    .leagueFixturesContainer {
-      width: 100%;
-      margin-top: 5px;
+      #loadingIconRight {
+        right: -100%;
+      }
 
-      .leagueFixtures {
-        position: relative;
-        overflow-y: hidden;
-        transition: all 250ms ease-in;
-        -webkit-transition: all 250ms ease-in;
-        margin-bottom: 5px;
+      .leagueFixturesContainer {
+        width: 100%;
+        margin-top: 5px;
 
-        .fixturesHeading {
-          display: flex;
-          align-items: center;
-          background: variables.$heading-text-colour;
-          color: variables.$heading-bg-colour;
+        .leagueFixtures {
           position: relative;
-          z-index: 5;
-          font-size: 0.75rem;
-          height: 2.75rem;
+          overflow-y: hidden;
+          transition: all 250ms ease-in;
+          -webkit-transition: all 250ms ease-in;
+          margin-bottom: 5px;
 
-          .leagueLogoContainer {
-            width: 2.5rem;
-            height: 2.5rem;
+          .fixturesHeading {
             display: flex;
-            margin-left: 0.5rem;
-            margin-right: 0.5rem;
+            align-items: center;
+            background: variables.$heading-text-colour;
+            color: variables.$heading-bg-colour;
+            position: relative;
+            z-index: 5;
+            font-size: 0.75rem;
+            height: 2.75rem;
 
-            .leagueLogo {
-              height: 80%;
-              width: auto;
-              margin: auto;
+            .leagueLogoContainer {
+              width: 2.5rem;
+              height: 2.5rem;
+              display: flex;
+              margin-left: 0.5rem;
+              margin-right: 0.5rem;
+
+              .leagueLogo {
+                height: 80%;
+                width: auto;
+                margin: auto;
+              }
+            }
+
+            h3 {
+              letter-spacing: 0.25rem;
+            }
+
+            svg {
+              height: 1.75rem;
+              width: 1.75rem;
             }
           }
 
-          h3 {
-            letter-spacing: 0.25rem;
-          }
+          .fixtureBodies {
+            ul {
+              padding: 0;
+              margin: 0;
 
-          svg {
-            height: 1.75rem;
-            width: 1.75rem;
-          }
-        }
-
-        .fixtureBodies {
-          ul {
-            padding: 0;
-            margin: 0;
-
-            li {
-              list-style: none;
-              color: variables.$heading-text-colour;
-              background-color: variables.$fixture-body-bg;
-
-              .fixturesDate {
-                text-align: center;
-                font-size: 0.8rem;
-                font-weight: bold;
-                background-color: variables.$heading-bg-colour;
+              li {
+                list-style: none;
                 color: variables.$heading-text-colour;
-                padding: 0.5rem 0 0.5rem 0;
-              }
+                background-color: variables.$fixture-body-bg;
 
-              .fixtureBody,
-              .fixtureBodyNoLink {
-                display: grid;
-                grid-template-rows: auto auto;
-                grid-template-columns: 5fr 1fr 5fr;
-                align-items: center;
-                height: 2.5rem;
-                font-weight: 630;
-                letter-spacing: 0.05rem;
-                text-decoration: none;
-                color: variables.$heading-text-colour;
-                transition: color 150ms ease-in, background-color 150ms ease-in;
-                -webkit-transition: color 150ms ease-in,
-                  background-color 150ms ease-in;
+                .fixturesDate {
+                  text-align: center;
+                  font-size: 0.8rem;
+                  font-weight: bold;
+                  background-color: variables.$heading-bg-colour;
+                  color: variables.$heading-text-colour;
+                  padding: 0.5rem 0 0.5rem 0;
+                }
 
-                .home,
-                .away {
-                  display: flex;
-                  flex-direction: row;
+                .fixtureBody,
+                .fixtureBodyNoLink {
+                  display: grid;
+                  grid-template-rows: auto auto;
+                  grid-template-columns: 5fr 1fr 5fr;
                   align-items: center;
-                  text-transform: capitalize;
-                }
+                  height: 2.5rem;
+                  font-weight: 630;
+                  letter-spacing: 0.05rem;
+                  text-decoration: none;
+                  color: variables.$heading-text-colour;
+                  transition: color 150ms ease-in,
+                    background-color 150ms ease-in;
+                  -webkit-transition: color 150ms ease-in,
+                    background-color 150ms ease-in;
 
-                .home {
-                  justify-content: flex-end;
-                }
+                  .home,
+                  .away {
+                    display: flex;
+                    flex-direction: row;
+                    align-items: center;
+                    text-transform: capitalize;
+                  }
 
-                .away {
-                  justify-content: flex-start;
-                }
+                  .home {
+                    justify-content: flex-end;
+                  }
 
-                .crest {
-                  height: 1.5rem;
-                  width: 1.5rem;
-                  margin: 0.5rem;
-                  margin-bottom: 0.2rem;
-                }
+                  .away {
+                    justify-content: flex-start;
+                  }
 
-                .scoreContainer {
-                  display: flex;
-                  flex-flow: row;
-                  justify-content: center;
+                  .crest {
+                    height: 1.5rem;
+                    width: 1.5rem;
+                    margin: 0.5rem;
+                    margin-bottom: 0.2rem;
+                  }
 
-                  .score {
-                    background: variables.$heading-bg-colour;
-                    color: variables.$heading-text-colour;
+                  .scoreContainer {
+                    display: flex;
+                    flex-flow: row;
+                    justify-content: center;
+
+                    .score {
+                      background: variables.$heading-bg-colour;
+                      color: variables.$heading-text-colour;
+                      margin: 0.05rem;
+                      font-weight: bold;
+                      font-size: 1rem;
+                      padding: 0.35rem;
+                      padding-left: 0.5rem;
+                      padding-right: 0.5rem;
+                    }
+                  }
+
+                  .kickOff {
+                    text-align: center;
                     margin: 0.05rem;
-                    font-weight: bold;
-                    font-size: 1rem;
-                    padding: 0.35rem;
-                    padding-left: 0.5rem;
-                    padding-right: 0.5rem;
+                    font-size: 0.9rem;
+                    font-weight: 650;
+                    letter-spacing: 0.15rem;
                   }
                 }
 
-                .kickOff {
-                  text-align: center;
-                  margin: 0.05rem;
-                  font-size: 0.9rem;
-                  font-weight: 650;
-                  letter-spacing: 0.15rem;
+                .noLink {
+                  pointer-events: none;
+                  cursor: default;
                 }
-              }
 
-              .noLink {
-                pointer-events: none;
-                cursor: default;
-              }
+                .date {
+                  grid-column: span 3;
+                  text-align: center;
+                  font-size: 0.9rem;
+                  font-weight: bold;
+                  padding-top: 0.5rem;
+                  padding-bottom: 0.5rem;
+                  background-color: variables.$heading-bg-colour;
+                  color: variables.$heading-text-colour;
+                }
 
-              .date {
-                grid-column: span 3;
-                text-align: center;
-                font-size: 0.9rem;
-                font-weight: bold;
-                padding-top: 0.5rem;
-                padding-bottom: 0.5rem;
-                background-color: variables.$heading-bg-colour;
-                color: variables.$heading-text-colour;
-              }
-
-              @media (hover: hover) {
-                .fixtureBody:hover {
-                  background-color: variables.$fixture-body-bg-light;
-                  color: variables.$heading-bg-colour;
-                  cursor: pointer;
+                @media (hover: hover) {
+                  .fixtureBody:hover {
+                    background-color: variables.$fixture-body-bg-light;
+                    color: variables.$heading-bg-colour;
+                    cursor: pointer;
+                  }
                 }
               }
             }
           }
+
+          .innerFixturesTransition-enter {
+            transform: translateY(-100%);
+            -webkit-transform: translateY(-100%);
+            -moz-transform: translateY(-100%);
+            position: relative;
+            z-index: 1;
+          }
+          .innerFixturesTransition-enter-active {
+            transform: translateY(0);
+            -webkit-transform: translateY(0);
+            -moz-transform: translateY(0);
+            transition: transform 250ms ease-in;
+            transition: -webkit-transform 250ms ease-in;
+            -webkit-transition: transform 250ms ease-in;
+            -webkit-transition: -webkit-transform 250ms ease-in;
+            position: relative;
+            z-index: 1;
+          }
+          .innerFixturesTransition-exit {
+            transform: translateY(0);
+            -webkit-transform: translateY(0);
+            -moz-transform: translateY(0);
+            position: relative;
+            z-index: 1;
+          }
+          .innerFixturesTransition-exit-active {
+            transform: translateY(-100%);
+            -webkit-transform: translateY(-100%);
+            -moz-transform: translateY(-100%);
+            transition: transform 250ms ease-in;
+            -webkit-transition: transform 250ms ease-in;
+            transition: -webkit-transform 250ms ease-in;
+            -webkit-transition: -webkit-transform 250ms ease-in;
+            position: relative;
+            z-index: 1;
+          }
         }
 
-        .innerFixturesTransition-enter {
-          transform: translateY(-100%);
-          -webkit-transform: translateY(-100%);
-          -moz-transform: translateY(-100%);
-          position: relative;
-          z-index: 1;
-        }
-        .innerFixturesTransition-enter-active {
-          transform: translateY(0);
-          -webkit-transform: translateY(0);
-          -moz-transform: translateY(0);
-          transition: transform 250ms ease-in;
-          transition: -webkit-transform 250ms ease-in;
-          -webkit-transition: transform 250ms ease-in;
-          -webkit-transition: -webkit-transform 250ms ease-in;
-          position: relative;
-          z-index: 1;
-        }
-        .innerFixturesTransition-exit {
-          transform: translateY(0);
-          -webkit-transform: translateY(0);
-          -moz-transform: translateY(0);
-          position: relative;
-          z-index: 1;
-        }
-        .innerFixturesTransition-exit-active {
-          transform: translateY(-100%);
-          -webkit-transform: translateY(-100%);
-          -moz-transform: translateY(-100%);
-          transition: transform 250ms ease-in;
-          -webkit-transition: transform 250ms ease-in;
-          transition: -webkit-transform 250ms ease-in;
-          -webkit-transition: -webkit-transform 250ms ease-in;
-          position: relative;
-          z-index: 1;
+        .noFixtures {
+          display: flex;
+          flex-flow: column;
+          align-items: center;
+          color: variables.$heading-text-colour;
+
+          svg {
+            height: 175px;
+            width: 175px;
+          }
+
+          h3 {
+            font-size: 1.2rem;
+            letter-spacing: 0.2rem;
+            margin: 0;
+          }
         }
       }
+    }
 
-      .noFixtures {
-        display: flex;
-        flex-flow: column;
-        align-items: center;
-        color: variables.$heading-text-colour;
+    #loadingIconContainer {
+      width: 100%;
+      left: 0;
+      display: none;
+    }
 
-        svg {
-          height: 175px;
-          width: 175px;
-        }
+    .fixturesTransitionRight {
+      transform: translate(-100%);
+      -webkit-transform: translate(-100%);
+      -moz-transform: translate(-100%);
+      -webkit-transition: transform 300ms ease-in;
+      transition: -webkit-transform 300ms ease-in;
+      -webkit-transition: -webkit-transform 300ms ease-in;
+    }
 
-        h3 {
-          font-size: 1.2rem;
-          letter-spacing: 0.2rem;
-          margin: 0;
+    .fixturesTransitionLeft {
+      transform: translate(100%);
+      -webkit-transform: translate(100%);
+      -moz-transform: translate(100%);
+      -webkit-transition: transform 300ms ease-in;
+      transition: -webkit-transform 300ms ease-in;
+      -webkit-transition: -webkit-transform 300ms ease-in;
+    }
+
+    .fixturesTransitionOpacity-enter {
+      opacity: 0;
+      transition: left 0ms linear;
+      -webkit-transition: left 0ms linear;
+    }
+    .fixturesTransitionOpacity-enter-active {
+      opacity: 1;
+      transition: opacity 250ms ease-in, left 0ms linear;
+      -webkit-transition: opacity 250ms ease-in, left 0ms linear;
+    }
+    .fixturesTransitionOpacity-exit {
+      opacity: 1;
+      transition: left 0ms linear;
+      -webkit-transition: left 0ms linear;
+    }
+    .fixturesTransitionOpacity-exit-active {
+      opacity: 0;
+      transition: opacity 250ms ease-in, left 0ms linear;
+      -webkit-transition: opacity 250ms ease-in, left 0ms linear;
+    }
+  }
+}
+
+@media screen and (max-width: 992px) {
+  .pickerAndFixturesContainer {
+    grid-column-start: 1;
+    grid-column-end: 3;
+    grid-row-start: 1;
+    border: 0;
+
+    .fixturesContainer {
+      margin-top: 0;
+      margin-bottom: 0;
+      margin-left: 200px;
+      border: 5px solid variables.$heading-bg-colour;
+      border-bottom: 0;
+      border-top: 2px solid variables.$heading-bg-colour;
+
+      .fixtures {
+        min-height: 100vh;
+        .leagueFixturesContainer {
+          margin-top: 3px;
         }
       }
     }
   }
 
   #loadingIconContainer {
-    position: absolute;
-    width: 100%;
-    left: 0;
-    display: none;
-  }
-
-  .fixturesTransitionRight {
-    transform: translate(-100%);
-    -webkit-transform: translate(-100%);
-    -moz-transform: translate(-100%);
-    -webkit-transition: transform 300ms ease-in;
-    transition: -webkit-transform 300ms ease-in;
-    -webkit-transition: -webkit-transform 300ms ease-in;
-  }
-
-  .fixturesTransitionLeft {
-    transform: translate(100%);
-    -webkit-transform: translate(100%);
-    -moz-transform: translate(100%);
-    -webkit-transition: transform 300ms ease-in;
-    transition: -webkit-transform 300ms ease-in;
-    -webkit-transition: -webkit-transform 300ms ease-in;
-  }
-
-  .fixturesTransitionOpacity-enter {
-    opacity: 0;
-    transition: left 0ms linear;
-    -webkit-transition: left 0ms linear;
-  }
-  .fixturesTransitionOpacity-enter-active {
-    opacity: 1;
-    transition: opacity 250ms ease-in, left 0ms linear;
-    -webkit-transition: opacity 250ms ease-in, left 0ms linear;
-  }
-  .fixturesTransitionOpacity-exit {
-    opacity: 1;
-    transition: left 0ms linear;
-    -webkit-transition: left 0ms linear;
-  }
-  .fixturesTransitionOpacity-exit-active {
-    opacity: 0;
-    transition: opacity 250ms ease-in, left 0ms linear;
-    -webkit-transition: opacity 250ms ease-in, left 0ms linear;
-  }
-}
-
-@media screen and (max-width: 992px) {
-  .fixturesContainer {
-    position: static;
-    margin-top: 0;
-    margin-bottom: 0;
-    background-color: variables.$heading-bg-colour;
-    border-top: none;
-    grid-column-start: 2;
-
-    #loadingIconContainer {
-      display: block;
-    }
-
-    .fixtures {
-      margin-top: 2.3rem;
-      height: 100%;
-
-      .leagueFixturesContainer {
-        margin-top: 3px;
-      }
-    }
+    top: 3.5rem !important;
   }
 }
 
 @media screen and (max-width: 600px) {
   .fixturesContainer {
-    position: fixed;
     height: 100vh;
     width: 100%;
-    overflow-y: auto;
-    border-left: none;
-    border-right: none;
+    margin-left: 0 !important;
+    border-left: none !important;
+    border-right: none !important;
 
     .fixtures {
-      margin-top: calc(6.1rem + 3px);
-
       .leagueFixturesContainer {
         margin-top: 2px;
         padding-left: 0;
@@ -392,6 +397,6 @@
   }
 
   #loadingIconContainer {
-    margin-top: 4rem !important;
+    top: 4.25rem !important;
   }
 }
