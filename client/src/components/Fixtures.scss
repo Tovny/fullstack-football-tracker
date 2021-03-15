@@ -320,7 +320,8 @@
       border-top: 2px solid variables.$heading-bg-colour;
 
       .fixtures {
-        min-height: 100vh;
+        min-height: calc(100vh - 7.5rem);
+
         .leagueFixturesContainer {
           margin-top: 3px;
         }
@@ -335,13 +336,14 @@
 
 @media screen and (max-width: 600px) {
   .fixturesContainer {
-    height: 100vh;
     width: 100%;
     margin-left: 0 !important;
     border-left: none !important;
     border-right: none !important;
 
     .fixtures {
+      min-height: calc(100vh - 6.5rem) !important;
+
       .leagueFixturesContainer {
         margin-top: 2px;
         padding-left: 0;
