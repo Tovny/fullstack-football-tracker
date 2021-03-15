@@ -333,18 +333,23 @@ const DateCarousel = () => {
 
 const DateSelector = (props) => {
   const handleClick = async () => {
-    if (!isSameDay(props.selectorDate, props.date)) {
-      let direction;
-      if (props.selectorDate > props.date) {
-        direction = "Right";
-      } else {
-        direction = "Left";
+    if (props.date !== "all") {
+      if (!isSameDay(props.selectorDate, props.date)) {
+        let direction;
+        if (props.selectorDate > props.date) {
+          direction = "Right";
+        } else {
+          direction = "Left";
+        }
+
+        document
+          .getElementsByClassName("fixtures")[0]
+          .classList.add(`fixturesTransition${direction}`);
+
+        props.setOpenCalendar(false);
+        props.dispatch(setFilters({ date: props.selectorDate }));
       }
-
-      document
-        .getElementsByClassName("fixtures")[0]
-        .classList.add(`fixturesTransition${direction}`);
-
+    } else {
       props.setOpenCalendar(false);
       props.dispatch(setFilters({ date: props.selectorDate }));
     }
