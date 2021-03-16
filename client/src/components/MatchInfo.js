@@ -194,14 +194,20 @@ const MatchInfo = () => {
             <div></div>
           </div>
           <div className="crestContainer">
-            <img alt="Home Team Crest" src={fixture.teams.home.crest}></img>
+            <img
+              alt={`${fixture.teams.home.name} Crest`}
+              src={fixture.teams.home.crest}
+            ></img>
           </div>
           <div className="score">
             <span>{fixture.result.home.score}</span> -{" "}
             <span>{fixture.result.away.score}</span>
           </div>
           <div className="crestContainer">
-            <img alt="Home Team Crest" src={fixture.teams.away.crest}></img>
+            <img
+              alt={`${fixture.teams.away.name} Crest`}
+              src={fixture.teams.away.crest}
+            ></img>
           </div>
           <div className="teamName" id="awayTeam">
             <h3>{fixture.teams.away.name}</h3>
