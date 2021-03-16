@@ -2,7 +2,7 @@ const scrapeEPLFixtures = require("./scrapers/epl/epl-fixtures-scraper");
 const scrapeEPLMatchInfo = require("./scrapers/epl/epl-match-info-scraper");
 const {
   scrapeEPLNewsLinks,
-  scrapeEPLArticle,
+  scrapeEPLArticles,
 } = require("./scrapers/epl/epl-news-scraper");
 const { EPLMatch } = require("../models/Match");
 const League = require("../models/League");
@@ -140,11 +140,12 @@ const PremierLeague = {
       );
 
       const scrapedArticleLinks = await scrapeEPLNewsLinks();
+
       const toDo = scrapedArticleLinks.filter(
-        (link) => !doneLinks.includes(link)
+        (article) => !doneLinks.includes(article.url)
       );
 
-      const articles = await scrapeEPLArticle(toDo);
+      const articles = await scrapeEPLArticles(toDo);
 
       for (let article of articles) {
         const newArticle = new Article(article);

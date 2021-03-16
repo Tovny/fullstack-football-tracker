@@ -19,7 +19,8 @@ const scrapeEPLNewsLinks = async () => {
     if (data) {
       const $ = cheerio.load(data);
 
-      $(".thumbnail.thumbLong").each((i, art) => {
+      $(".featuredArticle .col-9-m a").each((i, art) => {
+        const article = new Object();
         let href = $(art).attr("href");
 
         if (href.includes("premierleague.com/")) href = href.split(".com/")[1];
@@ -28,7 +29,14 @@ const scrapeEPLNewsLinks = async () => {
 
         if (link.includes(".com//")) link = link.replace(".com//", ".com/");
 
-        if (!link.includes("/match/")) articles.push(link);
+        const image = $(art).find("img").attr("src");
+        article.image = image;
+
+        if (!link.includes("/match/")) {
+          article.url = link;
+
+          articles.push(article);
+        }
       });
     }
     await browser.close();
@@ -39,7 +47,7 @@ const scrapeEPLNewsLinks = async () => {
   }
 };
 
-const scrapeEPLArticle = async (links) => {
+const scrapeEPLArticles = async (articles) => {
   try {
     const completeArticles = new Array();
 
@@ -48,8 +56,8 @@ const scrapeEPLArticle = async (links) => {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
-    for (let link of links) {
-      const article = new Object();
+    for (let article of articles) {
+      const link = article.url;
 
       await page.goto(link);
 
@@ -60,8 +68,6 @@ const scrapeEPLArticle = async (links) => {
       if (data) {
         const $ = cheerio.load(data);
 
-        article.url = link;
-
         article.league = "English Premier League";
 
         const title = $(".articleHeader h1").text();
@@ -69,9 +75,6 @@ const scrapeEPLArticle = async (links) => {
 
         const description = $(".standardArticle .subHeader").text();
         if (description) article.description = description;
-
-        const imageUrl = $(".standardArticle .articleImage img").attr("src");
-        article.image = imageUrl;
 
         $(".articleHeader newsTag").remove();
         $(".articleHeader articleAuth").remove();
@@ -108,4 +111,4 @@ const scrapeEPLArticle = async (links) => {
   }
 };
 
-module.exports = { scrapeEPLNewsLinks, scrapeEPLArticle };
+module.exports = { scrapeEPLNewsLinks, scrapeEPLArticles };
