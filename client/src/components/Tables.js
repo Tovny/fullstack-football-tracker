@@ -59,7 +59,10 @@ const Table = () => {
           <div className="tableFilters">
             <div className="selectTable">
               <div id="imgContainer">
-                <img src={tables[selectedTable].logo} alt="leagueLogo"></img>
+                <img
+                  src={tables[selectedTable].logo}
+                  alt={`${tables[selectedTable].league} Logo`}
+                ></img>
               </div>
               <h3>
                 {`${tables[selectedTable].country} - 

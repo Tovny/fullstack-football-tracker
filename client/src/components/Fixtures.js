@@ -338,7 +338,7 @@ const LeagueFixtures = (props) => {
             <img
               className="crest"
               src={match.teams.away.crest}
-              alt={`${match.teams.away.crest} logo`}
+              alt={`${match.teams.away.name} logo`}
             ></img>
           </span>
           {match.teams.away.shortName
