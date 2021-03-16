@@ -39,5 +39,7 @@ const { mongoURI, PORT } = require("./config");
     app.listen(PORT || 5000, "0.0.0.0", () =>
       console.log(`App live on port ${PORT}`)
     );
-  } catch (err) {}
+  } catch (err) {
+    console.log(err);
+  }
 })();

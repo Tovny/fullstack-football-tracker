@@ -4,7 +4,7 @@ const cheerio = require("cheerio");
 const delay = require("../puppeteer-utilities/async-delay");
 const scrollDownFor = require("../puppeteer-utilities/scroll-down-for");
 
-const scrapeEPLNews = async () => {
+const scrapeEPLNewsLinks = async () => {
   try {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
@@ -20,24 +20,15 @@ const scrapeEPLNews = async () => {
       const $ = cheerio.load(data);
 
       $(".thumbnail.thumbLong").each((i, art) => {
-        let article = {};
-
-        article.league = "English Premier League";
-        article.title = $(art).find(".title").text();
-        article.description = $(art).find(".text").text();
-
-        const image = $(art).find(".thumbCrop-news-list img").attr("src");
-        if (image) article.image = image.trim();
-
         let href = $(art).attr("href");
 
         if (href.includes("premierleague.com/")) href = href.split(".com/")[1];
 
         let link = "https://www.premierleague.com/" + href;
-        link = link.replace(".com//", ".com/");
-        article.url = link;
 
-        if (!link.includes("/match/")) articles.push(article);
+        if (link.includes(".com//")) link = link.replace(".com//", ".com/");
+
+        if (!link.includes("/match/")) articles.push(link);
       });
     }
     await browser.close();
@@ -48,7 +39,7 @@ const scrapeEPLNews = async () => {
   }
 };
 
-const scrapeEPLArticleDates = async (articles) => {
+const scrapeEPLArticle = async (links) => {
   try {
     const completeArticles = new Array();
 
@@ -57,8 +48,8 @@ const scrapeEPLArticleDates = async (articles) => {
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
-    for (let article of articles) {
-      const link = article.url;
+    for (let link of links) {
+      const article = new Object();
 
       await page.goto(link);
 
@@ -68,6 +59,19 @@ const scrapeEPLArticleDates = async (articles) => {
 
       if (data) {
         const $ = cheerio.load(data);
+
+        article.url = link;
+
+        article.league = "English Premier League";
+
+        const title = $(".articleHeader h1").text();
+        article.title = title;
+
+        const description = $(".standardArticle .subHeader").text();
+        if (description) article.description = description;
+
+        const imageUrl = $(".standardArticle .articleImage img").attr("src");
+        article.image = imageUrl;
 
         $(".articleHeader newsTag").remove();
         $(".articleHeader articleAuth").remove();
@@ -104,4 +108,4 @@ const scrapeEPLArticleDates = async (articles) => {
   }
 };
 
-module.exports = { scrapeEPLNews, scrapeEPLArticleDates };
+module.exports = { scrapeEPLNewsLinks, scrapeEPLArticle };

@@ -227,7 +227,9 @@ const MatchInfo = () => {
           <div className="date">
             {date ? (
               <time>
-                {date.getHours()}:{date.getMinutes()}
+                {`${date.getHours()}:${
+                  date.getMinutes() === 0 ? "00" : date.getMinutes()
+                }`}
               </time>
             ) : null}
             <BiTimeFive />
