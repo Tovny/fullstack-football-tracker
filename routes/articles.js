@@ -7,7 +7,17 @@ const router = Router();
 
 router.get("/", auth, async (req, res) => {
   try {
-    const articles = await Article.find().sort({ date: -1, time: -1 });
+    let { limit } = req.query;
+
+    limit = parseInt(limit);
+
+    if (!limit) {
+      limit = 10;
+    }
+
+    const articles = await Article.find()
+      .sort({ date: -1, time: -1 })
+      .limit(limit);
     res.json(articles);
   } catch (err) {
     res.sendStatus(400);

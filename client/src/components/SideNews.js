@@ -12,7 +12,7 @@ const SideNews = () => {
   useEffect(() => {
     (async () => {
       const res = await fetch(
-        `https://serene-everglades-51285.herokuapp.com/api/articles`,
+        `https://serene-everglades-51285.herokuapp.com/api/articles?limit=10`,
         {
           headers: { "x-auth": x_auth },
         }
