@@ -272,7 +272,7 @@ form {
       right: 0;
       background-color: variables.$bg-colour;
       width: 190px;
-      height: calc(100% - 2rem);
+      min-height: calc(100% - 2rem);
       margin: 0;
       padding: 2rem 1.5rem 0 1.5rem;
       -webkit-box-shadow: -5px 0 6px 0 rgba(0, 0, 0, 0.2);
