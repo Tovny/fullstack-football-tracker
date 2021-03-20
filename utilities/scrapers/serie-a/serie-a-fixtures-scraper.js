@@ -78,7 +78,12 @@ const scrapeSerieAFixtures = async () => {
 
             date = new Date(year, month, day, hour, minute);
 
-            if (date.toString() == "Invalid Date") {
+            const specialStatus = $(match).find(".dcr").text();
+
+            if (
+              date.toString() == "Invalid Date" ||
+              specialStatus === "Match Postponed"
+            ) {
               info.date = "TBC";
               info.kickOff = "TBC";
             } else {

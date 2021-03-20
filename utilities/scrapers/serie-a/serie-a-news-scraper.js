@@ -4,9 +4,6 @@ const fetch = require("node-fetch");
 const scrapeSerieANews = async () => {
   let news = new Array();
 
-  let currentDate;
-  let substractTime = 0;
-
   try {
     for (let i = 1; i <= 20; i++) {
       const res = await fetch(
@@ -39,22 +36,27 @@ const scrapeSerieANews = async () => {
             "http://www.legaseriea.it" +
             $(article).find("a:nth-child(1)").attr("href");
 
-          if (currentDate != newsArticle.date) {
-            currentDate = newsArticle.date;
-            substractTime = 0;
-          } else {
-            substractTime = substractTime + 1;
-          }
-
-          const hour = 18 - substractTime;
-          const time = `${hour}:00`;
-
-          newsArticle.time = time;
-
           news.push(newsArticle);
         });
       }
     }
+
+    let currentDate;
+    let substractTime = 0;
+
+    news.forEach((article) => {
+      if (currentDate != article.date) {
+        currentDate = article.date;
+        substractTime = 0;
+      } else {
+        substractTime = substractTime + 1;
+      }
+
+      const hour = 20 - substractTime;
+      const time = `${hour}:00`;
+
+      article.time = time;
+    });
   } catch (err) {
     console.log(err);
   }

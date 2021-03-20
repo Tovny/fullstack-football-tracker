@@ -51,8 +51,6 @@ const scrapeEPLArticles = async (articles) => {
   try {
     const completeArticles = new Array();
 
-    let currentDate;
-    let substractTime = 0;
     const browser = await puppeteer.launch({ headless: true });
     const page = await browser.newPage();
 
@@ -84,26 +82,32 @@ const scrapeEPLArticles = async (articles) => {
         const articleDate = new Date(dateString.trim() + " 15:00");
 
         if (articleDate.toString() != "Invalid Date") {
-          const date = articleDate.toISOString().split("T")[0];
-          if (currentDate != date) {
-            currentDate = date;
-            substractTime = 0;
-          } else {
-            substractTime = substractTime + 1;
-          }
-
-          const hour = 18 - substractTime;
-          const time = `${hour}:00`;
-
-          article.date = date;
-          article.time = time;
-
+          article.date = articleDate.toISOString().split("T")[0];
           completeArticles.push(article);
         }
       }
     }
     page.close();
     await browser.close();
+
+    let currentDate;
+    let substractTime = 0;
+
+    completeArticles.forEach((article) => {
+      const date = article.date;
+
+      if (currentDate != date) {
+        currentDate = date;
+        substractTime = 0;
+      } else {
+        substractTime = substractTime + 1;
+      }
+
+      const hour = 20 - substractTime;
+      const time = `${hour}:15`;
+
+      article.time = time;
+    });
 
     return completeArticles;
   } catch (err) {
