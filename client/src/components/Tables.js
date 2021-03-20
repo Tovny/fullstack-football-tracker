@@ -82,7 +82,7 @@ const Table = () => {
                 mountOnEnter
                 unmountOnExit
                 timeout={250}
-                classNames="tableTransition"
+                classNames="selectors"
               >
                 <div className="selectors">
                   {tables.map((table, i) => {
@@ -124,7 +124,7 @@ const Table = () => {
                 mountOnEnter
                 unmountOnExit
                 timeout={250}
-                classNames="tableTransition"
+                classNames="selectors"
               >
                 <div className="selectors" id="matchesSelector">
                   <h4

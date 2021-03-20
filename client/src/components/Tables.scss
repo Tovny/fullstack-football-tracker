@@ -348,18 +348,18 @@
     }
   }
 
-  .tableTransition-enter {
+  .selectors-enter {
     opacity: 0%;
   }
-  .tableTransition-enter-active {
+  .selectors-enter-active {
     opacity: 100%;
     transition: opacity 250ms ease-in;
     -webkit-transition: opacity 250ms ease-in;
   }
-  .tableTransition-exit {
+  .selectors-exit {
     opacity: 100%;
   }
-  .tableTransition-exit-active {
+  .selectors-exit-active {
     opacity: 0%;
     transition: opacity 250ms ease-in;
     -webkit-transition: opacity 250ms ease-in;
