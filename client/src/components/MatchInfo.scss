@@ -164,7 +164,6 @@
   }
 
   .tabsContainer {
-    overflow: hidden;
     color: variables.$heading-bg-colour;
 
     .tabsInfo {
@@ -492,6 +491,7 @@
 @media screen and (max-width: 600px) {
   .matchContainer {
     margin-top: 0;
+    margin-bottom: 0;
     font-size: 0.5rem;
 
     .matchInfo {
@@ -571,6 +571,8 @@
     }
 
     .tabs {
+      margin-top: 1rem;
+
       span {
         margin: 0;
       }
@@ -633,6 +635,10 @@
       }
 
       .lineups {
+        .lineupsContainer {
+          margin-bottom: 0 !important;
+        }
+
         ul {
           margin: 0 !important;
         }
