@@ -115,33 +115,7 @@ form {
       margin: 0;
       margin-left: 0.5rem;
       margin-right: 0.5rem;
-      width: 11px;
-      height: 11px;
       outline: none;
-    }
-
-    input[type="radio"]:after {
-      width: 11px;
-      height: 11px;
-      border-radius: 50%;
-      position: relative;
-      background-color: variables.$body-bg-dark;
-      content: "";
-      display: inline-block;
-      visibility: visible;
-      border: 1px solid variables.$heading-bg-colour;
-    }
-
-    input[type="radio"]:checked:after {
-      width: 11px;
-      height: 11px;
-      border-radius: 11px;
-      position: relative;
-      background-color: variables.$heading-text-colour;
-      content: "";
-      display: inline-block;
-      visibility: visible;
-      border: 1px solid variables.$heading-bg-colour;
     }
   }
 
