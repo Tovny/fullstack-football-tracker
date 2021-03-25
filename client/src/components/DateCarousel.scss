@@ -106,7 +106,7 @@
 
     .calendar {
       position: absolute;
-      background-color: variables.$heading-text-colour;
+      background-color: white;
       width: 100%;
     }
   }
@@ -125,7 +125,7 @@
 
   .calendar {
     position: absolute;
-    background-color: variables.$heading-text-colour;
+    background-color: white;
     color: variables.$heading-bg-colour;
 
     .-today::before,
@@ -240,7 +240,7 @@
   .calendarModal {
     .calendar {
       width: 90%;
-      padding-bottom: 0;
+      padding: 0.5rem;
     }
   }
 }
