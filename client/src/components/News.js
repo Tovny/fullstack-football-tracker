@@ -31,16 +31,18 @@ const Articles = () => {
   }, [articleNum]);
 
   useEffect(() => {
-    if (news) {
+    if (news && document.getElementsByClassName("article")[0]) {
       let secondLastElt = document.getElementsByClassName("article");
       secondLastElt = secondLastElt[secondLastElt.length - 2];
 
-      const onIntersection = ([entries]) => {
-        if (entries.intersectionRatio === 1) {
-          setArticleNum(articleNum + 10);
+      const onIntersection = (entries) => {
+        entries.forEach((entry) => {
+          if (entry.intersectionRatio === 1) {
+            setArticleNum(articleNum + 10);
 
-          observer.unobserve(secondLastElt);
-        }
+            observer.unobserve(secondLastElt);
+          }
+        });
       };
 
       const observer = new IntersectionObserver(onIntersection, {
