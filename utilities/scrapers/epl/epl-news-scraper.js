@@ -74,8 +74,8 @@ const scrapeEPLArticles = async (articles) => {
         const description = $(".standardArticle .subHeader").text();
         if (description) article.description = description;
 
-        $(".articleHeader newsTag").remove();
-        $(".articleHeader articleAuth").remove();
+        $(".articleHeader .newsTag").remove();
+        $(".articleHeader .articleAuth").remove();
 
         const dateString = $(".articleHeader h5").text();
 
