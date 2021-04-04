@@ -54,7 +54,7 @@
       top: 120%;
       left: 1rem;
       background-color: variables.$heading-text-colour;
-      z-index: 5;
+      z-index: 10;
 
       h4 {
         font-size: 1rem;
@@ -114,7 +114,7 @@
 
       th {
         position: sticky;
-        top: 0px;
+        top: -0.15rem;
         background-color: variables.$heading-bg-colour;
         color: variables.$heading-text-colour;
         padding-top: 0.75rem;
@@ -349,19 +349,6 @@
       margin: 0.5rem;
       background-color: #d81920;
     }
-  }
-
-  .selectors-enter {
-    opacity: 0%;
-  }
-  .selectors-enter-active {
-    opacity: 100%;
-  }
-  .selectors-exit {
-    opacity: 100%;
-  }
-  .selectors-exit-active {
-    opacity: 0%;
   }
 }
 
