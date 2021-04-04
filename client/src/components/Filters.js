@@ -380,7 +380,6 @@ const Filters = () => {
           in={openFilters}
           timeout={300}
           mountOnEnter
-          unmountOnExit
         >
           <div className="filtersModal" onClick={() => setOpenFilters(false)}>
             {filtersForm()}

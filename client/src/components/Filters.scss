@@ -266,6 +266,7 @@ form {
       position: fixed;
     }
   }
+
   .filtersModal-enter-active {
     form {
       transform: translateX(0);
@@ -277,6 +278,7 @@ form {
         -webkit-transform 300ms ease-in, -moz-transform 300ms ease-in;
     }
   }
+
   .filtersModal-exit {
     form {
       transform: translateX(0);
@@ -284,6 +286,7 @@ form {
       -moz-transform: translateX(0);
     }
   }
+
   .filtersModal-exit-active {
     form {
       transform: translateX(100%);
@@ -295,5 +298,9 @@ form {
       -webkit-transition: transform 300ms ease-in,
         -webkit-transform 300ms ease-in, -moz-transform 300ms ease-in;
     }
+  }
+
+  .filtersModal-exit-done {
+    display: none;
   }
 }
