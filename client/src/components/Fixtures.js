@@ -407,29 +407,15 @@ const LeagueFixtures = (props) => {
         </h3>
         <RiArrowDropDownLine
           onClick={() => setOpen(!open)}
+          className="dropdownArrow"
           style={
             open
               ? {
-                  position: "absolute",
-                  right: "1rem",
                   transform: "rotateX(180deg)",
                   WebkitTransform: "rotateX(180deg)",
                   MozTransform: "rotateX(180deg)",
-                  transition:
-                    "transform 250ms ease-in, -webkit-transform 250ms ease-in, -moz-transform 250ms ease-in",
-                  WebkitTransition:
-                    "transform 250ms ease-in, -webkit-transform 250ms ease-in, -moz-transform 250ms ease-in",
-                  cursor: "pointer",
                 }
-              : {
-                  position: "absolute",
-                  right: "1rem",
-                  transition:
-                    "transform 250ms ease-in, -webkit-transform 250ms ease-in, -moz-transform 250ms ease-in",
-                  WebkitTransiton:
-                    "transform 250ms ease-in, -webkit-transform 250ms ease-in, -moz-transform 250ms ease-in",
-                  cursor: "pointer",
-                }
+              : null
           }
         />
       </div>

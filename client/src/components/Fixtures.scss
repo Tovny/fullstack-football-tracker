@@ -86,6 +86,21 @@
               height: 1.75rem;
               width: 1.75rem;
             }
+
+            .dropdownArrow {
+              position: absolute;
+              right: 1rem;
+              transition: transform 250ms ease-in,
+                -webkit-transform 250ms ease-in, -moz-transform 250ms ease-in;
+              -webkit-transition: transform 250ms ease-in,
+                -webkit-transform 250ms ease-in, -moz-transform 250ms ease-in;
+            }
+
+            @media (hover: hover) {
+              .dropdownArrow {
+                cursor: pointer;
+              }
+            }
           }
 
           .fixtureBodies {
@@ -210,10 +225,11 @@
             transform: translateY(0);
             -webkit-transform: translateY(0);
             -moz-transform: translateY(0);
-            transition: transform 250ms ease-in;
-            transition: -webkit-transform 250ms ease-in;
-            -webkit-transition: transform 250ms ease-in;
-            -webkit-transition: -webkit-transform 250ms ease-in;
+            opacity: 1;
+            transition: transform 250ms ease-in, -webkit-transform 250ms ease-in,
+              o;
+            -webkit-transition: transform 250ms ease-in,
+              -webkit-transform 250ms ease-in;
             position: relative;
             z-index: 1;
           }
@@ -221,6 +237,7 @@
             transform: translateY(0);
             -webkit-transform: translateY(0);
             -moz-transform: translateY(0);
+            opacity: 1;
             position: relative;
             z-index: 1;
           }
@@ -228,10 +245,11 @@
             transform: translateY(-100%);
             -webkit-transform: translateY(-100%);
             -moz-transform: translateY(-100%);
-            transition: transform 250ms ease-in;
-            -webkit-transition: transform 250ms ease-in;
-            transition: -webkit-transform 250ms ease-in;
-            -webkit-transition: -webkit-transform 250ms ease-in;
+            opacity: 0;
+            transition: transform 250ms ease-in, -webkit-transform 250ms ease-in,
+              opacity 150ms ease-in;
+            -webkit-transition: transform 250ms ease-in,
+              -webkit-transform 250ms ease-in, opacity 150ms ease-in;
             position: relative;
             z-index: 1;
           }
