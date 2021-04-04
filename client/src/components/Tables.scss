@@ -110,13 +110,16 @@
     }
 
     thead {
-      background-color: variables.$heading-bg-colour;
-      color: variables.$heading-text-colour;
       font-size: 1.2rem;
 
       th {
+        position: sticky;
+        top: 0px;
+        background-color: variables.$heading-bg-colour;
+        color: variables.$heading-text-colour;
         padding-top: 0.75rem;
         padding-bottom: 0.75rem;
+        z-index: 5;
       }
 
       th:first-child {
@@ -353,16 +356,12 @@
   }
   .selectors-enter-active {
     opacity: 100%;
-    transition: opacity 250ms ease-in;
-    -webkit-transition: opacity 250ms ease-in;
   }
   .selectors-exit {
     opacity: 100%;
   }
   .selectors-exit-active {
     opacity: 0%;
-    transition: opacity 250ms ease-in;
-    -webkit-transition: opacity 250ms ease-in;
   }
 }
 

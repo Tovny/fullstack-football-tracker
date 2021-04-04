@@ -81,7 +81,7 @@ const Table = () => {
                 in={openLeagueSelect}
                 mountOnEnter
                 unmountOnExit
-                timeout={250}
+                timeout={0}
                 classNames="selectors"
               >
                 <div className="selectors">
