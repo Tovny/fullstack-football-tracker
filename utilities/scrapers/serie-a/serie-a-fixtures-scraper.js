@@ -9,7 +9,7 @@ const scrapeSerieAFixtures = async () => {
 
     for (let i = 1; i <= 38; i++) {
       const res = await fetch(
-        `http://www.legaseriea.it/en/serie-a/fixture-and-results/2020-21/UNICO/UNI/${i}`
+        `https://www.legaseriea.it/en/serie-a/fixture-and-results/2020-21/UNICO/UNI/${i}`
       );
       const html = await res.text();
 
@@ -28,7 +28,7 @@ const scrapeSerieAFixtures = async () => {
 
           $(match).find(".link-matchreport a:nth-child(3)").attr("href")
             ? (info.url =
-                "http://www.legaseriea.it" +
+                "https://www.legaseriea.it" +
                 $(match).find(".link-matchreport a:nth-child(3)").attr("href"))
             : delete info.url;
 
@@ -48,7 +48,7 @@ const scrapeSerieAFixtures = async () => {
               .toLowerCase();
 
           fixture.teams.home.crest =
-            "http://www.legaseriea.it" +
+            "https://www.legaseriea.it" +
             $(match).find(".risultatosx img").attr("src");
 
           const awayTeam = $(match).find(".risultatodx h4").text();
@@ -59,7 +59,7 @@ const scrapeSerieAFixtures = async () => {
               .toLowerCase();
 
           fixture.teams.away.crest =
-            "http://www.legaseriea.it" +
+            "https://www.legaseriea.it" +
             $(match).find(".risultatodx img").attr("src");
 
           (() => {

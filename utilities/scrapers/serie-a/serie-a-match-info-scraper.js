@@ -81,12 +81,12 @@ const scrapeSerieAMatchInfo = async (url) => {
 
       teams.home.name = $(".report-squadra.squadra-a").text().toLowerCase();
       teams.home.crest =
-        "http://www.legaseriea.it" +
+        "https://www.legaseriea.it" +
         $(".squadra-logo.squadra-a img").attr("src");
 
       teams.away.name = $(".report-squadra.squadra-b").text().toLowerCase();
       teams.away.crest =
-        "http://www.legaseriea.it" +
+        "https://www.legaseriea.it" +
         $(".squadra-logo.squadra-b img").attr("src");
 
       const parseScorers = (squad) => {

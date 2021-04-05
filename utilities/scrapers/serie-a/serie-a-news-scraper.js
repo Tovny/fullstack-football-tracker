@@ -7,7 +7,7 @@ const scrapeSerieANews = async () => {
   try {
     for (let i = 1; i <= 20; i++) {
       const res = await fetch(
-        `http://www.legaseriea.it/en/press/news?page=${i}`
+        `https://www.legaseriea.it/en/press/news?page=${i}`
       );
       const html = await res.text();
 
@@ -33,7 +33,7 @@ const scrapeSerieANews = async () => {
           newsArticle.title = $(article).find("h2").text().trim();
           newsArticle.image = $(article).find("img").attr("src");
           newsArticle.url =
-            "http://www.legaseriea.it" +
+            "https://www.legaseriea.it" +
             $(article).find("a:nth-child(1)").attr("href");
 
           news.push(newsArticle);
