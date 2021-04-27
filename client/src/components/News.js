@@ -37,7 +37,7 @@ const Articles = () => {
 
       const onIntersection = (entries) => {
         entries.forEach((entry) => {
-          if (entry.intersectionRatio === 1) {
+          if (entry.isIntersecting) {
             setArticleNum(articleNum + 10);
 
             observer.unobserve(secondLastElt);
@@ -46,7 +46,8 @@ const Articles = () => {
       };
 
       const observer = new IntersectionObserver(onIntersection, {
-        threshold: 1,
+        root: null,
+        threshold: 0.5,
       });
 
       observer.observe(secondLastElt);
