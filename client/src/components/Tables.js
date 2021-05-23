@@ -228,7 +228,7 @@ const Table = () => {
                       </ul>
                     </td>
                     <td className="next">
-                      <NextMatch row={row} />
+                      {row.next ? <NextMatch row={row} /> : null}
                     </td>
                   </tr>
                 );
